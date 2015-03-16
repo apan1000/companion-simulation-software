@@ -1,5 +1,5 @@
 # companion-simulation-software
-DH2642- Final Project 
+DH2642- Final Project
 Group 11: Samuel Wahlstedt, Marcus Ahlström, Fredrik Berglund and Ellinor Jutterström
 
 Brief summary:
