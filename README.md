@@ -20,5 +20,5 @@ Group 11: Samuel Wahlstedt, Marcus Ahlström, Fredrik Berglund and Ellinor Jutte
 - Different views like Stat-view, ShowCharacter-view, Item-view etc. are all tied to the main-model.
 
 ###Possible additional features:
-- Using  HTML5 canvas to create a small screen where other user’s monster™ roam around, conveying messages/updates from the user.
+- Using  HTML5 canvas to create a small screen where other users' monsters™ roam around, conveying messages/updates from the users.
 - Online interaction in the form of a chatroom where your monster represents you and acts as an avatar. Can also fight with other users.
