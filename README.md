@@ -1,4 +1,4 @@
-# companion-simulation-software
+﻿# Companion Simulation Software
 ###DH2642- Final Project
 Group 11: Samuel Wahlstedt, Marcus Ahlström, Fredrik Berglund and Ellinor Jutterström
 
