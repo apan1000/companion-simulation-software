@@ -1,0 +1,27 @@
+<div class="row" id="my-dinner-bar">
+	<div class="col-sm-9">
+		<h3 class="my-dinner-head">My Dinner: <span id="number-of-guests">{{getNumberOfGuests()}}</span> people</h3>
+	</div>
+	<div id="edit-dinner-btn" class="col-sm-3 no-side-padding">
+		<a ng-href="#/search" class="arrow-box" type="button">Go back and edit dinner</a>
+	</div>
+</div>	
+<div id="dinner">
+	<div ng-repeat="dish in getFullMenu()" class="dish">
+		<div class="dish-head">
+			<img id="overview-image" ng-src="{{dish.ImageURL}}" alt="{{dish.Title}}">
+			<span class="dish-name">{{dish.Title}}</span>
+		</div>
+		<div class="dish-cost"><b>{{getDishPrice(dish)}} SEK</b></div>
+	</div>
+
+	<div class="vert-line"></div>
+	<div class="total-price">
+		Total:<span class="price-text"><br>{{getTotalMenuPrice()}} SEK</span>
+	</div>
+
+	<div id="after-dinner">
+		<hr>
+		<a ng-href="#/preparation" id="print-btn" class="btn btn-default btn-lg" type="button">Print Full Recipe</a>
+	</div>
+</div>

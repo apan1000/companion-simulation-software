@@ -1,0 +1,23 @@
+<div class="row" id="my-dinner-bar">
+	<div class="col-sm-9">
+		<h3 class="my-dinner-head">
+			My Dinner: {{getNumberOfGuests()}} people
+		</h3>
+	</div>
+	<div class="col-sm-3 no-side-padding" id="edit-dinner-btn">
+		<a ng-href="#/search" class="arrow-box">Go back and edit dinner</a>
+	</div>
+</div>
+<div ng-repeat="dish in getFullMenu()" class="row no-margin preparation-padding">
+	<div class="col-sm-3">
+		<img id="dish-image" ng-src="{{dish.ImageURL}}" alt="{{dish.Title}}"></img>
+	</div>
+	<div class="col-sm-4">
+		<h3>{{dish.Title}}</h3>
+		<p>{{dish.Description}}</p>
+	</div>
+	<div class="col-sm-5">
+		<h3>Preparation</h3>
+		<pre>{{dish.Instructions}}</pre>
+	</div>
+</div>
