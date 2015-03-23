@@ -1,0 +1,17 @@
+<div ng-controller="ChatCtrl" id="chat">
+	<div id="chat-head">
+		<h3>Chat</h3>
+	</div>
+	<hr>
+	<div id="messages">
+		<div ng-repeat="msg in messages" class="message">
+			<a ng-href="#/user/{{msg.user}}">
+				<span>{{msg.user}}</span>
+			</a>
+			{{msg.text}}
+		</div>
+	</div>
+	<input ng-model="msg" ng-keypress="postMessage($event)" type="text" placeholder="Type a message...">
+	<br>
+	<kbd>text = {{msg}}</kbd>
+</div>

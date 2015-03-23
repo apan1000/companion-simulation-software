@@ -1,0 +1,14 @@
+
+<ng-include src="'partials/chat.html'" ng-controller="ChatCtrl"></ng-include>
+
+<div>
+	{{status}}
+	<h2>{{pokemon.name}}</h2>
+	<img ng-src="{{sprite}}" alt="{{pokemon.name}}">
+	<div>
+		<h3>Abilities</h3>
+		<div ng-repeat="ability in pokemon.abilities">
+			{{ability.name}}
+		</div>
+	</div>
+</div>

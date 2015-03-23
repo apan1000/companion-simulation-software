@@ -2,6 +2,12 @@
 html, body {
 	height: 100%;
 	min-height: 100%;
+	color: #202227;
+}
+
+h3 {
+	font-family: 'Josefin Sans';
+	font-size: 32px;
 }
 
 hr {
@@ -94,13 +100,17 @@ pre {
 
 /* Navbar layout */
 .navbar {
+	z-index: 100;
 	width: 100%;
-	border: 2px solid;
+	border: 0;
 	padding-top: 20px;
 	padding-bottom: 30px;
 	margin-bottom: 0;
 	border-radius: 0;
-	background: rgba(235,235,235,1);
+	background: #067c82;
+	-webkit-box-shadow:	0px 1px 3px rgba(0, 0, 0, .85);
+    -moz-box-shadow:	0px 1px 3px rgba(0, 0, 0, .85);
+    box-shadow:			0px 1px 3px rgba(0, 0, 0, .85);
 }
 
 .navbar-transparent {
@@ -108,8 +118,9 @@ pre {
 }
 
 .navbar-brand {
-	font-size: 50px;
-	color: #000 !important;
+	font-family: 'Leckerli One';
+	font-size: 60px;
+	color: #fff !important;
 }
 
 .navbar-text {
@@ -117,20 +128,21 @@ pre {
 	margin-bottom: 0;
 	font-size: 20px;
 	font-style: italic;
-	color: #bbb !important;
+	color: #e6e6e7 !important;
 }
 
 
 /* Button layout*/ 
 .btn-default {
-	background-color: #f2973d;
-	border-color: #999;
+	color: #e6e6e7;
+	background-color: #067c82;
+	border-color: #e6e6e7;
 }
 
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
-	color: #c60;
-	background-color: #ebebeb;
-	border-color: #c60;
+	color: #067c82;
+	background-color: #e6e6e7;
+	border-color: #067c82;
 }
 
 #confirm-div {
@@ -162,8 +174,9 @@ pre {
 
 /* "dinner-sidebar" layout */
 #my-dinner {
-	padding-left: 30px;
-	border-right: 2px solid;
+	/*padding-left: 30px;*/
+	border-right: 1px solid;
+	/*box-shadow: inset -8px 0 1px -5px hsla(0,0%,0%,.25);*/
 }
 
 #number-of-guests {
@@ -177,7 +190,7 @@ pre {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	border: 2px solid;
-	background: #eee;
+	background: #e6e6e7;
 	cursor: pointer;
 }
 
@@ -187,7 +200,7 @@ pre {
 
 .remove {
 	z-index: 9000;
-	background: #F06061;
+	background: #fa4a48;
 	color: #FFFFFF;
 	line-height: 21px;
 	position: absolute;
@@ -208,7 +221,7 @@ pre {
 .remove:hover {
 	z-index: 9001;
 	text-decoration: none;
-	background: #F06061;
+	background: #fa4a48;
 	color: #000;
 	transform: scale(1.15);
 	-ms-transform: scale(1.15); /* IE 9 */
@@ -225,7 +238,7 @@ pre {
 	display: block;
 	height: 100%;
 	overflow: auto;
-	color: #333;
+	color: #202227;
 }
 
 .dinner-col {
@@ -261,7 +274,7 @@ pre {
 	padding-bottom: 20px;
 	padding-left: 30px;
 	padding-right: 20px;
-	background: #ffe599;
+	background: #f55856;
 }
 
 #select-dish-head h3 {
@@ -272,6 +285,13 @@ pre {
 	height: 87%;
 	padding: 20px;
 	overflow-y: scroll;
+}
+
+#search-status {
+	margin-left: 40%;
+	margin-right: 40%;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 .dish {
@@ -290,13 +310,12 @@ pre {
 	clear: both;
 	display: block;
 	padding: 8px;
-	background: #ddd;
+	background: #202227;
 	transition: 0.2s ease-in-out;
 }
 
 #dishes .dish-head:hover, #dishes .dish-head:focus {
-	color: #000;
-	background: #d58;
+	background: #f55856;
 	text-decoration: none;
 	transform: scale(1.1);
 	-ms-transform: scale(1.1); /* IE 9 */
@@ -309,6 +328,10 @@ pre {
 	border-radius: 400px;
 }
 
+#dishes .dish-head:hover .dish-name, #dishes .dish-head:focus .dish-name {
+	color: #fff;
+}
+
 .dish-head img {
 	max-width: 120px;
 	transition: 0.2s ease-in-out;
@@ -316,7 +339,7 @@ pre {
 
 .dish-name {
 	display: block;
-	color: #000;
+	color: #e6e6e7;
 	font: 20px helvetica, arial, sans-serif;
 	margin-top: 5px;
 }
@@ -365,8 +388,8 @@ pre {
 	padding-bottom: 20px;
 	padding-left: 20px;
 	padding-right: 20px;
-	background: #ffe599;
-	border: 2px solid;
+	/*background: #FC8225;*/
+	border: 1px solid;
 }
 
 #listOfIngredients {
@@ -399,12 +422,28 @@ pre {
 
 }
 
+#selected-dish-name {
+	color: #f55856;
+	text-decoration: underline;
+	text-align: center;
+}
+
+#selected-dish-name span {
+	font-size: 38px;
+	color: #202227;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #selected-dish-head img {
 	max-width: 100%;
 }
 
-#loading-div {
-	
+#dish-status {
+	font-size: 28px;
+	margin-left: 30%;
+	margin-top: 20px;
 }
 
 /* "Dinner Overview"-page layout*/
@@ -414,7 +453,7 @@ pre {
 	margin-right: 0;
 	margin-left: 0;
 	border-radius: 0;
-	background: #ffe599;
+	background: #f55856;
 }
 
 .my-dinner-head {
@@ -487,13 +526,23 @@ pre {
 
 .arrow-box {
 	position: relative;
-	background: #f2973d;
+	color: #fff;
+	background: #067c82;
 	height:30px;
-	font-size: 12pt;
+	font-size: 14pt;
+	padding-bottom: 3px;
+	padding-top: 3px;
+	padding-right: 5px;
 }
+
+.arrow-box:hover {
+	color: #202227;
+	text-decoration: none;
+}
+
 .arrow-box:after, .arrow-box:before {
 	right: 100%;
-	top: 50%;
+	top: 46%;
 	border: solid;
 	content: " ";
 	height: 0;
@@ -504,9 +553,9 @@ pre {
 
 .arrow-box:after {
 	border-color: rgba(204, 102, 0, 0);
-	border-right-color: #f2973d;
-	border-width: 14.5px;
-	margin-top: -13px;
+	border-right-color: #067c82;
+	border-width: 17px;
+	margin-top: -15px;
 }
 
 /* Shape modifiers */
