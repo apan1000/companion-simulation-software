@@ -4,15 +4,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
 
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
 
-  // Attach an asynchronous callback to read the data at our posts reference and get user
-  userRef.on("value", function(snapshot) {
-    $scope.user = snapshot.val();
-    console.log($scope.user);
-    getPokemon();
-  }, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  });
-
+  // Get pokemon data
   var getPokemon = function() {
     $scope.status = "Loading...";
     console.log("pokemon: "+$scope.user.pokemon);
@@ -42,6 +34,15 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
       $scope.sprite = 'http://i.imgur.com/D9sYjvH.jpg';
     });
   }
+
+  // Attach an asynchronous callback to read the data at our posts reference and get user
+  userRef.on("value", function(snapshot) {
+    $scope.user = snapshot.val();
+    console.log($scope.user);
+    getPokemon();
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
   
   
 
