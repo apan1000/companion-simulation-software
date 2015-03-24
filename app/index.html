@@ -38,12 +38,13 @@ which module to associate the app with. In app.js we create the "companionSimula
   <body>
     <!-- Here in index.html you should put only the layout that is shared among all the screens (e.g. header
     ,footer, etc.). The rest of the view specific layout will go into the html partials (check partials folder) -->
-    <nav id="navbar" class="navbar navbar-default">
+    <nav id="navbar" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a id="home-button" class="navbar-brand" href="#/">Companion Simulation Software</a>
             </div>
             <p class="navbar-text">Gotta get 'em all!</p>
+            <button type="button" class="btn btn-default navbar-btn navbar-right">Sign in</button>
         </div><!-- /.container-fluid -->
     </nav>
     <!-- ng-view Angular directive is where the partials will be loaded. app.js configures the $routingProvider
