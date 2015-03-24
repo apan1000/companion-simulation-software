@@ -8,13 +8,19 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   var getPokemon = function() {
     $scope.status = "Loading...";
     console.log("pokemon: "+$scope.user.pokemon);
-    Companion.pokemon.get({id:$scope.user.pokemon}, function(data){
-        $scope.pokemon = data;
-        console.log($scope.pokemon);
-        getSprite();
-      }, function(data){
-        $scope.status = "There was an error";
-    });
+    if($scope.user.pokemon === 'egg') {
+      $scope.sprite = 'http://cdn.bulbagarden.net/upload/c/cd/Poketch_Egg.png';
+      $scope.status = "";
+    }
+    else {
+      Companion.pokemon.get({id:$scope.user.pokemon}, function(data){
+          $scope.pokemon = data;
+          console.log($scope.pokemon);
+          getSprite();
+        }, function(data){
+          $scope.status = "There was an error";
+      });
+    }
   }
 
   // Get the sprite of $scope.pokemon and set it as $scope.sprite
