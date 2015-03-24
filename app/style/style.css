@@ -91,7 +91,7 @@ body {
 }
 /*###*/
 
-#statusbar {
+#statusbar, #items{
 	border-style: solid;
 	border-width: 2px;
 	font-family: "Coda";
