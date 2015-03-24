@@ -33,6 +33,7 @@ which module to associate the app with. In app.js we create the "companionSimula
     <script src="js/companionService.js"></script>
     <script src="js/userCtrl.js"></script>
     <script src="js/chatCtrl.js"></script>
+    <script src="js/loginCtrl.js"></script>
 
   </head>
   <body>
@@ -44,7 +45,27 @@ which module to associate the app with. In app.js we create the "companionSimula
                 <a id="home-button" class="navbar-brand" href="#/">Companion Simulation Software</a>
             </div>
             <p class="navbar-text">Gotta get 'em all!</p>
-            <button type="button" class="btn btn-default navbar-btn navbar-right">Sign in</button>
+            <ul class="nav navbar-nav navbar-right" ng-controller="LoginCtrl">
+                <li class="dropdown" ng-hide="auth">
+                  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sign in<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <form name="loginForm">
+                        <li><input type="email" class="form-control login-input" placeholder="Email" name="email" ng-model="email" ng-click="$event.stopPropagation();" required></li>
+                        <!--span class="error" ng-show="loginForm.email.$touched && loginForm.email.$invalid" ng-click="$event.stopPropagation();">Not valid email!</span-->
+                        <li><input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-click="$event.stopPropagation();" required></li>
+                        <li><button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Login</button></li>
+                        <li><button type="button" class="btn btn-default login-btn" ng-click="createAccount()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Create account</button></li>
+                    </form>
+                    <li class="divider"></li>
+                    <li><button type="button" class="btn btn-info login-btn" ng-click="loginWithSocial('twitter')">Twitter</button></li>
+                    <li><button type="button" class="btn btn-primary login-btn" ng-click="loginWithSocial('facebook')">Facebook</button></li>
+                    <li><button type="button" class="btn btn-danger login-btn" ng-click="loginWithSocial('google')">Google+</button></li>
+                  </ul>
+                </li>
+                <li ng-show="auth">
+                    <button type="button" id="logout-btn" class="btn btn-default navbar-btn" ng-click="logout()">Logout</button>
+                </li>
+            </ul>
         </div><!-- /.container-fluid -->
     </nav>
     <!-- ng-view Angular directive is where the partials will be loaded. app.js configures the $routingProvider
