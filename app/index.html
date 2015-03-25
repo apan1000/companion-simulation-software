@@ -25,6 +25,7 @@ which module to associate the app with. In app.js we create the "companionSimula
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
     <!-- Firebase and AngularFire -->
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
@@ -51,9 +52,9 @@ which module to associate the app with. In app.js we create the "companionSimula
                   <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sign in<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <form name="loginForm">
-                        <li><input type="email" class="form-control login-input" placeholder="Email" name="email" ng-model="email" ng-click="$event.stopPropagation();" required></li>
+                        <li><input type="email" class="form-control login-input" placeholder="Email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" required></li>
                         <!--span class="error" ng-show="loginForm.email.$touched && loginForm.email.$invalid" ng-click="$event.stopPropagation();">Not valid email!</span-->
-                        <li><input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-click="$event.stopPropagation();" required></li>
+                        <li><input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" required></li>
                         <li><button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Login</button></li>
                         <li><button type="button" class="btn btn-default login-btn" ng-click="createAccount()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Create account</button></li>
                     </form>
@@ -66,6 +67,8 @@ which module to associate the app with. In app.js we create the "companionSimula
                 <li ng-show="auth">
                     <button type="button" id="logout-btn" class="btn btn-default navbar-btn" ng-click="logout()">Logout</button>
                 </li>
+                <div class="login-toast login-success" ng-show="showLoginToast">Logged in!</div>
+                <div class="login-toast login-error" ng-show="showErrorToast">{{errorMsg}}</div>
             </ul>
         </div><!-- /.container-fluid -->
     </nav>

@@ -4,6 +4,9 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var usersRef = ref.child('users');
 
+  $scope.showLoginToast = false;
+  $scope.showErrorToast = false;
+  $scope.errorMsg = "";
   $scope.auth = null;
 
   $scope.logout = function() {
@@ -12,7 +15,7 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
   }
 
   $scope.createAccount = function() {
-    if($scope.loginForm.email.$valid === true && $scope.loginForm.password.$valid === true) {
+    if ($scope.loginForm.email.$valid === true && $scope.loginForm.password.$valid === true) {
       console.log($scope.loginForm.email);
       console.log($scope.loginForm.password);
       var emailVal = $scope.email;
@@ -45,11 +48,11 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
       });
     }
     else {
-      if($scope.loginForm.email.$error.email || $scope.loginForm.email.$error.required) {
+      if ($scope.loginForm.email.$error.email || $scope.loginForm.email.$error.required) {
         console.log('\nemail error: ');
         console.log($scope.loginForm.email.$error);
       }
-      else if($scope.loginForm.password.$error.required)
+      else if ($scope.loginForm.password.$error.required)
         console.log('\npassword error: ');
       console.log($scope.loginForm.password.$error);
     }
@@ -65,14 +68,38 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
     }, function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
+        if (error.code === "INVALID_EMAIL") {
+          $scope.errorMsg = "Invalid Email";
+          $timeout(function(){$scope.showErrorToast = true});
+          console.log($scope.showErrorToast);
+          $timeout(function(){$scope.showErrorToast = false}, 1800);
+        }
+        else if (error.code === "INVALID_PASSWORD") {
+          $scope.errorMsg = "Wrong Password, try again.";
+          $timeout(function(){$scope.showErrorToast = true});
+          console.log($scope.showErrorToast);
+          $timeout(function(){$scope.showErrorToast = false}, 1800);
+        }
       } else {
         console.log("Authenticated successfully with payload:", authData);
         $scope.email = "";
         $scope.password = "";
         $scope.loginForm.email.$setUntouched();
         $scope.loginForm.password.$setUntouched();
+        $scope.showLoginToast = true;
+        $timeout(function(){$scope.showLoginToast = false}, 1800);
       }
     });
+  }
+
+  $scope.loginWithEnter = function() {
+    if ($scope.loginForm.email.$invalid || $scope.loginForm.password.$invalid) {
+      console.log("NOT VALID :D");
+      return;
+    } else {
+      console.log("IT WORKS :D");
+      $scope.loginWithPassword();
+    }
   }
 
   $scope.loginWithSocial = function(provider) {
@@ -89,6 +116,8 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
       }
       else if (authData) {
         // user authenticated with Firebase
+        $scope.showLoginToast = true;
+        $timeout(function(){$scope.showLoginToast = false}, 1800);
       }
     });
   }
@@ -124,7 +153,7 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
 
   // Find a suitable name based on the meta info given by each provider
   function getName(authData) {
-    switch(authData.provider) {
+    switch (authData.provider) {
        case 'password':
          return authData.password.email.replace(/@.*/, '');
        case 'twitter':
@@ -139,7 +168,7 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
   // If it exists, do nothing. 
   function addUserIfNew(authData) {
     usersRef.child(authData.uid).once('value', function(snapshot) {
-      if(snapshot.val() === null) {
+      if (snapshot.val() === null) {
         usersRef.child(authData.uid).set({
           name: getName(authData),
           pokemon: 'egg'
