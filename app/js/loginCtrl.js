@@ -13,6 +13,7 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
   $scope.logout = function() {
     console.log("Unauthorizing");
     ref.unauth();
+    setUser(null);
   }
 
   // Create new account using email and password
@@ -146,11 +147,15 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
 
   // Sets user to the authorized user
   function setUser(authData) {
-    usersRef.child(authData.uid).once('value', function(dataSnapshot) {
-      var user = dataSnapshot.val();
-      user.uid = authData.uid;
-      Companion.setUser(user);
-    });
+    if (authData) {
+      usersRef.child(authData.uid).once('value', function(dataSnapshot) {
+        var user = dataSnapshot.val();
+        user.uid = authData.uid;
+        Companion.setUser(user);
+      });
+    } else {
+      Companion.setUser(null);
+    }
   }
 
   // Find a suitable name based on the meta info given by each provider
