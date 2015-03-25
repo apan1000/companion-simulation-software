@@ -67,7 +67,7 @@ which module to associate the app with. In app.js we create the "companionSimula
                 <li ng-show="auth">
                     <button type="button" id="logout-btn" class="btn btn-default navbar-btn" ng-click="logout()">Logout</button>
                 </li>
-                <div class="login-toast login-success" ng-show="showLoginToast">Logged in!</div>
+                <div class="login-toast login-success" ng-show="showSuccessToast">{{successMsg}}</div>
                 <div class="login-toast login-error" ng-show="showErrorToast">{{errorMsg}}</div>
             </ul>
         </div><!-- /.container-fluid -->

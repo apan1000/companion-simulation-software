@@ -4,8 +4,9 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var usersRef = ref.child('users');
 
-  $scope.showLoginToast = false;
+  $scope.showSuccessToast = false;
   $scope.showErrorToast = false;
+  $scope.successMsg = "";
   $scope.errorMsg = "";
   $scope.auth = null;
 
@@ -14,6 +15,7 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
     ref.unauth();
   }
 
+  // Create new account using email and password
   $scope.createAccount = function() {
     if ($scope.loginForm.email.$valid === true && $scope.loginForm.password.$valid === true) {
       console.log($scope.loginForm.email);
@@ -28,9 +30,11 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
         if (error) {
           switch (error.code) {
             case "EMAIL_TAKEN":
+              showToast('error',"Email already taken");
               console.log("The new user account cannot be created because the email is already in use.");
               break;
             case "INVALID_EMAIL":
+              showToast('error',"Invalid Email");
               console.log("The specified email is not a valid email.");
               break;
             default:
@@ -58,9 +62,10 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
     }
   }
 
+  // Login using email and password
   $scope.loginWithPassword = function() {
-    var emailVal = $scope.email;//$scope.loginForm.email.$modelValue;
-    var passwordVal = $scope.password;//$scope.loginForm.password.$modelValue;
+    var emailVal = $scope.email;
+    var passwordVal = $scope.password;
 
     ref.authWithPassword({
       email    : emailVal,
@@ -69,39 +74,37 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
       if (error) {
         console.log("Login Failed!", error);
         if (error.code === "INVALID_EMAIL") {
-          $scope.errorMsg = "Invalid Email";
-          $timeout(function(){$scope.showErrorToast = true});
-          console.log($scope.showErrorToast);
-          $timeout(function(){$scope.showErrorToast = false}, 1800);
+          showToast('error',"Invalid Email");
         }
         else if (error.code === "INVALID_PASSWORD") {
-          $scope.errorMsg = "Wrong Password, try again.";
-          $timeout(function(){$scope.showErrorToast = true});
-          console.log($scope.showErrorToast);
-          $timeout(function(){$scope.showErrorToast = false}, 1800);
+          showToast('error',"Wrong Password, try again.");
+        }
+        else if (error.code === "INVALID_USER") {
+          showToast('error',"The specified user does not exist.");
         }
       } else {
         console.log("Authenticated successfully with payload:", authData);
+        // Reset email and password inputs
         $scope.email = "";
         $scope.password = "";
         $scope.loginForm.email.$setUntouched();
         $scope.loginForm.password.$setUntouched();
-        $scope.showLoginToast = true;
-        $timeout(function(){$scope.showLoginToast = false}, 1800);
+        // Show success toast
+        showToast('success',"Logged in!");
       }
     });
   }
 
+  // For use when we want to login using the enter key in a text-input field
   $scope.loginWithEnter = function() {
     if ($scope.loginForm.email.$invalid || $scope.loginForm.password.$invalid) {
-      console.log("NOT VALID :D");
       return;
     } else {
-      console.log("IT WORKS :D");
       $scope.loginWithPassword();
     }
   }
 
+  // Login using social media account
   $scope.loginWithSocial = function(provider) {
     // prefer pop-ups, so we don't navigate away from the page
     ref.authWithOAuthPopup(provider, function(error, authData) {
@@ -116,8 +119,7 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
       }
       else if (authData) {
         // user authenticated with Firebase
-        $scope.showLoginToast = true;
-        $timeout(function(){$scope.showLoginToast = false}, 1800);
+        showToast('success',"Logged in!");
       }
     });
   }
@@ -175,6 +177,20 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
         });
       }
     });
+  }
+
+  // Show toast of selected type with a message
+  function showToast(type,msg) {
+    if (type === 'success') {
+      $scope.successMsg = msg;
+      $timeout(function(){$scope.showSuccessToast = true});
+      $timeout(function(){$scope.showSuccessToast = false}, 1800);
+    }
+    else if (type === 'error') {
+      $scope.errorMsg = msg;
+      $timeout(function(){$scope.showErrorToast = true});
+      $timeout(function(){$scope.showErrorToast = false}, 1800);
+    }
   }
 
   });
