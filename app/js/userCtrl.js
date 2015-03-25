@@ -2,7 +2,7 @@
 // information about a user
 companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion) {
 
-  var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
+  var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/user1"/*+$routeParams.user*/);
 
   // Get pokemon data
   var getPokemon = function() {
@@ -17,10 +17,18 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
           $scope.pokemon = data;
           console.log($scope.pokemon);
           getSprite();
+          getAttacks();
         }, function(data){
           $scope.status = "There was an error";
       });
     }
+  }
+
+  var getAttacks = function() {
+    $scope.moves = $scope.pokemon.moves;
+    $scope.attacks = $scope.moves.slice(0,1,2,3);
+    console.log("Attacks:"+$scope.attacks);
+    
   }
 
   // Get the sprite of $scope.pokemon and set it as $scope.sprite
