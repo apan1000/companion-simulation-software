@@ -9,6 +9,8 @@ companionApp.factory('Companion',function ($resource, $cookieStore) {
   this.pokemon = $resource(POKE_API + '/api/v1/pokemon/:id');
   this.sprite = $resource(POKE_API + '/api/v1/sprite/:uri');
 
+  this.user = null;
+
   this.getSpriteData = function(uri) {
     return $resource(POKE_API + uri).get(function(data){
       console.log(data);
@@ -16,6 +18,15 @@ companionApp.factory('Companion',function ($resource, $cookieStore) {
     }, function(data){
       return data;
     });;
+  }
+
+  this.setUser = function(user) {
+    this.user = user;
+    console.log(this.user);
+  }
+
+  this.getUser = function() {
+    return this.user;
   }
 
   //Get number of guests from a cookie or set an initial value and create

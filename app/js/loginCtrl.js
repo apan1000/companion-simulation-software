@@ -1,5 +1,5 @@
 // Login controller that we use whenever we want to login
-companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObject,Companion) {
+companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObject,$timeout,Companion) {
 
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var usersRef = ref.child('users');
@@ -15,8 +15,8 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
     if($scope.loginForm.email.$valid === true && $scope.loginForm.password.$valid === true) {
       console.log($scope.loginForm.email);
       console.log($scope.loginForm.password);
-      var emailVal = $scope.loginForm.email.$modelValue;
-      var passwordVal = $scope.loginForm.password.$modelValue;
+      var emailVal = $scope.email;
+      var passwordVal = $scope.password;
 
       ref.createUser({
         email    : emailVal,
@@ -56,8 +56,8 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
   }
 
   $scope.loginWithPassword = function() {
-    var emailVal = $scope.loginForm.email.$modelValue;
-    var passwordVal = $scope.loginForm.password.$modelValue;
+    var emailVal = $scope.email;//$scope.loginForm.email.$modelValue;
+    var passwordVal = $scope.password;//$scope.loginForm.password.$modelValue;
 
     ref.authWithPassword({
       email    : emailVal,
@@ -67,6 +67,10 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
         console.log("Login Failed!", error);
       } else {
         console.log("Authenticated successfully with payload:", authData);
+        $scope.email = "";
+        $scope.password = "";
+        $scope.loginForm.email.$setUntouched();
+        $scope.loginForm.password.$setUntouched();
       }
     });
   }
@@ -89,26 +93,36 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
     });
   }
   
-
-
-  // we would probably save a profile when we register new users on our site
-  // we could also read the profile to see if it's null
-
+  // Check authData when authorizing
   ref.onAuth(function(authData) {
-    $scope.$apply(function(){
-        $scope.auth = authData;
+    $timeout(function() {
+      // $scope.$apply(function(){
+          $scope.auth = authData;
+      // });
     });
     $scope.auth = authData;
     console.log("\nauthData:");
     console.log(authData);
     console.log("$scope.auth:");
     console.log($scope.auth);
-    if (authData && authData.provider !== 'password') {
-      addUserIfNew(authData);
+    if (authData) {
+      setUser(authData);
+      if (authData.provider !== 'password') {
+        addUserIfNew(authData);
+      }
     }
   });
 
-  // find a suitable name based on the meta info given by each provider
+  // Sets user to the authorized user
+  function setUser(authData) {
+    usersRef.child(authData.uid).once('value', function(dataSnapshot) {
+      var user = dataSnapshot.val();
+      user.uid = authData.uid;
+      Companion.setUser(user);
+    });
+  }
+
+  // Find a suitable name based on the meta info given by each provider
   function getName(authData) {
     switch(authData.provider) {
        case 'password':
@@ -120,18 +134,18 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
     }
   }
 
-// Check if /users/<authData.uid> exists.
-// If it doesn't exist, add to firebase.
-// If it exists, do nothing. 
-function addUserIfNew(authData) {
-  usersRef.child(authData.uid).once('value', function(snapshot) {
-    if(snapshot.val() === null) {
-      usersRef.child(authData.uid).set({
-        name: getName(authData),
-        pokemon: 'egg'
-      });
-    }
-  });
-}
+  // Check if /users/<authData.uid> exists.
+  // If it doesn't exist, add to firebase.
+  // If it exists, do nothing. 
+  function addUserIfNew(authData) {
+    usersRef.child(authData.uid).once('value', function(snapshot) {
+      if(snapshot.val() === null) {
+        usersRef.child(authData.uid).set({
+          name: getName(authData),
+          pokemon: 'egg'
+        });
+      }
+    });
+  }
 
-});
+  });

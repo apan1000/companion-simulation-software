@@ -1,5 +1,5 @@
 // Chat controller that we use whenever we 
-companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray",
+companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 	function ($scope, $firebaseArray, Companion) {
 
 		var fbRef = new Firebase('https://companion-simulation.firebaseio.com/');
@@ -15,23 +15,28 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray",
 		//Post message function
 		$scope.postMessage = function(e) {
 			if (e.keyCode === 13 && $scope.msg) {
-				//Testing as user2
-				var name = "user2";
+				var user = $scope.getUser();
+				console.log(user);
 
 				//Add to firebase
 				var newMsg = chatRef.push({
-					user: name,
+					user: user.uid,
+					name: user.name,
 					text: $scope.msg
 				});
 				newMsgID = {};
 				newMsgID = newMsg.key();
 				console.log('\nnewMsgID: ');console.log(newMsgID);console.log('');
 
-				usersRef.child(name+'/messages/'+newMsgID).set(true);
+				usersRef.child(user.uid+'/messages/'+newMsgID).set(true);
 
 				//Reset message
 				$scope.msg = "";
 			}
+		}
+
+		$scope.getUser = function() {
+			return Companion.getUser();
 		}
 
 
