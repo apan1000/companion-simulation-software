@@ -2,6 +2,31 @@ body {
 	padding-top: 70px;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+	width: 6px;
+    background-color: #ccc;
+    border-radius: 15px;
+}
+::-webkit-scrollbar-thumb:hover {
+	width: 10px;
+    background-color: #aaa;
+}
+
+h2 {
+	margin: 0;
+}
+
 .error {
 	color: #b94a48;
 }
@@ -105,22 +130,34 @@ body {
 
 /* Chat */
 #chat {
-	border-style: solid;
-	border-width: 2px;
-	background: #ccc;
+	border: 2px solid;
+	background: #fff;
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: 15px;
-	overflow-y: scroll; 
 	word-wrap: break-word;
-	/*max-height: 600px;*/
-	
+	max-height: 600px;
 }
 
 #messages {
+	padding-right: 6px;
 	overflow-y: scroll;
 	word-wrap: break-word;
-	max-height: 455px; 
+	max-height: 400px;
+}
+
+#messages:hover {
+    padding-right: 0;
+}
+
+#messages::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+#messages:hover::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
 }
 
 /* Shape modifiers */
@@ -198,5 +235,4 @@ body {
 	border-width: 2px;
 	font-family: "Coda";
 	font-size: 15pt;
-	position: relative;
 }

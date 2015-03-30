@@ -198,4 +198,4 @@ companionApp.controller('LoginCtrl', function ($scope,$routeParams,$firebaseObje
     }
   }
 
-  });
+});
