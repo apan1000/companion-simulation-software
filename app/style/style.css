@@ -31,6 +31,20 @@ h2 {
 	color: #b94a48;
 }
 
+input[type=email].error, input[type=password].error {
+	color: #555;
+	border-color: #b94a48;
+}
+
+.success {
+	color: #30a939;
+}
+
+input[type=email].success, input[type=password].success {
+	color: #555;
+	border-color: #30a939;
+}
+
 .login-toast {
 	z-index: 100;
 	position: absolute;
@@ -118,10 +132,27 @@ h2 {
 	padding: 15px;
 }
 
+/* Login */
+#login-div {
+	width: 40%;
+	min-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
 .login-btn, .login-input {
 	margin-top: 3px;
 	margin-bottom: 3px;
-	width: 100%;
+}
+
+.login-btn {
+	width: 250px;
+}
+
+.login-input ~ button {
+	width: 30%;
+	max-width: 130px;
 }
 
 #logout-btn {

@@ -3,7 +3,7 @@
 // also see that we included separate JavaScript files for these modules. Angular
 // has other core modules that you might want to use and explore when you go deeper
 // into developing Angular applications. For this lab, these two will suffice.
-var companionApp = angular.module('companionSimulation', ['ngRoute','ngResource','ngCookies','firebase','ngAnimate']);
+var companionApp = angular.module('companionSimulation', ['ngRoute','ngResource','ngCookies','firebase','ngAnimate','ngStorage']);
 
 
 // Apart from specifying the partial HTML that needs to be loaded with your app, you can also specify which
@@ -20,7 +20,11 @@ var companionApp = angular.module('companionSimulation', ['ngRoute','ngResource'
 companionApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/', {
+    	when('/', {
+        templateUrl: 'partials/login.html',
+        controller: 'LoginCtrl'
+      }).
+      when('/home', {
         templateUrl: 'partials/home.html'
       }).
       when('/search', {
@@ -35,3 +39,21 @@ companionApp.config(['$routeProvider',
         redirectTo: '/'
       });
   }]);
+
+companionApp.run(function($rootScope, $location) {
+	$rootScope.$on("$routeChangeStart", function(event, next, current) {
+		if ($rootScope.user == null) {
+			// User not logged in, redirect to login
+			if (next.templateUrl === "partials/login.html") {
+			} else {
+				$location.path("/login");
+			}
+		} else {
+			// User logged in, can't go to login
+			if (next.templateUrl === "partials/login.html") {
+				$location.path("/home");
+			} else {
+			}
+		}
+	});
+});
