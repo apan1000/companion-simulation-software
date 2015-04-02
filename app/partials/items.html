@@ -1,6 +1,8 @@
 <div ng-controller="UserCtrl">
 		<div class="col-sm-12" id="items">
 			<div>Items</div>
-			<img src="images/rarecandy.png" alt="Rare Candy" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true"></img>
+			<img src="images/rarecandy.png" id="itemImage" alt="Rare Candy" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="obj.allowClone !== false"></img>
+			<img src="images/pokebell.png" id="itemImage" alt="Toy" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="obj.allowClone !== false"></img>
+			<img src="images/potion.png" id="itemImage" alt="Potion" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="obj.allowClone !== false"></img>
 		</div>
 </div>

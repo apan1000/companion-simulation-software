@@ -269,25 +269,25 @@ input[type=email].success, input[type=password].success {
 	position: relative;
 }
 
+#itemImage {
+	height:90px;
+	padding-left: 60px;
+}
+
 /* Draggables */
 
-[ng-drag]{
+[ng-drag] [ng-drag-clone]{
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
-[ng-drag]{
-    width: 100px;
-    height: 100px;
-    color:white;
-    text-align: center;
-    display: inline-block;
+[ng-drag] {
     margin:0 10px;
     cursor: move;
 }
-ul.draggable-objects:after{
+/*ul.draggable-objects:after{
     display: block;
     content:"";
     clear:both;
@@ -297,22 +297,27 @@ ul.draggable-objects:after{
     display: block;
     width: 120px;
     height:100px;
+}*/
+
+[ng-drag].drag-over {
+    opacity: 1.0 !important;
 }
-[ng-drag].drag-over{
-    /*border:solid 1px red;*/
-    opacity: 100;
-}
+
 [ng-drag].dragging{
-    /*opacity: 0.5;*/
+    opacity: 0.5;
+    /*-webkit-filter: grayscale(100%);*/
 }
+
 [ng-drop]{
-    
-  
+      
 }
+
 /*[ng-drop].drag-enter{
+	opacity: 1.0;
     border:solid 5px red;
 }*/
-[ng-drop] span.title{
+
+/*[ng-drop] span.title{
     display: block;
     position: absolute;
     top:50%;
