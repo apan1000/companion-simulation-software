@@ -2,12 +2,15 @@
 
 companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObject,Companion) {
 	//vilka parametrar? vad använder man som source och target?
-		
-		source.on("dragstart", function(event) {
-			event.originalEvent.dataTransfer.setData("text", "some text");
-			event.originalEvent.dataTransfer.effectAllowed = 'copy';
-		}, false);
 
+		$scope.onDragSuccess = function(data,evt) {
+       		console.log("drag success, data:", data);
+    	}
+
+    	$scope.lol = function() {
+    		console.log("lol");
+    		$scope.lel = "lel";
+    	}
 		
 		/* target.addEventListener("drop", function(event) {
 				text = event.dataTransfer.getData("text");
@@ -17,4 +20,8 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 				if(event.dataTransfer.dropEffect != "none")
 			}, false); */
 	
+		/* source.on("dragstart", function(event) {
+			event.originalEvent.dataTransfer.setData("text", "some text");
+			event.originalEvent.dataTransfer.effectAllowed = 'copy';
+		}, false); */
 }

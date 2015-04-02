@@ -2,7 +2,7 @@
 // information about a user
 companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion) {
 
-  var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/user1"/*+$routeParams.user*/);
+  var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/user2"/*+$routeParams.user*/);
 
   // Get pokemon data
   var getPokemon = function() {
@@ -57,6 +57,14 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
+
+  $scope.onDropComplete = function(data,evt) {
+    console.log("drag success, data:", data);
+  }
+
+  $scope.onDragSuccess = function(data,evt) {
+          console.log("drag success, data:", data);
+      }
   
   
 
