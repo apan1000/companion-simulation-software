@@ -1,5 +1,6 @@
 <div ng-controller="UserCtrl">
-		<div class="col-sm-6 full-height" id="monster">
+		<div id="monster">
 			<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
-		</div>	
+		</div>
+		<ng-include class="row" src="'partials/items.html'"></ng-include> <!--ng-controller="ItemsCtrl"-->	
 </div>

@@ -1,8 +1,12 @@
 // User controller that we use whenever we want to display detailed
 // information about a user
-companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion) {
+companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope) {
 
-  var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/user2"/*+$routeParams.user*/);
+  if ($routeParams.user) {
+    var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
+  } else {
+    var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
+  }
 
   // Get pokemon data
   var getPokemon = function() {
@@ -65,7 +69,6 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   $scope.onDragSuccess = function(data,evt) {
           console.log("drag success, data:", data);
       }
-  
   
 
   // $scope.getDishPrice = function(dish) {

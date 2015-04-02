@@ -31,6 +31,8 @@ which module to associate the app with. In app.js we create the "companionSimula
     <!-- Firebase and AngularFire -->
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+    <!-- AngularLocalStorage -->
+    <script src="bower_components/ngStorage/ngStorage.min.js"></script>
     
     <!-- The application JavaScript code -->
     <script src="js/app.js"></script>
@@ -44,35 +46,32 @@ which module to associate the app with. In app.js we create the "companionSimula
     <!-- Here in index.html you should put only the layout that is shared among all the screens (e.g. header
     ,footer, etc.). The rest of the view specific layout will go into the html partials (check partials folder) -->
     <nav id="navbar" class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a id="home-button" class="navbar-brand" href="#/">Companion Simulation Software</a>
-            </div>
-            <p class="navbar-text">Gotta get 'em all!</p>
-            <ul class="nav navbar-nav navbar-right" ng-controller="LoginCtrl">
-                <li class="dropdown" ng-hide="auth">
-                  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sign in<span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <form name="loginForm">
-                        <li><input type="email" class="form-control login-input" placeholder="Email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" required></li>
-                        <!--span class="error" ng-show="loginForm.email.$touched && loginForm.email.$invalid" ng-click="$event.stopPropagation();">Not valid email!</span-->
-                        <li><input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" required></li>
-                        <li><button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Login</button></li>
-                        <li><button type="button" class="btn btn-default login-btn" ng-click="createAccount()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Create account</button></li>
-                    </form>
-                    <li class="divider"></li>
-                    <li><button type="button" class="btn btn-info login-btn" ng-click="loginWithSocial('twitter')">Twitter</button></li>
-                    <li><button type="button" class="btn btn-primary login-btn" ng-click="loginWithSocial('facebook')">Facebook</button></li>
-                    <li><button type="button" class="btn btn-danger login-btn" ng-click="loginWithSocial('google')">Google+</button></li>
-                  </ul>
-                </li>
-                <li ng-show="auth">
-                    <button type="button" id="logout-btn" class="btn btn-default navbar-btn" ng-click="logout()">Logout</button>
-                </li>
-                <div class="login-toast login-success" ng-show="showSuccessToast">{{successMsg}}</div>
-                <div class="login-toast login-error" ng-show="showErrorToast">{{errorMsg}}</div>
+	    <div class="container-fluid">
+        <div class="navbar-header">
+            <a id="home-button" class="navbar-brand" href="#/">Companion Simulation Software</a>
+        </div>
+        <p class="navbar-text">Gotta get 'em all!</p>
+        <ul class="nav navbar-nav navbar-right" ng-controller="LoginCtrl">
+          <!--li class="dropdown" ng-hide="auth">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sign in<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <form name="loginForm">
+                  <li><input type="email" class="form-control login-input" placeholder="Email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" required></li>
+                  <li><input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" required></li>
+                  <li><button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Login</button></li>
+                  <li><button type="button" class="btn btn-default login-btn" ng-click="createAccount()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Create account</button></li>
+              </form>
+              <li class="divider"></li>
+              <li><button type="button" class="btn btn-info login-btn" ng-click="loginWithSocial('twitter')">Twitter</button></li>
+              <li><button type="button" class="btn btn-primary login-btn" ng-click="loginWithSocial('facebook')">Facebook</button></li>
+              <li><button type="button" class="btn btn-danger login-btn" ng-click="loginWithSocial('google')">Google+</button></li>
             </ul>
-        </div><!-- /.container-fluid -->
+          </li-->
+          <li ng-show="auth">
+          	<button type="button" id="logout-btn" class="btn btn-default navbar-btn" ng-click="logout()">Logout</button>
+          </li>
+        </ul>
+	    </div>
     </nav>
     <!-- ng-view Angular directive is where the partials will be loaded. app.js configures the $routingProvider
     where you specify which partial should be loaded when. -->
