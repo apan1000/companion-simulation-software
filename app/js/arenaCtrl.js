@@ -2,6 +2,7 @@
 // information about a user
 companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope) {
 
+  var ref = new Firebase("https://companion-simulation.firebaseio.com");
 
   if ($routeParams.user) {
     var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
@@ -22,11 +23,39 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
           $scope.status = "";
           $scope.pokemon = data;
           console.log("YOUR POKEMON: "+$scope.pokemon);
+          $scope.pokemon.curHp = $scope.pokemon.hp;
           getSprite($scope.pokemon);
         }, function(data){
           $scope.status = "There was an error";
       });
     }
+  }
+
+  $scope.attackEnemy = function() {
+
+    var randomMonster = Math.floor((Math.random() * 500) + 1);
+    var randomPoke = Math.floor((Math.random() * 500) + 1);
+    var random1 = Math.floor((Math.random() * 10) + 1);
+    var random2 = Math.floor((Math.random() * 10) + 1);
+
+    $scope.temp_monster.hp -= Math.floor(($scope.pokemon.attack*random1)/$scope.temp_monster.defense);
+    $scope.pokemon.curHp -= Math.floor(($scope.temp_monster.attack*random2)/$scope.pokemon.defense);
+
+    if ($scope.temp_monster.hp<=0){
+      getSpecificPokemon(randomMonster);
+      $scope.pokemon.curHp = $scope.pokemon.hp;
+    }
+
+    if ($scope.pokemon.curHp<=0){
+        console.log("Random id will be: "+ randomPoke);
+
+        ref.child("users").child($rootScope.user.uid).update({ //Gör väldigt många calls i consolen när den dör
+                pokemon: 'egg',
+                lvl: 0
+              });
+        window.location.href = '#/home';
+    }
+
   }
 
   var getSpecificPokemon = function(monster_id) {
@@ -42,14 +71,13 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     */
     Companion.pokemon.get({id:monster_id}, function(data){
         $scope.temp_monster = data;
-        //console.log(temp_monster);
+        console.log($scope.temp_monster);
         getSprite($scope.temp_monster);
         //console.log("TEMP_MONSTER_IMG: "+temp_monster.species);
 
       }, function(data){
         $scope.status = "There was an error";
     });
-    
   }
 
   // Get the sprite of $scope.pokemon and set it as $scope.sprite
@@ -73,7 +101,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     $scope.user = snapshot.val();
     console.log($scope.user);
     getPokemon();
-    var random = Math.floor((Math.random() * 100) + 1);
+    var random = Math.floor((Math.random() * 300) + 1);
     getSpecificPokemon(random);
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);

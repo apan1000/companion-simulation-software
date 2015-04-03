@@ -2,13 +2,16 @@
 	{{status}}
 
 	<div class="col-md-6">
-		<h2>{{pokemon.name}}</h2>
+		<h2>{{pokemon.name}} with {{pokemon.curHp}} hp</h2>
 		<img class="fightImage" id="yourMonsterImage" ng-src="{{pokemon.new_sprite}}" alt="*">
 	</div>
 
 	<div class="col-md-6 enemy_monster">
-		<h2>{{temp_monster.name}}</h2>
-		<img class="fightImage" ng-src="{{temp_monster.new_sprite}}" alt="*">
+		<h2>{{temp_monster.name}} with {{temp_monster.hp}} hp</h2>
+		<!--<h3>Attack: {{temp_monster.attack}}</h3>
+		<h3>Defense: {{temp_monster.defense}}</h3>
+		<h1>Hp: {{temp_monster.hp}}</h1>-->
+		<img class="fightImage" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt="*">
 	</div>
 	<!--<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">-->
 </div>
