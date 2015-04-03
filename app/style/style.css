@@ -282,12 +282,22 @@ input[type=email].success, input[type=password].success {
 
 .fightImage {
 
-
 	height:250px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 300px;
+
+	-webkit-transition: margin 0.5s ease-out;
+    -moz-transition: margin 0.5s ease-out;
+    -o-transition: margin 0.5s ease-out;
+}
+
+.fightImage:hover {
+
+	margin-top: 200px;
+
+
 }
 
 #items {
