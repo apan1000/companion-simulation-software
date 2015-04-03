@@ -32,9 +32,11 @@ companionApp.factory('Companion',function ($resource,$localStorage,$rootScope,$l
   	$rootScope.user = user;
     $localStorage.user = user;
     if (user) {
-    	$timeout(function() {
-    		$location.path("/home");
-    	});
+    	if ($location.path() === "/") {
+    		$timeout(function() {
+	    		$location.path("/home");
+	    	});
+    	}
     } else {
     	$timeout(function() {
     		$location.path("/");
@@ -44,8 +46,8 @@ companionApp.factory('Companion',function ($resource,$localStorage,$rootScope,$l
 
   // Returns user
   this.getUser = function() {
-  	console.log("$rootScope.user: ")
-  	console.log($rootScope.user);
+  	// console.log("$rootScope.user: ")
+  	// console.log($rootScope.user);
     return $rootScope.user;
   }
 

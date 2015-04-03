@@ -11,7 +11,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   // Get pokemon data
   var getPokemon = function() {
     $scope.status = "Loading...";
-    console.log("pokemon: "+$scope.user.pokemon);
+    // console.log("pokemon: "+$scope.user.pokemon);
     if($scope.user.pokemon === 'egg') {
       $scope.sprite = 'http://cdn.bulbagarden.net/upload/c/cd/Poketch_Egg.png';
       $scope.status = "";
@@ -19,7 +19,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     else {
       Companion.pokemon.get({id:$scope.user.pokemon}, function(data){
           $scope.pokemon = data;
-          console.log($scope.pokemon);
+          // console.log($scope.pokemon);
           getSprite();
           getAttacks();
         }, function(data){
@@ -31,22 +31,22 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   var getAttacks = function() {
     $scope.moves = $scope.pokemon.moves;
     $scope.attacks = $scope.moves.slice(0,1,2,3);
-    console.log("Attacks:"+$scope.attacks);
+    // console.log("Attacks:"+$scope.attacks);
     
   }
 
   // Get the sprite of $scope.pokemon and set it as $scope.sprite
   var getSprite = function() {
-    console.log('spriteUri: '+$scope.pokemon.sprites[0].resource_uri);
+    // console.log('spriteUri: '+$scope.pokemon.sprites[0].resource_uri);
 
     var parts = $scope.pokemon.sprites[0].resource_uri.split("/");
     var spriteUri = parts[parts.length - 2];
 
-    console.log('Processed spriteUri: '+spriteUri);
+    // console.log('Processed spriteUri: '+spriteUri);
 
     Companion.sprite.get({uri:spriteUri}, function(data){
       $scope.status = "";
-      $scope.sprite =  'http://pokeapi.co/' + data.image;
+      $scope.sprite =  'http://pokeapi.co' + data.image;
     }, function(data){
       $scope.status = "There was an error";
       $scope.sprite = 'http://i.imgur.com/D9sYjvH.jpg';
@@ -56,7 +56,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   // Attach an asynchronous callback to read the data at our posts reference and get user
   userRef.on("value", function(snapshot) {
     $scope.user = snapshot.val();
-    console.log($scope.user);
+    // console.log($scope.user);
     getPokemon();
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
