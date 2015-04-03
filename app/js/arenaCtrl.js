@@ -1,6 +1,7 @@
 // User controller that we use whenever we want to display detailed
 // information about a user
-companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope) {
+companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope) {
+
 
   if ($routeParams.user) {
     var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
@@ -19,37 +20,50 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     else {
       Companion.pokemon.get({id:$scope.user.pokemon}, function(data){
           $scope.pokemon = data;
-          // console.log($scope.pokemon);
-          getSprite();
-          getAttacks();
+          console.log("YOUR POKEMON: "+$scope.pokemon);
+          $scope.sprite = getSprite($scope.pokemon);
         }, function(data){
           $scope.status = "There was an error";
       });
     }
   }
 
-  var getAttacks = function() {
-    $scope.moves = $scope.pokemon.moves;
-    $scope.attacks = $scope.moves.slice(0,1,2,3);
-    // console.log("Attacks:"+$scope.attacks);
+  var getSpecificPokemon = function(monster_id) {
+    
+    /*
+    console.log("GET_MONSTER");
+    var temp_monster = Companion.getMonster(monster_id);
+
+    temp_monster.then(function(result) {
+       $scope.temp_monster = result;
+       console.log("data.name"+$scope.temp_monster.name);
+    });
+    */
+    Companion.pokemon.get({id:monster_id}, function(data){
+        $scope.temp_monster = data;
+        //console.log(temp_monster);
+        getSprite($scope.temp_monster);
+        //console.log("TEMP_MONSTER_IMG: "+temp_monster.species);
+
+      }, function(data){
+        $scope.status = "There was an error";
+    });
     
   }
 
   // Get the sprite of $scope.pokemon and set it as $scope.sprite
-  var getSprite = function() {
-    // console.log('spriteUri: '+$scope.pokemon.sprites[0].resource_uri);
+  var getSprite = function(monster) {
 
-    var parts = $scope.pokemon.sprites[0].resource_uri.split("/");
+    var parts = monster.sprites[0].resource_uri.split("/");
     var spriteUri = parts[parts.length - 2];
-
-    // console.log('Processed spriteUri: '+spriteUri);
+    //monster.new_sprite = 'LOL';
 
     Companion.sprite.get({uri:spriteUri}, function(data){
-      $scope.status = "";
-      $scope.sprite =  'http://pokeapi.co' + data.image;
+      monster.new_sprite = 'http://pokeapi.co' + data.image;
+      console.log("SPRITE DATA "+monster.new_sprite);
     }, function(data){
+      monster.new_sprite = 'http://imgur.com/gallery/geH3T';
       $scope.status = "There was an error";
-      $scope.sprite = 'http://i.imgur.com/D9sYjvH.jpg';
     });
   }
 
@@ -58,25 +72,10 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     $scope.user = snapshot.val();
     console.log($scope.user);
     getPokemon();
+    var random = Math.floor((Math.random() * 100) + 1);
+    getSpecificPokemon(random);
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
-
-  $scope.onDropComplete = function(data,evt) {
-    console.log("dragged candy success, data:", data); 
-  }
-
-  $scope.onDragSuccess = function(data,evt) {
-          console.log("drag success, data:", data);
-      }
-  
-
-  // $scope.getDishPrice = function(dish) {
-  // 	return Dinner.getDishPrice(dish);
-  // }
-  
-  // $scope.getIngredientAmount = function(ingredient) {
-  // 	return Number((ingredient.MetricQuantity*Dinner.getNumberOfGuests()).toFixed(2));
-  // }
 
 });

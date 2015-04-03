@@ -250,8 +250,25 @@ input[type=email].success, input[type=password].success {
 	border-width: 2px;
 	background-image: url("../images/monsterBackground.png");
 	background-size: 800px 420px;
-	background-repeat: no-repeat;
+	background-repeat: repeat-x;
 }
+
+#arena {
+	height: 600px;
+	background-image: url("../images/monsterBackground.png");
+	background-size: 800px 600px;
+	background-repeat: repeat-x;
+}
+
+.enemyMonster {
+	text-align: center;
+	float:right;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 150px;
+}
+
 
 .monsterImage {
 	height:250px;
@@ -259,6 +276,14 @@ input[type=email].success, input[type=password].success {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 150px;
+}
+
+.fightImage {
+	height:250px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 300px;
 }
 
 #items {

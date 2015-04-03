@@ -17,6 +17,14 @@ companionApp.factory('Companion',function ($resource,$localStorage,$rootScope,$l
   	$rootScope.user = $localStorage.user;
   }
 
+/*
+  var getMonster = function(monster_id){
+    return $resource(POKE_API + '/api/v1/pokemon/'+ monster_id).then(function(result){
+      return result.data;
+    });
+  }
+*/
+
   // Returns sprite data from pokeapi
   this.getSpriteData = function(uri) {
     return $resource(POKE_API + uri).get(function(data){
