@@ -2,10 +2,24 @@
 // information about a user
 companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope) {
 
+  var ref = new Firebase("https://companion-simulation.firebaseio.com");
+
   if ($routeParams.user) {
     var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
   } else {
     var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
+  }
+
+  $scope.hatchEgg = function() {
+    if($scope.user.pokemon === 'egg') {
+      var random = Math.floor((Math.random() * 100) + 1);
+      console.log("Random id will be: "+ random);
+
+      ref.child("users").child($rootScope.user.uid).set({
+              pokemon: random
+            });
+      getPokemon();
+    }
   }
 
   // Get pokemon data
