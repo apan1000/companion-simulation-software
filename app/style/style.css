@@ -207,8 +207,6 @@ input[type=email].success, input[type=password].success {
 /*###*/
 
 #statusbar {
-	border-style: solid;
-	border-width: 2px;
 	font-family: "Coda";
 	font-size: 15pt;
 }

@@ -33,7 +33,10 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
           console.log(userData);
           ref.child("users").child(userData.uid).set({
             name: emailVal.replace(/@.*/, ''),
-            pokemon: 'egg'
+            pokemon: 'egg',
+            lvl: 0,
+            wins: 0,
+            losses: 0
           });
           $scope.loginWithPassword();
         }

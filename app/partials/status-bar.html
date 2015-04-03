@@ -3,12 +3,12 @@
 	<h3>Name: {{pokemon.name}}</h3>
 	<div class="row">
 		<div class="col-sm-6">
-			<h4>Level: </h4>
-			<h4>Type: </h4><h4 ng-repeat="type in pokemon.types">{{type.name}}</h4>
+			<h4>Level: <small>{{user.lvl}}</small></h4>
+			<h4>Type: <small ng-repeat="type in pokemon.types">{{type.name}}</small></h4>
 		</div>
 		<div class="col-sm-6">
-			<h4>Wins: </h4>
-			<h4>Losses: </h4>
+			<h4>Wins: <small>{{user.wins}}</small></h4>
+			<h4>Losses: <small>{{user.losses}}</small></h4>
 		</div>
 	</div>
 	<h4>Total Score: </h4>

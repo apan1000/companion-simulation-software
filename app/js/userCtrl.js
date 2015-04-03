@@ -15,8 +15,9 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
       var random = Math.floor((Math.random() * 100) + 1);
       console.log("Random id will be: "+ random);
 
-      ref.child("users").child($rootScope.user.uid).set({
-              pokemon: random
+      ref.child("users").child($rootScope.user.uid).update({
+              pokemon: random,
+              lvl: 1
             });
       getPokemon();
     }
