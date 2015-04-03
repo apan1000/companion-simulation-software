@@ -56,7 +56,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   // Attach an asynchronous callback to read the data at our posts reference and get user
   userRef.on("value", function(snapshot) {
     $scope.user = snapshot.val();
-    // console.log($scope.user);
+    console.log($scope.user);
     getPokemon();
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);

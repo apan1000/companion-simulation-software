@@ -1,8 +1,6 @@
-<ng-include src="'partials/chat.html'" ng-controller="ChatCtrl"></ng-include>
-
-<div>
+<div class="col-md-6">
 	{{status}}
-	<h2>{{pokemon.name}}</h2>
+	<h2>{{pokemon.name}}<br/><small>Master: {{user.name}}</small></h2>
 	<img ng-src="{{sprite}}" alt="{{pokemon.name}}">
 	<div>
 		<h3>Abilities</h3>
@@ -10,4 +8,8 @@
 			{{ability.name}}
 		</div>
 	</div>
+</div>
+
+<div class="col-md-6">
+	<ng-include src="'partials/chat.html'" ng-controller="ChatCtrl"></ng-include>
 </div>
