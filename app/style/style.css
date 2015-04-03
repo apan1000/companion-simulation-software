@@ -260,15 +260,6 @@ input[type=email].success, input[type=password].success {
 	background-repeat: repeat-x;
 }
 
-.enemyMonster {
-	text-align: center;
-	float:right;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 150px;
-}
-
 
 .monsterImage {
 	height:250px;
@@ -278,7 +269,20 @@ input[type=email].success, input[type=password].success {
 	margin-top: 150px;
 }
 
+#yourMonsterImage {
+
+	-moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+
+}
+
 .fightImage {
+
+
 	height:250px;
 	display: block;
 	margin-left: auto;

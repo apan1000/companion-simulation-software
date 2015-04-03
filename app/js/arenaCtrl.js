@@ -19,9 +19,10 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     }
     else {
       Companion.pokemon.get({id:$scope.user.pokemon}, function(data){
+          $scope.status = "";
           $scope.pokemon = data;
           console.log("YOUR POKEMON: "+$scope.pokemon);
-          $scope.sprite = getSprite($scope.pokemon);
+          getSprite($scope.pokemon);
         }, function(data){
           $scope.status = "There was an error";
       });
