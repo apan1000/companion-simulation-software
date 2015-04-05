@@ -2,10 +2,14 @@
 companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 	function ($scope, $firebaseArray, Companion) {
 
-		var fbRef = new Firebase('https://companion-simulation.firebaseio.com/');
-		var chatRef = fbRef.child('chat');
-		var usersRef = fbRef.child('users');
+		var ref = new Firebase('https://companion-simulation.firebaseio.com/');
+		var chatRef = ref.child('chat');
+		var usersRef = ref.child('users');
 
+		$scope.status = "Loading...";
+		chatRef.on("value", function(snapshot) {
+			$scope.status = "";
+		});
 		//Get messages as an array
 		$scope.messages = $firebaseArray(chatRef);
 
@@ -14,24 +18,28 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 
 		//Post message function
 		$scope.postMessage = function(e) {
-			if (e.keyCode === 13 && $scope.msg) {
-				var user = $scope.getUser();
-				console.log(user);
+			if (e.keyCode === 13 && !e.shiftKey) {
+				// Prevent new line if not holding Shift
+				e.preventDefault();
+				if ($scope.msg) {
+					var user = $scope.getUser();
+					console.log(user);
 
-				//Add to firebase
-				var newMsg = chatRef.push({
-					user: user.uid,
-					name: user.name,
-					text: $scope.msg
-				});
-				newMsgID = {};
-				newMsgID = newMsg.key();
-				console.log('\nnewMsgID: ');console.log(newMsgID);console.log('');
+					//Add to firebase
+					var newMsg = chatRef.push({
+						user: user.uid,
+						name: user.name,
+						text: $scope.msg
+					});
+					newMsgID = {};
+					newMsgID = newMsg.key();
+					console.log('\nnewMsgID: ');console.log(newMsgID);console.log('');
 
-				usersRef.child(user.uid+'/messages/'+newMsgID).set(true);
+					usersRef.child(user.uid+'/messages/'+newMsgID).set(true);
 
-				//Reset message
-				$scope.msg = "";
+					//Reset message
+					$scope.msg = "";
+				}
 			}
 		}
 

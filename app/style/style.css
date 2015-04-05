@@ -8,8 +8,8 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #eaeaea;
-    border-left: 1px solid #ccc;
+    /*background-color: #eaeaea;
+    border-left: 1px solid #ccc;*/
     border-radius: 15px;
 }
 
@@ -163,22 +163,27 @@ input[type=email].success, input[type=password].success {
 #chat {
 	border: 2px solid;
 	background: #fff;
-	padding-left: 15px;
-	padding-right: 15px;
 	padding-bottom: 15px;
 	word-wrap: break-word;
 	max-height: 600px;
 }
 
+#chat-head {
+	margin-left: 10px;
+	margin-right: 10px;
+	border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
 #messages {
-	padding-right: 6px;
+	padding-left: 10px;
+	padding-right: 15px;
 	overflow-y: scroll;
 	word-wrap: break-word;
-	max-height: 400px;
+	height: 400px;
 }
 
 #messages:hover {
-    padding-right: 0;
+    padding-right: 9px;
 }
 
 #messages::-webkit-scrollbar {
@@ -189,6 +194,24 @@ input[type=email].success, input[type=password].success {
 #messages:hover::-webkit-scrollbar {
     width: 10px;
     height: 10px;
+}
+
+.message {
+	padding: 4px;
+	padding-left: 0;
+}
+
+.chat-input-container {
+	margin-left: 10px;
+	margin-right: 10px;
+	padding: 5px;
+	border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+#chat-input {
+	width: 100%;
+	padding: 4px;
+	resize: none;
 }
 
 /* Shape modifiers */

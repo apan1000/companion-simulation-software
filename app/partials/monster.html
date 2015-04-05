@@ -1,6 +1,4 @@
-<div ng-controller="UserCtrl">
-		<div id="monster">
-			<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)">
-		</div>
-		<ng-include class="row" src="'partials/items.html'"></ng-include> <!--ng-controller="ItemsCtrl"-->	
+<div id="monster">
+	<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-class="{'animated shake':hover && user.pokemon !== 'egg'}" ng-mouseenter="hover = true" ng-mouseleave="hover = false"  ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)">
 </div>
+<ng-include class="row" src="'partials/items.html'"></ng-include> <!--ng-controller="ItemsCtrl"-->

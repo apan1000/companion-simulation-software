@@ -41,7 +41,24 @@ companionApp.config(['$routeProvider',
       otherwise({
         redirectTo: '/'
       });
-  }]);
+}]);
+
+// Scroll to bottom directive
+companionApp.directive('scrollBottom', function () {
+  return {
+    scope: {
+      scrollBottom: "="
+    },
+    link: function (scope, element) {
+      scope.$watchCollection('scrollBottom', function (newValue) {
+        if (newValue)
+        {
+        	element[0].scrollTop = element[0].scrollHeight;
+        }
+      });
+    }
+  }
+});
 
 companionApp.run(function($rootScope, $location) {
 	$rootScope.$on("$routeChangeStart", function(event, next, current) {

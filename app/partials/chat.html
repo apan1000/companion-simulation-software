@@ -1,9 +1,9 @@
 <div ng-controller="ChatCtrl" id="chat">
 	<div id="chat-head">
-		<h3>Chat</h3>
+		<h3>Companion Chat</h3>
 	</div>
-	<hr>
-	<div id="messages">
+	<div id="messages" scroll-bottom="messages">
+		{{status}}
 		<div ng-repeat="msg in messages" class="message">
 			<a ng-href="#/user/{{msg.user}}">
 				<span>{{msg.name}}</span>
@@ -11,7 +11,7 @@
 			{{msg.text}}
 		</div>
 	</div>
-	<input ng-model="msg" ng-keypress="postMessage($event)" type="text" placeholder="Type a message..." ng-show="getUser()">
-	<br>
-	<kbd>text = {{msg}}</kbd>
+	<div class="chat-input-container">
+		<textarea id="chat-input" ng-model="msg" ng-keydown="postMessage($event)" placeholder="Type a message..."></textarea>
+	</div>
 </div>
