@@ -16,7 +16,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     $scope.status = "Loading...";
     // console.log("pokemon: "+$scope.user.pokemon);
     if($scope.user.pokemon === 'egg') {
-      $scope.sprite = '../images/egg_jump.gif';
+      $scope.sprite = 'images/egg_jump.gif';
       $scope.status = "";
     }
     else {

@@ -73,7 +73,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   var getPokemon = function() {
     $scope.status = "Loading...";
     if($scope.user.pokemon === 'egg') {
-      $scope.sprite = '../images/egg_jump.gif';
+      $scope.sprite = 'images/egg_jump.gif';
       $scope.status = "";
     }
     else {
