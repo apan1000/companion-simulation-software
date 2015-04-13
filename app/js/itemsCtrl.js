@@ -1,5 +1,12 @@
 //https://www.kth.se/social/files/54e66df1f2765449f03b4804/DH2641-2015-DnD.pptx.pdf
-companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObject,Companion) {
+companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObject,Companion, $rootScope) {
+	
+	var ref = new Firebase("https://companion-simulation.firebaseio.com");
+	if ($routeParams.user) {
+    	var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
+  	} else {
+    	var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
+  	}
 
 	$scope.items = [{name:'Rare Candy',image:'rarecandy.png'},
 		{name:'Poke bell',image:'pokebell.png'},
@@ -9,6 +16,18 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	$scope.onDropComplete = function(data,evt) {
 	  console.log("drop success, data:", data);
 	  $scope.givenItems.push(data);
+
+	  // Add level if dropped item is rare candy
+
+		if (data.name === "Rare Candy") {
+
+			var level = $scope.user.lvl + 1;
+			console.log("level: ", level);
+
+			ref.child("users").child($rootScope.user.uid).update({
+	            lvl: level
+	        });
+		}
 	}
 
 	$scope.onDragSuccess = function(data,evt) {
