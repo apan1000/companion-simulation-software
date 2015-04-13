@@ -17,6 +17,7 @@
 </div>
 <div class="create-acc-overlay" ng-click="showCreateAcc=false" ng-show="showCreateAcc">
 	<div id="create-acc-div" ng-click="$event.stopPropagation();">
+		<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="showCreateAcc=false"></span>
 		<h1>Create new account</h1>
 		<form name="createAccForm">
 		    <input type="email" class="form-control login-input" placeholder="Email" id="newEmail" name="newEmail" ng-model="newEmail" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccEmailSuccess, error: newAccEmailError}" required>

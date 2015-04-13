@@ -187,6 +187,12 @@ input[type=email].success, input[type=password].success {
     -webkit-transform: translate(-50%,100px);
 }
 
+.create-acc-close {
+	position: relative;
+	left: 42px;
+	top: -12px;
+}
+
 /* Chat */
 #chat {
 	border: 2px solid;
