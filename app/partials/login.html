@@ -1,23 +1,31 @@
 <div id="login-div">
 	<h1>Welcome</h1>
 	<form name="loginForm">
-	    <input type="email" class="form-control login-input" placeholder="Email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: emailSuccess, error: emailError}" required>
+	    <input type="email" class="form-control login-input" placeholder="Email" id="email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: emailSuccess, error: emailError}" autofocus required>
 	    <input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: passwordSuccess, error: passwordError}" required>
 	    <div ng-class="{success: success, error: error}">{{loginMsg}}</div>
-	    <button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Login</button>
-	    or
-	    <button type="button" class="btn btn-default login-btn" ng-click="createAccount()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">Create account</button>
+	    <button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">
+	    	<img src="images/spinner2.gif" alt="Loading" height="18px" ng-show="loading">
+	    	<span ng-hide="loading">Login</span>
+	    </button>
 	</form>
 	<hr>
-	<div>
-		<button type="button" class="btn btn-info login-btn" ng-click="loginWithSocial('twitter')">Twitter</button>
+	<button type="button" class="btn btn-default login-btn" ng-click="showCreateAcc=true">Create account</button>
+	<button type="button" class="btn btn-info login-btn" ng-click="loginWithSocial('twitter')">Twitter</button>
+	<button type="button" class="btn btn-primary login-btn" ng-click="loginWithSocial('facebook')">Facebook</button>
+	<button type="button" class="btn btn-danger login-btn" ng-click="loginWithSocial('google')">Google+</button>
+</div>
+<div class="create-acc-overlay" ng-click="showCreateAcc=false" ng-show="showCreateAcc">
+	<div id="create-acc-div" ng-click="$event.stopPropagation();">
+		<h1>Create new account</h1>
+		<form name="createAccForm">
+		    <input type="email" class="form-control login-input" placeholder="Email" id="newEmail" name="newEmail" ng-model="newEmail" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccEmailSuccess, error: newAccEmailError}" required>
+		    <input type="password" class="form-control login-input" placeholder="Password" name="newPassword" ng-model="newPassword" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccPasswordSuccess, error: newAccPasswordError}" required>
+		    <div ng-class="{success: newAccSuccess, error: newAccError}">{{newAccMsg}}</div>
+		    <button type="button" class="btn btn-success login-btn" ng-click="createAccount()" ng-disabled="createAccForm.newEmail.$invalid || createAccForm.newPassword.$invalid">
+		    	<img src="images/spinner2.gif" alt="Loading" height="18px" ng-show="loading">
+		    	<span ng-hide="loading">Create!</span>
+		    </button>
+		</form>
 	</div>
-	<div>
-		<button type="button" class="btn btn-primary login-btn" ng-click="loginWithSocial('facebook')">Facebook</button>
-	</div>
-	<div>
-		<button type="button" class="btn btn-danger login-btn" ng-click="loginWithSocial('google')">Google+</button>
-	</div>
-	<div class="login-toast login-success" ng-show="showSuccessToast">{{successMsg}}</div>
-	<div class="login-toast login-error" ng-show="showErrorToast">{{errorMsg}}</div>
 </div>

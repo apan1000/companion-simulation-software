@@ -6,6 +6,7 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
 
   $scope.loginMsg = "";
   $scope.auth = null;
+  $scope.loading = false;
 
   // Logout the user
   $scope.logout = function() {
@@ -15,11 +16,12 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
 
   // Create new account using email and password
   $scope.createAccount = function() {
-    if ($scope.loginForm.email.$valid === true && $scope.loginForm.password.$valid === true) {
-      console.log($scope.loginForm.email);
-      console.log($scope.loginForm.password);
-      var emailVal = $scope.email;
-      var passwordVal = $scope.password;
+    if ($scope.createAccForm.newEmail.$valid === true && $scope.createAccForm.newPassword.$valid === true) {
+      $scope.loading = true;
+      console.log($scope.createAccForm.newEmail);
+      console.log($scope.createAccForm.newPassword);
+      var emailVal = $scope.newEmail;
+      var passwordVal = $scope.newPassword;
       //Companion.createAccount(emailVal, passwordVal);
 
       ref.createUser({
@@ -27,8 +29,10 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
         password : passwordVal
       }, function(error, userData) {
         if (error) {
-          showLoginMsg(error.code);
+          $scope.loading = false;
+          showNewAccMsg(error.code);
         } else {
+          showNewAccMsg("Success! Logging in...")
           console.log("Successfully created user account with uid:", userData.uid);
           console.log(userData);
           ref.child("users").child(userData.uid).set({
@@ -38,25 +42,32 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
             wins: 0,
             losses: 0
           });
-          $scope.loginWithPassword();
+          $scope.loginWithPassword(true);
         }
       });
     }
     else {
-      if ($scope.loginForm.email.$error.email || $scope.loginForm.email.$error.required) {
+      $scope.loading = false;
+      if ($scope.createAccForm.newEmail.$error.email || $scope.createAccForm.newEmail.$error.required) {
         console.log('\nemail error: ');
-        console.log($scope.loginForm.email.$error);
+        console.log($scope.createAccForm.newEmail.$error);
       }
-      else if ($scope.loginForm.password.$error.required)
+      else if ($scope.createAccForm.newPassword.$error.required)
         console.log('\npassword error: ');
-      console.log($scope.loginForm.password.$error);
+        console.log($scope.createAccForm.newPassword.$error);
     }
   }
 
   // Login using email and password
-  $scope.loginWithPassword = function() {
-    var emailVal = $scope.email;
-    var passwordVal = $scope.password;
+  $scope.loginWithPassword = function(isNewAcc) {
+    $scope.loading = true;
+    if (isNewAcc) {
+      var emailVal = $scope.newEmail;
+      var passwordVal = $scope.newPassword;
+    } else {
+      var emailVal = $scope.email;
+      var passwordVal = $scope.password;
+    }
     //Companion.loginWithPassword(emailVal, passwordVal);
 
     ref.authWithPassword({
@@ -64,9 +75,11 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
       password : passwordVal
     }, function(error, authData) {
       if (error) {
+        $scope.loading = false;
         console.log(error);
         showLoginMsg(error.code);
       } else {
+        $scope.loading = false;
         console.log("Authenticated successfully with payload:", authData);
         // Reset email and password inputs
         $scope.email = "";
@@ -148,7 +161,7 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
     });
   }
 
-  // Show success or error message
+  // Show success or error message for login
   function showLoginMsg(obj) {
     var type = "";
     var msg = "";
@@ -158,11 +171,6 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
         type = "success";
         msg = "Logged in!";
         console.log("Logged in!");
-        break;
-      case "EMAIL_TAKEN":
-        type = "emailError";
-        msg = "Email already taken";
-        console.log("The new user account cannot be created because the email is already in use.");
         break;
       case "INVALID_EMAIL":
         type = "emailError";
@@ -200,6 +208,59 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
         else if (type === 'passwordError') {
           $scope.emailError = false;
           $scope.passwordError = true;
+        }
+      });
+    }
+  }
+
+  // Show success or error message for creating account
+  function showNewAccMsg(obj) {
+    var type = "";
+    var msg = "";
+
+    switch (obj) {
+      case Object(obj):
+        type = "success";
+        msg = "Logged in!";
+        console.log("Logged in!");
+        break;
+      case "EMAIL_TAKEN":
+        type = "emailError";
+        msg = "Email already taken";
+        console.log("The new user account cannot be created because the email is already in use.");
+        break;
+      case "INVALID_EMAIL":
+        type = "emailError";
+        msg = "Invalid Email";
+        console.log("The specified email is not a valid email.");
+        break;
+      case "INVALID_PASSWORD":
+        type = "passwordError";
+        msg = "Wrong Password, try again.";
+        break;
+      default:
+        console.log(obj);
+    }
+
+    if (type === 'success') {
+      $timeout(function(){
+        $scope.newAccSuccess = true;
+        $scope.newAccMsg = msg;
+        $scope.newAccEmailSuccess = true;
+        $scope.newAccPasswordSuccess = true;
+      });
+    }
+    else if (type === 'emailError' || type === 'passwordError') {
+      $timeout(function(){
+        $scope.newAccError = true;
+        $scope.newAccMsg = msg;
+        if (type === 'emailError') {
+          $scope.newAccEmailError = true;
+          $scope.newAccPasswordError = false;
+        }
+        else if (type === 'passwordError') {
+          $scope.newAccEmailError = false;
+          $scope.newAccPasswordError = true;
         }
       });
     }

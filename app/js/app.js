@@ -43,7 +43,7 @@ companionApp.config(['$routeProvider',
       });
 }]);
 
-// Scroll to bottom directive
+// Scroll to bottom directive, http://stackoverflow.com/questions/26343832/scroll-to-bottom-in-chat-box-in-angularjs
 companionApp.directive('scrollBottom', function () {
   return {
     scope: {

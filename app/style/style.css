@@ -45,37 +45,6 @@ input[type=email].success, input[type=password].success {
 	border-color: #30a939;
 }
 
-.login-toast {
-	z-index: 100;
-	position: absolute;
-	top: 80px;
-	left: 50%;
-	transform: translateX(-50%);
-	padding-left: 50px;
-	padding-right: 50px;
-	padding-top: 25px;
-	padding-bottom: 25px;
-	border-radius: 15px;
-	box-shadow: 0 0 15px 0 rgba(0,0,0,.8);
-	transition: .3s linear all;
-    opacity: .95;
-    font-size: 16pt;
-}
-
-.login-success {
-	background: #30a939;
-	color: #fff;
-}
-
-.login-error {
-	background: #a93039;
-	color: #fff;
-}
-
-.login-toast.ng-hide {
-	opacity: 0;
-}
-
 /* 
 	Allow angular.js to be loaded in body, hiding cloaked elements until 
 	templates compile.  The !important is important given that there may be 
@@ -151,13 +120,71 @@ input[type=email].success, input[type=password].success {
 	width: 250px;
 }
 
-.login-input ~ button {
+/*.login-input ~ button {
 	width: 30%;
 	max-width: 130px;
-}
+}*/
 
 #logout-btn {
 	margin-right: 15px;
+}
+
+.create-acc-overlay {
+ 	z-index: 99;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(250,250,250,0.5);
+ }
+
+.create-acc-overlay.ng-hide-add.ng-hide-add-active,
+.create-acc-overlay.ng-hide-remove.ng-hide-remove-active,
+.create-acc-overlay.ng-hide-add.ng-hide-add-active #create-acc-div,
+.create-acc-overlay.ng-hide-remove.ng-hide-remove-active #create-acc-div {
+  -webkit-transition: all ease-in-out 0.2s;
+  transition: all ease-in-out 0.2s;
+}
+
+#create-acc-div {
+	z-index: 100;
+	position: absolute;
+	top: 85px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 40%;
+	min-width: 400px;
+	max-width: 500px;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-top: 20px;
+	padding-bottom: 45px;
+	border-radius: 5px;
+	background: #fff;
+	box-shadow: 0 0 20px 0 rgba(0,0,0,.5);
+	opacity: 1;
+	overflow: hidden;
+	text-align: center;
+    font-size: 12pt;
+}
+
+.create-acc-overlay.ng-hide, .create-acc-overlay.ng-hide #create-acc-div {
+	opacity: 0;
+}
+
+.create-acc-overlay.ng-hide #create-acc-div {
+	min-width: 0;
+	width: 50px;
+	height: 200px;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	box-shadow: 0 0 200px 0 rgba(0,0,0,1);
+    transform: translate(-50%,100px);
+	-ms-transform: translate(-50%,100px);
+    -webkit-transform: translate(-50%,100px);
 }
 
 /* Chat */
