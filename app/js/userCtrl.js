@@ -119,12 +119,4 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     console.log("The read failed: " + errorObject.code);
   });
 
-  $scope.onDropComplete = function(data,evt) {
-    console.log("dragged candy success, data:", data); 
-  }
-
-  $scope.onDragSuccess = function(data,evt) {
-          console.log("drag success, data:", data);
-      }
-
 });

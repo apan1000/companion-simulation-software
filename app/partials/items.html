@@ -1,6 +1,4 @@
 <div class="col-sm-12" id="items">
 	<div>Items</div>
-	<img src="images/rarecandy.png" id="itemImage" alt="Rare Candy" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="obj.allowClone !== false"></img>
-	<img src="images/pokebell.png" id="itemImage" alt="Toy" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="obj.allowClone !== false"></img>
-	<img src="images/potion.png" id="itemImage" alt="Potion" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="obj.allowClone !== false"></img>
+	<img ng-repeat="item in items" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="item.allowClone !== false">
 </div>

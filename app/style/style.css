@@ -136,15 +136,15 @@ input[type=email].success, input[type=password].success {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: rgba(250,250,250,0.5);
+	background: rgba(0,10,20,0.7);
  }
 
 .create-acc-overlay.ng-hide-add.ng-hide-add-active,
 .create-acc-overlay.ng-hide-remove.ng-hide-remove-active,
 .create-acc-overlay.ng-hide-add.ng-hide-add-active #create-acc-div,
 .create-acc-overlay.ng-hide-remove.ng-hide-remove-active #create-acc-div {
-  -webkit-transition: all ease-in-out 0.2s;
-  transition: all ease-in-out 0.2s;
+  -webkit-transition: all ease-in-out .2s;
+  transition: all ease-in-out .2s;
 }
 
 #create-acc-div {
@@ -322,6 +322,12 @@ input[type=email].success, input[type=password].success {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 150px;
+}
+
+.monsterImage.drag-enter {
+	-ms-transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
 }
 
 #yourMonsterImage {
