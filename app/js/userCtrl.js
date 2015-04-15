@@ -5,9 +5,9 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
 
   if ($routeParams.user) {
-    var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
+    var userRef = ref.child('users/'+$routeParams.user);
   } else {
-    var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
+    var userRef = ref.child('users/'+Companion.getUser().uid);
   }
 
   $scope.hatchEgg = function() {
@@ -22,13 +22,13 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
         Companion.sprite.get({uri:spriteUri}, function(spriteData){
           $scope.status = "";
           var spriteUrl =  'http://pokeapi.co' + spriteData.image;
-          console.log(spriteUrl);
+          console.log(data.evolutions);
 
           // Set companion
-          var evolutionsArray = [];
-          for (var i = 0; i < data.evolutions.length; i++) {
-            evolutionsArray.push(data.evolutions[i]);
-          }
+          // var evolutionsArray = [];
+          // for (var i = 0; i < data.evolutions.length; i++) {
+          //   evolutionsArray.push(data.evolutions[i]);
+          // }
           var typesArray = [];
           for (var i = 0; i < data.types.length; i++) {
             typesArray.push(data.types[i].name);
@@ -37,7 +37,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
           companion = {
             attack:data.attack,
             defense:data.defense,
-            evolutions:evolutionsArray,
+            evolutions:data.evolutions,
             exp:0,
             happiness:data.happiness,
             height:data.height,
@@ -53,7 +53,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
             weight:data.weight
           };
           // Set user pokemon as companion
-          ref.child("users").child($rootScope.user.uid).update({
+          userRef.update({
             pokemon: companion
           });
           // getPokemon();
@@ -79,22 +79,14 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     else {
       $scope.pokemon = $scope.user.pokemon;
       $scope.sprite = $scope.pokemon.sprite;
-      // Companion.pokemon.get({id:$scope.user.pokemon}, function(data){
-      //     $scope.pokemon = data;
-      //     // console.log($scope.pokemon);
-      //     getSprite();
-      //     getAttacks();
-      //   }, function(data){
-      //     $scope.status = "There was an error";
-      // });
     }
   }
 
-  var getAttacks = function() {
-    $scope.moves = $scope.pokemon.moves;
-    $scope.attacks = $scope.moves.slice(0,1,2,3);
-    // console.log("Attacks:"+$scope.attacks);
-  }
+  // var getAttacks = function() {
+  //   $scope.moves = $scope.pokemon.moves;
+  //   $scope.attacks = $scope.moves.slice(0,1,2,3);
+  //   // console.log("Attacks:"+$scope.attacks);
+  // }
 
   // Get the sprite of $scope.pokemon and set it as $scope.sprite NOT USED ATM!!!
   var getSprite = function() {

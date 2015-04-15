@@ -279,6 +279,9 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
       if (authData.provider !== 'password') {
         addUserIfNew(authData);
       }
+    } else if (Companion.getUser()) {
+      console.log("huehue",authData);
+      //setUser(null);
     }
   });
 

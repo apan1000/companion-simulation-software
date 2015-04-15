@@ -1,12 +1,7 @@
 companionApp.controller('CanvasCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope) {
 
 	var ref = new Firebase("https://companion-simulation.firebaseio.com");
-	  if ($routeParams.user) {
-	    var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
-	  } else {
-	    var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
-	  }
-
+	var userRef = ref.child('users/'+$rootScope.user.uid);
 	
 	$scope.testDraw = function($scope) {
 

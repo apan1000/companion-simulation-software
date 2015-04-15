@@ -70,7 +70,7 @@ which module to associate the app with. In app.js we create the "companionSimula
               <li><button type="button" class="btn btn-danger login-btn" ng-click="loginWithSocial('google')">Google+</button></li>
             </ul>
           </li-->
-          <li ng-show="auth">
+          <li ng-show="auth || user">
           	<button type="button" id="logout-btn" class="btn btn-default navbar-btn" ng-click="logout()">Logout</button>
           </li>
         </ul>

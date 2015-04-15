@@ -3,13 +3,7 @@
 companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope) {
 
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
-
-  if ($routeParams.user) {
-    var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$routeParams.user);
-  } else {
-    var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
-  }
-  var tempAlive = false;
+  var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
   // Get pokemon data
   var getPokemon = function() {
@@ -42,24 +36,28 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     var random1 = Math.floor((Math.random() * 10) + 1);
     var random2 = Math.floor((Math.random() * 10) + 1);
 
-    $scope.temp_monster.hp -= Math.floor(($scope.pokemon.attack*random1)/$scope.temp_monster.defense);
-    $scope.pokemon.curHp -= Math.floor(($scope.temp_monster.attack*random2)/$scope.pokemon.defense);
-
-    if ($scope.temp_monster.hp<=0 && tempAlive){
-      tempAlive = false;
-      $scope.pokemon.exp += 30;
-      userRef.child("pokemon").update({
-            exp: $scope.pokemon.exp
-          });
-      console.log($scope.pokemon);
-      getSpecificPokemon(randomMonster);
-      $scope.pokemon.curHp = $scope.pokemon.hp;
+    if ($scope.temp_monster.hp === 0) {
+      return
+    } else {
+      $scope.temp_monster.hp = Math.max(0,$scope.temp_monster.hp-Math.floor(($scope.pokemon.attack*random1)/$scope.temp_monster.defense));
+      $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.pokemon.defense));
+      if ($scope.temp_monster.hp<=0) {
+        $scope.pokemon.exp += 30;
+        $scope.pokemon.hp += Math.floor(Math.random()*21)-10; //Add or subtract hp, very exciting
+        userRef.child("pokemon").update({
+              exp: $scope.pokemon.exp,
+              hp: $scope.pokemon.hp
+            });
+        console.log($scope.pokemon);
+        //getSpecificPokemon(randomMonster);
+        $scope.pokemon.curHp = $scope.pokemon.hp;
+      }
     }
 
     if ($scope.pokemon.curHp<=0){
         console.log("Random id will be: "+ randomPoke);
 
-        ref.child("users").child($rootScope.user.uid).update({ //Gör väldigt många calls i consolen när den dör
+        userRef.update({ //Gör väldigt många calls i consolen när den dör
                 pokemon: 'egg',
                 lvl: 0
               });
@@ -81,7 +79,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     */
     Companion.pokemon.get({id:monster_id}, function(data){
         $scope.temp_monster = data;
-        tempAlive = true;
         console.log($scope.temp_monster);
         getSprite($scope.temp_monster);
         //console.log("TEMP_MONSTER_IMG: "+temp_monster.species);

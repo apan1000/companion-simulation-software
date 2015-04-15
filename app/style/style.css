@@ -195,7 +195,6 @@ input[type=email].success, input[type=password].success {
 
 /* Chat */
 #chat {
-	border: 2px solid;
 	background: #fff;
 	padding-bottom: 15px;
 	word-wrap: break-word;
