@@ -13,9 +13,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
 $scope.startCombat = function() {
   $scope.combo = 1;
-  var random = Math.floor((Math.random() * 718) + 1);
-  getSpecificPokemon(random);
   $scope.battle = true;
+  reduceTime(); //START MORTAL COMBAT
 }
 
 
@@ -64,8 +63,6 @@ function reduceTime() {
     $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.pokemon.defense));
 
     if ($scope.pokemon.curHp<=0){
-      console.log("Random id will be: "+ randomPoke);
-
       userRef.update({ //Gör väldigt många calls i consolen när den dör
               pokemon: 'egg',
               lvl: 0
@@ -76,10 +73,10 @@ function reduceTime() {
 
   $scope.attackEnemy = function() {
 
-    var randomMonster = Math.floor((Math.random() * 500) + 1);
-    var randomPoke = Math.floor((Math.random() * 500) + 1);
-    var random1 = Math.floor((Math.random() * 10) + 1);
-    var random2 = Math.floor((Math.random() * 10) + 1);
+    console.log("WE ARE ATTACKING");
+    var randomMonster = Math.floor((Math.random() * 718) + 1);
+    var randomAtk1 = Math.floor((Math.random() * 10) + 1);
+    var randomAtk2 = Math.floor((Math.random() * 10) + 1);
 
     if ($scope.temp_monster.curHp === 0) {
       return
@@ -91,10 +88,9 @@ function reduceTime() {
       else{
         $scope.combo = 1;
       }
-      $scope.timer = 10;
 
-      $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-Math.floor(($scope.pokemon.attack*random1*$scope.combo)/$scope.temp_monster.defense));
-      $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.pokemon.defense));
+      $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-Math.floor(($scope.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense));
+      $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.pokemon.defense));
       if ($scope.temp_monster.curHp<=0) {
         $scope.battle = false;
         $scope.pokemon.exp += 30;
@@ -103,11 +99,11 @@ function reduceTime() {
               exp: $scope.pokemon.exp,
               hp: $scope.pokemon.hp
             });
+        getSpecificPokemon(randomMonster);
         console.log($scope.pokemon);
-        //getSpecificPokemon(randomMonster);
         $scope.pokemon.curHp = $scope.pokemon.hp;
       }
-
+      $scope.timer = 10;
     }
 
     if ($scope.pokemon.curHp<=0){
@@ -138,7 +134,6 @@ function reduceTime() {
         getSprite($scope.temp_monster);
         $scope.temp_monster.curHp = $scope.temp_monster.hp;
         //console.log("TEMP_MONSTER_IMG: "+temp_monster.species);
-        reduceTime(); //START MORTAL COMBAT
 
       }, function(data){
         $scope.status = "There was an error";
@@ -166,6 +161,8 @@ function reduceTime() {
     $scope.user = snapshot.val();
     console.log($scope.user);
     getPokemon();
+    var random = Math.floor((Math.random() * 718) + 1);
+    getSpecificPokemon(random);
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
