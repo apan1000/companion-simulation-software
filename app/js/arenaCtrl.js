@@ -1,11 +1,13 @@
 // User controller that we use whenever we want to display detailed
 // information about a user
-companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout) {
+companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout,$location) {
 
   $scope.combo = 1;
-  $scope.maxTimer = 10;
+  $scope.maxTimer = 100;
   $scope.battle = false;
-  $scope.timer = $scope.maxTimer;
+  $scope.timer = 0;
+  $scope.rightMoment = "";
+  var rate = 20;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
@@ -19,18 +21,27 @@ $scope.startCombat = function() {
 
 
 function reduceTime() {
-  if ($scope.timer>0){
+  if ($scope.timer < $scope.maxTimer){
     //console.log($scope.timer);
-    $scope.timer = $scope.timer - 1;
+    $scope.timer = $scope.timer + 1;
+
+    if ($scope.timer <= 90 && $scope.timer >= 70){
+        $scope.rightMoment = "progress-bar-success";
+      }
+      else{
+        $scope.rightMoment = "";
+      }
+      
   }
   else
   {
+    rate = Math.floor((Math.random() * 10) + 10);
     takeDmg();
-    $scope.timer = 10;
+    $scope.timer = 0;
   }
 
   if($scope.battle){
-    $timeout( function(){ reduceTime(); }, 200);
+    $timeout( function(){ reduceTime(); }, rate);
   }
 }
 
@@ -73,7 +84,6 @@ function reduceTime() {
 
   $scope.attackEnemy = function() {
 
-    console.log("WE ARE ATTACKING");
     var randomMonster = Math.floor((Math.random() * 718) + 1);
     var randomAtk1 = Math.floor((Math.random() * 10) + 1);
     var randomAtk2 = Math.floor((Math.random() * 10) + 1);
@@ -82,7 +92,7 @@ function reduceTime() {
       return
     } else {
 
-      if ($scope.timer <= 3 && $scope.timer >= 1){
+      if ($scope.timer <= 90 && $scope.timer >= 70){
         $scope.combo += 1;
       }
       else{
@@ -97,13 +107,13 @@ function reduceTime() {
         $scope.pokemon.hp += Math.floor(Math.random()*21)-10; //Add or subtract hp, very exciting
         userRef.child("pokemon").update({
               exp: $scope.pokemon.exp,
-              hp: $scope.pokemon.hp
+              hp: $scope.pokemon.hp,
             });
-        getSpecificPokemon(randomMonster);
         console.log($scope.pokemon);
         $scope.pokemon.curHp = $scope.pokemon.hp;
       }
-      $scope.timer = 10;
+      rate = Math.floor((Math.random() * 10) + 10);
+      $scope.timer = 0;
     }
 
     if ($scope.pokemon.curHp<=0){
@@ -119,24 +129,13 @@ function reduceTime() {
 
   var getSpecificPokemon = function(monster_id) {
     
-    /*
-    console.log("GET_MONSTER");
-    var temp_monster = Companion.getMonster(monster_id);
-
-    temp_monster.then(function(result) {
-       $scope.temp_monster = result;
-       console.log("data.name"+$scope.temp_monster.name);
-    });
-    */
     Companion.pokemon.get({id:monster_id}, function(data){
         $scope.temp_monster = data;
-        console.log($scope.temp_monster);
         getSprite($scope.temp_monster);
         $scope.temp_monster.curHp = $scope.temp_monster.hp;
-        //console.log("TEMP_MONSTER_IMG: "+temp_monster.species);
-
+        console.log($scope.temp_monster);
       }, function(data){
-        $scope.status = "There was an error";
+        $scope.status = "Could not find a new enemy";
     });
   }
 
@@ -158,13 +157,17 @@ function reduceTime() {
 
   // Attach an asynchronous callback to read the data at our posts reference and get user
   userRef.on("value", function(snapshot) {
-    $scope.user = snapshot.val();
-    console.log($scope.user);
-    getPokemon();
-    var random = Math.floor((Math.random() * 718) + 1);
-    getSpecificPokemon(random);
-  }, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  });
+    var url = $location.url();
+    if(url === "/fields"){
+      console.log(url);
+      $scope.user = snapshot.val();
+      console.log($scope.user);
+      getPokemon();
+      var random = Math.floor((Math.random() * 718) + 1);
+      getSpecificPokemon(random);
+    }
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
 
 });

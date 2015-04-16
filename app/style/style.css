@@ -347,11 +347,11 @@ input[type=email].success, input[type=password].success {
 
 .fightImage {
 
-	height:250px;
+	height:220px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 300px;
+	margin-top: 270px;
 
 	-webkit-transition: margin 0.2s ease-out;
     -moz-transition: margin 0.2s ease-out;
@@ -360,14 +360,13 @@ input[type=email].success, input[type=password].success {
 
 .fightImage:hover {
 
-	margin-top: 290px;
+	margin-top: 210px;
 
 }
 
 .fightImage:active {
 
 	height:240px;
-	margin-top: 290px;
 
 }
 
@@ -441,3 +440,13 @@ input[type=email].success, input[type=password].success {
     position: relative;
     z-index: 2;
 }*/
+
+/* BOOTSTRAP CHANGES */
+
+.progress-bar {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}
