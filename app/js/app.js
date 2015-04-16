@@ -63,6 +63,26 @@ companionApp.directive('scrollBottom', function () {
   }
 });
 
+// Canvas directive
+companionApp.directive("canvasDirJao", function(){
+  return {
+    restrict: "A",
+    link: function(scope, elem, attrs){
+    	elem.bind('click', function() {
+    		console.log(scope.totalViewers);
+        scope.$apply(function() {
+          scope.context = elem[0].getContext('2d');
+        });
+      });
+        
+      // canvas reset
+      function reset(){
+       scope.context.clearRect (0, 0, canvas.width, canvas.height);
+      }
+    }
+  };
+});
+
 companionApp.run(function($rootScope, $location) {
 	$rootScope.$on("$routeChangeStart", function(event, next, current) {
 		if ($rootScope.user == null) {

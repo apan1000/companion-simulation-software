@@ -3,7 +3,7 @@
 // dependency on any service you need. Angular will ensure that the
 // service is created first time it is needed and then just reuse it
 // the next time.
-companionApp.factory('Companion',function ($resource,$localStorage,$rootScope,$location,$timeout) {
+companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$location,$timeout) {
 	// Pokémon API
   var POKE_API = 'http://pokeapi.co';
   this.pokemon = $resource(POKE_API + '/api/v1/pokemon/:id');
