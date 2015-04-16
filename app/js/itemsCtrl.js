@@ -8,14 +8,27 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 		{name:'Poke bell',image:'pokebell.png'},
 		{name:'Potion',image:'potion.png'}];
 	$scope.givenItems = [];
+	/*$scope.reactionImage = "";*/
 
 	$scope.onDropComplete = function(data,evt) {
 	  console.log("drop success, data:", data);
 	  $scope.givenItems.push(data);
 
 	  // Add level if dropped item is rare candy
+	  	var reactionDiv = document.getElementById("reactionImg");
+
+	  	var showReaction = function(){
+      		reactionDiv.style.display = "";
+      		setTimeout(hideReaction, 3000);  // 3 seconds
+    	}
+
+    	var hideReaction = function(){
+      		reactionDiv.style.display = "none";
+    	}
 
 		if (data.name === "Rare Candy") {
+
+			/*$scope.reactionImage = "levelup.png";*/
 
 			var level = $scope.user.lvl + 1;
 			console.log("level: ", level);
@@ -23,11 +36,20 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 			ref.child("users").child($rootScope.user.uid).update({
 	            lvl: level
 	        });
+
+    		
 		}
+		showReaction();
 	}
 
 	$scope.onDragSuccess = function(data,evt) {
-	  console.log("drag success, data:", data);
+	  	console.log("drag success, data:", data);
+	  	if (data.name === "Rare Candy") {
+			$scope.reactionImage = "levelup.png";
+		}
+		if (data.name === "Poke bell") {
+			$scope.reactionImage = "prettyspeech.png";
+		}
 	}
 
 	/*target.addEventListener("drop", function(event) {
