@@ -30,10 +30,10 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 
 			/*$scope.reactionImage = "levelup.png";*/
 
-			var level = $scope.user.lvl + 1;
+			var level = $scope.user.pokemon.lvl + 1;
 			console.log("level: ", level);
 
-			ref.child("users").child($rootScope.user.uid).update({
+			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
 	            lvl: level
 	        });
 
