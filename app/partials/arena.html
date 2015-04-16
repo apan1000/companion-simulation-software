@@ -1,16 +1,26 @@
 <div id="arena">
 	{{status}}
-	<div class="col-md-6">
-		<h2>{{pokemon.name}} with {{pokemon.curHp}} hp</h2>
-		<img class="fightImage" id="yourMonsterImage" ng-src="{{pokemon.sprite}}" alt="*">
+	<div class="col-md-5">
+		<h2>{{pokemon.name}}</h2>
+		<progress id="health" value="{{pokemon.curHp}}" max="{{pokemon.hp}}"></progress>
+		<img class="fightImage" id="yourMonsterImage" ng-src="{{pokemon.sprite}}" alt=">:(">
 	</div>
 
-	<div class="col-md-6 enemy_monster">
-		<h2>{{temp_monster.name}} with {{temp_monster.hp}} hp</h2>
+	<div class="col-md-2">
+		<h2>Time: {{timer}}</h2>
+		<progress id="health" value="{{timer}}" max="{{maxTimer}}"></progress>
+		<h2>Combo: {{combo}}</h2>
+		<button ng-class="Status" class="btn btn-primary" ng-click="attackEnemy()">PUNCH</button>
+		<button ng-class="Status" class="btn btn-danger" ng-click="startCombat()">START COMBAT</button>
+	</div>
+
+	<div class="col-md-5 enemy_monster">
+		<h2>{{temp_monster.name}}</h2>
+		<progress id="health" value="{{temp_monster.curHp}}" max="{{temp_monster.hp}}"></progress>
 		<!--<h3>Attack: {{temp_monster.attack}}</h3>
 		<h3>Defense: {{temp_monster.defense}}</h3>
 		<h1>Hp: {{temp_monster.hp}}</h1>-->
-		<img class="fightImage" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt="*">
+		<img class="fightImage" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt=":D">
 	</div>
 	<!--<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">-->
 </div>

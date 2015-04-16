@@ -13,12 +13,15 @@
 	</div>
 	<h4>Total Score: </h4>
 	<h4>Rank: </h4>
-	<div class="hpbar">
-		<h4>HP</h4>
-	</div>
-	<div id="hp">x/{{pokemon.hp}}</div>
-	<div class="expbar">
-		<h4>EXP</h4>
+	<div ng-controller="ArenaCtrl">
+		<div class="hpbar">
+			<h4>HP</h4>
+			<progress id="health" value="{{pokemon.curHp}}" max="{{pokemon.hp}}"></progress>
+		</div>
+		<div id="hp">{{pokemon.curHp}}/{{pokemon.hp}}</div>
+		<div class="expbar">
+			<h4>EXP</h4>
+		</div>
 	</div>
 	<h3>Attack: {{pokemon.attack}}</h3>
 	<h3>Defense: {{pokemon.defense}}</h3>
