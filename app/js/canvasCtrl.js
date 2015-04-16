@@ -2,6 +2,7 @@ companionApp.controller('CanvasCtrl', function ($scope,$routeParams,$firebaseObj
 
 	// Kollar när folk är inne på sidan: http://www.ng-newsletter.com/advent2013/#!/day/9
 	$scope.totalViewers = 0;
+	$scope.onlineUsers = [];
 
 	var ref = new Firebase("https://companion-simulation.firebaseio.com");
 	var userRef = ref.child('users/'+$rootScope.user.uid);
@@ -31,10 +32,11 @@ companionApp.controller('CanvasCtrl', function ($scope,$routeParams,$firebaseObj
 	}
 
 	$scope.$on('onOnlineUser', function() {
+		console.log($scope.onlineUsers);
     $scope.$apply(function() {
       $scope.totalViewers = ChatService.getOnlineUserCount();
-      //context.clearRect (0, 0, canvas.width, canvas.height);
-      //context.fillText($scope.totalViewers,10,50);
+      $scope.onlineUsers = ChatService.getOnlineUsers();
+      console.log($scope.onlineUsers);
     });
   });
 
