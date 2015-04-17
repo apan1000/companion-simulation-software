@@ -14,7 +14,7 @@
 		<div class="col-md-5 text-center">
 			<h2>{{pokemon.name}}</h2>
 			<progress id="health" value="{{pokemon.curHp}}" max="{{pokemon.hp}}"></progress>
-			<img class="fightImage" id="yourMonsterImage" ng-src="{{pokemon.sprite}}" alt="*">
+			<img class="fightImage" ng-class="myMonsterAni" id="yourMonsterImage" ng-src="{{pokemon.sprite}}" alt="*">
 		</div>
 
 		<div class="col-md-2 text-center">
@@ -30,7 +30,7 @@
 			<!--<h3>Attack: {{temp_monster.attack}}</h3>
 			<h3>Defense: {{temp_monster.defense}}</h3>
 			<h1>Hp: {{temp_monster.hp}}</h1>-->
-			<img class="fightImage" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt="">
+			<img class="fightImage" ng-class="enemyMonsterAni" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt="">
 		</div>
 	</div>
 	<!--<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">-->

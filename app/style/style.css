@@ -347,11 +347,10 @@ input[type=email].success, input[type=password].success {
 
 .fightImage {
 
-	height:220px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 270px;
+	margin-top: 320px;
 
 	-webkit-transition: margin 0.2s ease-out;
     -moz-transition: margin 0.2s ease-out;
@@ -360,7 +359,7 @@ input[type=email].success, input[type=password].success {
 
 .fightImage:hover {
 
-	margin-top: 210px;
+	margin-top: 300px;
 
 }
 
@@ -371,8 +370,6 @@ input[type=email].success, input[type=password].success {
 }
 
 #items {
-	border-style: solid;
-	border-width: 2px;
 	font-family: "Coda";
 	font-size: 15pt;
 	position: relative;
