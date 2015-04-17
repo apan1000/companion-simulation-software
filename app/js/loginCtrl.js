@@ -38,7 +38,6 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
           ref.child("users").child(userData.uid).set({
             name: emailVal.replace(/@.*/, ''),
             pokemon: 'egg',
-            lvl: 0,
             wins: 0,
             losses: 0
           });
@@ -155,7 +154,9 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
       if (snapshot.val() === null) {
         usersRef.child(authData.uid).set({
           name: getName(authData),
-          pokemon: 'egg'
+          pokemon: 'egg',
+          wins: 0,
+          losses: 0
         });
       }
     });
