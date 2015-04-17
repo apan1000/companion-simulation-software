@@ -51,6 +51,9 @@ app.directive("drawing", function($document){
             update();
             render();
         }
+        //Init Background
+        var background = new Image();
+        background.src = "../images/background.png";
 
 
 
@@ -94,10 +97,14 @@ app.directive("drawing", function($document){
         
         function render(){
             ctx.clearRect(0, 0, canvas.width, canvas.height);;
-
+            drawBackground();
             drawPlayer();
             setTimeout( render, 1000 / 30 );
             //requestAnimationFrame(render);
+        }
+        
+        function drawBackground(){
+          ctx.drawImage(background,0,0);
         }
 
         function drawPlayer(){

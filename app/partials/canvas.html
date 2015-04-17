@@ -1,12 +1,10 @@
 <div id="canvas">
 	<div class="col-md-6">
-		<button ng-click="testDraw()" id="drawsmth" class="btn btn-default btn-lg" type="button">Draw something</button>
-		<canvas id="chatBar" width="500" height="300" drawing>
-			Canvas not supported, please use Chrome or Firefox.
-		</canvas>
-	</div>
-	<div class="col-md-4">
 		Total viewers: {{totalViewers}}
 		<span ng-repeat="onlineUser in onlineUsers"><p>{{onlineUser.name}}</p></span>
+		<button ng-click="testDraw()" id="drawsmth" class="btn btn-default btn-lg" type="button">Draw something</button>
+		<canvas id="chatBar" width="620" height="400" drawing>
+			Canvas not supported, please use Chrome or Firefox.
+		</canvas>
 	</div>
 </div>
