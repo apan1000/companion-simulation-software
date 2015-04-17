@@ -30,7 +30,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     return $resource(POKE_API + uri).get(function(data){
       console.log(data);
       return data;
-    }, function(data){
+    }, function(data){67
       return data;
     });;
   }

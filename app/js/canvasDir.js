@@ -34,6 +34,9 @@ app.directive("drawing", function($document){
   return {
     restrict: "A",
     link: function(scope, element, attrs){
+
+        var ref = new Firebase("https://companion-simulation.firebaseio.com");
+        var usersRef = ref.child("users");
         //Settings
         var movespeed = 300;
 
@@ -55,7 +58,8 @@ app.directive("drawing", function($document){
         var background = new Image();
         background.src = "../images/background.png";
 
-
+        var otherPlayers = [];
+        var otherPlayersImages = [];
 
         window.requestAnimationFrame = function(){
             return(
@@ -91,7 +95,7 @@ app.directive("drawing", function($document){
         function update(){
             setDelta();
             movePlayer();
-            setTimeout( update, 1000 / 60 );
+            setTimeout( update, 1000 / 60 );//multifaster
         }
 
         
@@ -99,6 +103,7 @@ app.directive("drawing", function($document){
             ctx.clearRect(0, 0, canvas.width, canvas.height);;
             drawBackground();
             drawPlayer();
+            drawOthers();
             setTimeout( render, 1000 / 60 );
             //requestAnimationFrame(render);
         }
@@ -189,20 +194,47 @@ app.directive("drawing", function($document){
        // var lastX;
        // var lastY;
 
-        var drawOthers = function(){
-            for(i in otherPlayers.length){
-                ctx.drawImage(otherPlayers[i].Image, otherPlayers[i].x, otherPlayers[i].y);
-            }
-        }
+        getSprite = function(sprites){
+        	for (i in sprites){
+        		var otherImage = new Image();
+            	var other = {x:10,y:10};
+            	otherImage.src = scope.user.pokemon.sprite;
+            	otherPlayers.push(player);
+            	otherPlayersImages.push(otherImage);
 
-        var draw = function(){
-            if(!redraw)
-                return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            //What to draw
-            drawPlayer();
-            drawOthers();
+        	}
+
+       }
+
+
+        var drawOthers = function(){
+   //      	var i = 0;
+   //      	angular.forEach(otherPlayers, function(user, key) {
+			//   ctx.drawImage(otherPlayersImages[i], user.x, user.y);
+			//   i++;
+			// });
+   //          for(i in otherPlayers){
+   //              ctx.drawImage(otherPlayers[i].Image, otherPlayers[i].x, otherPlayers[i].y);
+   //          }
         }
+   //      var sprites = [];
+   //      usersRef.once("value", function(snapshot) {
+   //          var array = snapshot.val();
+   //        	angular.forEach(array, function(user, key) {
+			//   this.push(user.pokemon.sprite);
+			// }, sprites);
+			// getSprite(sprites);
+   //          }, function (errorObject) {
+   //          console.log("The read failed: " + errorObject.code);
+   //      });
+        // var draw = function(){
+        //     if(!redraw)
+        //         return;
+        //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //     //What to draw
+        //     drawPlayer();
+        //     drawOthers();
+        // }
 
         //player.x * wallDim + wallDim ,player.y * wallDim + wallDim ,50,50);
 
