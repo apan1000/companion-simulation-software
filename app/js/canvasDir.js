@@ -35,7 +35,7 @@ app.directive("drawing", function($document){
     restrict: "A",
     link: function(scope, element, attrs){
         //Settings
-        var movespeed = 100;
+        var movespeed = 300;
 
         //Init Canvas
         var canvas = element[0];
@@ -91,7 +91,7 @@ app.directive("drawing", function($document){
         function update(){
             setDelta();
             movePlayer();
-            setTimeout( update, 1000 / 30 );
+            setTimeout( update, 1000 / 60 );
         }
 
         
@@ -99,10 +99,10 @@ app.directive("drawing", function($document){
             ctx.clearRect(0, 0, canvas.width, canvas.height);;
             drawBackground();
             drawPlayer();
-            setTimeout( render, 1000 / 30 );
+            setTimeout( render, 1000 / 60 );
             //requestAnimationFrame(render);
         }
-        
+
         function drawBackground(){
           ctx.drawImage(background,0,0);
         }
