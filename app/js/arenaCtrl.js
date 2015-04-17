@@ -124,7 +124,7 @@ function reduceTime() {
               });
         window.location.href = '#/home';
       }
-      rate = Math.floor((Math.random() * 10) + 10);
+      rate = Math.floor((Math.random() * 10) + 12 - $scope.combo);
       $scope.timer = 0;
     }
   }
