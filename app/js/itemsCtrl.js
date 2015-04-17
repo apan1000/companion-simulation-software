@@ -71,7 +71,7 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 		}
 
 		if (data.name === "Poke bell") {
-			//$scope.reactionImage = "prettyspeech.png";
+			$scope.reactionImage = "prettyspeech.png";
 		}
 	}
 
