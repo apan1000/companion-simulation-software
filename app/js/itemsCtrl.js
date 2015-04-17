@@ -27,7 +27,6 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
     	}
 
 		if (data.name === "Rare Candy") {
-
 			/*$scope.reactionImage = "levelup.png";*/
 
 			$scope.user.pokemon.exp = 0;
@@ -37,6 +36,7 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	        $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
 	        console.log("LEVELED UP!");
 
+	        $scope.monsterAni = "animated tada";
 			//var level = $scope.user.pokemon.lvl + 1;
 			//console.log("level: ", level);
 
@@ -46,20 +46,32 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	            lvl: $scope.user.pokemon.lvl,
 	            attack: $scope.user.pokemon.attack,
 	            defense: $scope.user.pokemon.defense
-	        });
-
-    		
+	        });	
 		}
+
+		if (data.name === "Poke bell") {
+			$scope.reactionImage = "prettyspeech.png";
+			$scope.user.pokemon.happiness += 10;
+			$scope.monsterAni = "animated bounce";
+
+			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
+				happiness: $scope.user.pokemon.happiness
+			});
+
+		}
+
 		showReaction();
 	}
 
 	$scope.onDragSuccess = function(data,evt) {
 	  	console.log("drag success, data:", data);
+
 	  	if (data.name === "Rare Candy") {
 			$scope.reactionImage = "levelup.png";
 		}
+
 		if (data.name === "Poke bell") {
-			$scope.reactionImage = "prettyspeech.png";
+			//$scope.reactionImage = "prettyspeech.png";
 		}
 	}
 

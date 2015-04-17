@@ -1,5 +1,5 @@
 <div id="monster" ng-controller="ItemsCtrl">
-	<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)">
+	<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-class="monsterAni" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)">
 	<div ng-repeat="item in givenItems track by $index">
 		<img ng-src="images/{{item.image}}" alt="lel" style="height:25px;display:inline;float:left;background:#f0f;">
 	</div>

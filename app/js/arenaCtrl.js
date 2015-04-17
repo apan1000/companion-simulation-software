@@ -131,9 +131,12 @@ function reduceTime() {
         $scope.combo = 1;
         $scope.enemyMonsterAni = "animated shake";
       }
+      
+      $scope.yourDmg = Math.floor(($scope.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense);
+      $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.pokemon.defense);
 
-      $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-Math.floor(($scope.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense));
-      $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.pokemon.defense));
+      $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-$scope.yourDmg);
+      $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-$scope.enemyDmg);
 
       if ($scope.temp_monster.curHp<=0) { //If enemy is dead
         $scope.enemyMonsterAni = "animated fadeOutUp";
