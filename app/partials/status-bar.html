@@ -13,7 +13,7 @@
 	</div>
 	<h4>Total Score: </h4>
 	<h4>Rank: </h4>
-	<div ng-controller="ArenaCtrl">
+	<div class="row" ng-controller="ArenaCtrl">
 		<div class="hpbar">
 			<h4>HP</h4>
 			<progress id="health" value="{{pokemon.curHp}}" max="{{pokemon.hp}}"></progress>
@@ -21,12 +21,19 @@
 		<div id="hp">{{pokemon.curHp}}/{{pokemon.hp}}</div>
 		<div class="expbar">
 			<h4>EXP</h4>
-			<div id="hp">{{pokemon.exp}}</div>
+			<progress id="expprogress" value="{{pokemon.exp}}" max="300"></progress>
+		</div>
+		<div id="hp">{{pokemon.exp}}/300</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<h4>Attack: {{pokemon.attack}}</h4>
+			<h4>Defense: {{pokemon.defense}}</h4>
+		</div>
+		<div class="col-sm-6">
+			<h4>Happiness: {{pokemon.happiness}}</h4>
 		</div>
 	</div>
-	<h4>Attack: {{pokemon.attack}}</h4>
-	<h4>Defense: {{pokemon.defense}}</h4>
-	<h4>Happiness: {{pokemon.happiness}}</h4>
 	<!--<div class="row">
 		<div class="col-sm-6">
 			<div id="attack"><h4>{{pokemon.abilities[0].name}}</h4></div>

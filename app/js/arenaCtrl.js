@@ -17,6 +17,7 @@ $scope.startCombat = function() {
   if ($scope.battle == false){
     $scope.combo = 1;
     $scope.battle = true;
+    $scope.myMonsterAni = "";
     reduceTime(); //START MORTAL COMBAT
   }
 }
@@ -76,14 +77,31 @@ function reduceTime() {
       $scope.battle = false;
       $scope.pokemon.exp += 30;
       $scope.user.wins += 1; //WINS
-      $scope.pokemon.hp += Math.floor(Math.random()*21)-10; //Add or subtract hp, very exciting
+
+      if ($scope.pokemon.exp>=300){
+        $scope.myMonsterAni = "animated tada";
+        $scope.pokemon.exp = 0;
+        $scope.pokemon.lvl += 1;
+        $scope.pokemon.hp += Math.floor(Math.random()*21)-8;
+        $scope.pokemon.attack += Math.floor(Math.random()*21)-8;
+        $scope.pokemon.defense += Math.floor(Math.random()*21)-8;
+        console.log("LEVELED UP!");
+      }
+      else{
+        $scope.myMonsterAni = "animated bounce";
+      }
+
+       //Add or subtract hp, very exciting
       $timeout(function() {
         userRef.child("pokemon").update({
             exp: $scope.pokemon.exp,
-            hp: $scope.pokemon.hp
+            hp: $scope.pokemon.hp,
+            lvl: $scope.pokemon.lvl,
+            attack: $scope.pokemon.attack,
+            defense: $scope.pokemon.defense
           });
-      },2000);
-      /*userRef.update({ //Gör väldigt många calls i consolen när den dör
+      },500);
+      /*userRef.update({ //Gör väldigt många calls i consolen
             wins: $scope.user.wins
           });
         */
@@ -112,7 +130,7 @@ function reduceTime() {
       $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.pokemon.defense));
 
       if ($scope.temp_monster.curHp<=0) { //If enemy is dead
-        $scope.enemyMonsterAni = "animated hinge";
+        $scope.enemyMonsterAni = "animated fadeOutUp";
         battleWon();
       }
 
@@ -138,7 +156,6 @@ function reduceTime() {
         getSprite($scope.temp_monster);
         $scope.temp_monster.curHp = $scope.temp_monster.hp;
         console.log($scope.temp_monster);
-        $scope.enemyMonsterAni = "";
       }, function(data){
         $scope.status = "Could not find a new enemy";
     });
@@ -170,6 +187,7 @@ function reduceTime() {
       getPokemon();
       var random = Math.floor((Math.random() * 718) + 1);
       getSpecificPokemon(random);
+      $timeout(function (){$scope.enemyMonsterAni = "animated fadeInDown";},1500); //Reset animation when sprite is found
     }
     else{
       $scope.battle = false;

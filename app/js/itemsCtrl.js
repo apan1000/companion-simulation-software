@@ -30,11 +30,22 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 
 			/*$scope.reactionImage = "levelup.png";*/
 
-			var level = $scope.user.pokemon.lvl + 1;
-			console.log("level: ", level);
+			$scope.user.pokemon.exp = 0;
+	        $scope.user.pokemon.lvl += 1;
+	        $scope.user.pokemon.hp += Math.floor(Math.random()*21)-8;
+	        $scope.user.pokemon.attack += Math.floor(Math.random()*21)-8;
+	        $scope.user.pokemon.defense += Math.floor(Math.random()*21)-8;
+	        console.log("LEVELED UP!");
+
+			//var level = $scope.user.pokemon.lvl + 1;
+			//console.log("level: ", level);
 
 			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
-	            lvl: level
+	            exp: $scope.user.pokemon.exp,
+	            hp: $scope.user.pokemon.hp,
+	            lvl: $scope.user.pokemon.lvl,
+	            attack: $scope.user.pokemon.attack,
+	            defense: $scope.user.pokemon.defense
 	        });
 
     		
