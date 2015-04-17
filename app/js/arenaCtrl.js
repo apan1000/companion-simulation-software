@@ -14,9 +14,11 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 //var myVar2=setInterval(function () {reduceTime()}, 1000);
 
 $scope.startCombat = function() {
-  $scope.combo = 1;
-  $scope.battle = true;
-  reduceTime(); //START MORTAL COMBAT
+  if ($scope.battle == false){
+    $scope.combo = 1;
+    $scope.battle = true;
+    reduceTime(); //START MORTAL COMBAT
+  }
 }
 
 
@@ -26,12 +28,11 @@ function reduceTime() {
     $scope.timer = $scope.timer + 1;
 
     if ($scope.timer <= 90 && $scope.timer >= 70){
-        $scope.rightMoment = "progress-bar-success";
-      }
-      else{
-        $scope.rightMoment = "";
-      }
-      
+      $scope.rightMoment = "progress-bar-success";
+    }
+    else{
+      $scope.rightMoment = "";
+    }
   }
   else
   {
@@ -47,7 +48,6 @@ function reduceTime() {
 
   // Get pokemon data
   var getPokemon = function() {
-    // console.log("pokemon: "+$scope.user.pokemon);
     if($scope.user.pokemon === 'egg') {
       $scope.pokemon.sprite = 'images/egg_jump.gif';
     }
@@ -55,16 +55,6 @@ function reduceTime() {
       console.log("WE GOT A MONSTER");
       $scope.pokemon = $scope.user.pokemon;
       $scope.pokemon.curHp = $scope.pokemon.hp;
-
-      // Companion.pokemon.get({id:$scope.user.pokemon}, function(data){
-      //     $scope.status = "";
-      //     $scope.pokemon = data;
-      //     console.log("YOUR POKEMON: "+$scope.pokemon);
-      //     $scope.pokemon.curHp = $scope.pokemon.hp;
-      //     getSprite($scope.pokemon);
-      //   }, function(data){
-      //     $scope.status = "There was an error";
-      // });
     }
   }
 
@@ -80,6 +70,25 @@ function reduceTime() {
             });
       window.location.href = '#/home';
     }
+  }
+
+  var battleWon = function(){
+      $scope.battle = false;
+      $scope.pokemon.exp += 30;
+      $scope.user.wins += 1; //WINS
+      $scope.pokemon.hp += Math.floor(Math.random()*21)-10; //Add or subtract hp, very exciting
+      $timeout(function() {
+        userRef.child("pokemon").update({
+            exp: $scope.pokemon.exp,
+            hp: $scope.pokemon.hp
+          });
+      },2000);
+      /*userRef.update({ //Gör väldigt många calls i consolen när den dör
+            wins: $scope.user.wins
+          });
+        */
+      console.log($scope.pokemon);
+      $scope.pokemon.curHp = $scope.pokemon.hp;
   }
 
   $scope.attackEnemy = function() {
@@ -101,39 +110,35 @@ function reduceTime() {
 
       $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-Math.floor(($scope.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense));
       $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.pokemon.defense));
-      if ($scope.temp_monster.curHp<=0) {
-        $scope.battle = false;
-        $scope.pokemon.exp += 30;
-        $scope.pokemon.hp += Math.floor(Math.random()*21)-10; //Add or subtract hp, very exciting
-        userRef.child("pokemon").update({
-              exp: $scope.pokemon.exp,
-              hp: $scope.pokemon.hp,
-            });
-        console.log($scope.pokemon);
-        $scope.pokemon.curHp = $scope.pokemon.hp;
-      }
-      rate = Math.floor((Math.random() * 10) + 10);
-      $scope.timer = 0;
-    }
 
-    if ($scope.pokemon.curHp<=0){
+      if ($scope.temp_monster.curHp<=0) { //If enemy is dead
+        $scope.enemyMonsterAni = "animated hinge";
+        battleWon();
+      }
+
+      if ($scope.pokemon.curHp<=0){
         $scope.battle = false;
         userRef.update({ //Gör väldigt många calls i consolen när den dör
                 pokemon: 'egg',
                 lvl: 0
               });
         window.location.href = '#/home';
+      }
+      rate = Math.floor((Math.random() * 10) + 10);
+      $scope.timer = 0;
     }
-
   }
 
   var getSpecificPokemon = function(monster_id) {
+
+     //$scope.spinner = "images/spinner2.gif";
     
     Companion.pokemon.get({id:monster_id}, function(data){
         $scope.temp_monster = data;
         getSprite($scope.temp_monster);
         $scope.temp_monster.curHp = $scope.temp_monster.hp;
         console.log($scope.temp_monster);
+        $scope.enemyMonsterAni = "";
       }, function(data){
         $scope.status = "Could not find a new enemy";
     });
@@ -165,6 +170,9 @@ function reduceTime() {
       getPokemon();
       var random = Math.floor((Math.random() * 718) + 1);
       getSpecificPokemon(random);
+    }
+    else{
+      $scope.battle = false;
     }
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);
