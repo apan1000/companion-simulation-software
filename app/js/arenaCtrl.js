@@ -111,6 +111,7 @@ function reduceTime() {
 
   $scope.attackEnemy = function() {
 
+    $scope.enemyMonsterAni = "animated wobble";
     var randomMonster = Math.floor((Math.random() * 718) + 1);
     var randomAtk1 = Math.floor((Math.random() * 10) + 1);
     var randomAtk2 = Math.floor((Math.random() * 10) + 1);
@@ -121,9 +122,11 @@ function reduceTime() {
 
       if ($scope.timer <= 90 && $scope.timer >= 70){
         $scope.combo += 1;
-      }
+        $scope.enemyMonsterAni = "animated rubberBand";
+        }
       else{
         $scope.combo = 1;
+        $scope.enemyMonsterAni = "animated shake";
       }
 
       $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-Math.floor(($scope.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense));
@@ -171,6 +174,7 @@ function reduceTime() {
     Companion.sprite.get({uri:spriteUri}, function(data){
       monster.new_sprite = 'http://pokeapi.co' + data.image;
       console.log("SPRITE DATA "+monster.new_sprite);
+      $scope.enemyMonsterAni = "animated lightSpeedIn";
     }, function(data){
       monster.new_sprite = 'http://imgur.com/gallery/geH3T';
       $scope.status = "There was an error";
@@ -187,7 +191,8 @@ function reduceTime() {
       getPokemon();
       var random = Math.floor((Math.random() * 718) + 1);
       getSpecificPokemon(random);
-      $timeout(function (){$scope.enemyMonsterAni = "animated fadeInDown";},1500); //Reset animation when sprite is found
+      //Ok, den hinner hämta typ 20 pokemons om det finns en timeout här
+      //$timeout(function (){$scope.enemyMonsterAni = "animated fadeInDown";},1500); //Reset animation when sprite is found
     }
     else{
       $scope.battle = false;
