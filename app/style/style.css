@@ -365,7 +365,7 @@ input[type=email].success, input[type=password].success {
 
 .fightImage:active {
 
-	height:240px;
+	.grayscale {-webkit-filter: grayscale(100%);}
 
 }
 

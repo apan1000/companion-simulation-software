@@ -33,8 +33,8 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 			$scope.user.pokemon.exp = 0;
 	        $scope.user.pokemon.lvl += 1;
 	        $scope.user.pokemon.hp += Math.floor(Math.random()*21)-8;
-	        $scope.user.pokemon.attack += Math.floor(Math.random()*21)-8;
-	        $scope.user.pokemon.defense += Math.floor(Math.random()*21)-8;
+	        $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
+	        $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
 	        console.log("LEVELED UP!");
 
 			//var level = $scope.user.pokemon.lvl + 1;

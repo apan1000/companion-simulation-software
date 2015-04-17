@@ -63,6 +63,7 @@ function reduceTime() {
     $scope.combo = 1;
     var random2 = Math.floor((Math.random() * 10) + 1);
     $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.pokemon.defense));
+    $scope.pokemon.happiness = Math.max(0,$scope.pokemon.happiness-1);
 
     if ($scope.pokemon.curHp<=0){
       userRef.update({ //Gör väldigt många calls i consolen när den dör
@@ -77,14 +78,15 @@ function reduceTime() {
       $scope.battle = false;
       $scope.pokemon.exp += 30;
       $scope.user.wins += 1; //WINS
+      $scope.pokemon.happiness += 10;
 
       if ($scope.pokemon.exp>=300){
         $scope.myMonsterAni = "animated tada";
         $scope.pokemon.exp = 0;
         $scope.pokemon.lvl += 1;
         $scope.pokemon.hp += Math.floor(Math.random()*21)-8;
-        $scope.pokemon.attack += Math.floor(Math.random()*21)-8;
-        $scope.pokemon.defense += Math.floor(Math.random()*21)-8;
+        $scope.pokemon.attack += Math.floor(Math.random()*10)-4;
+        $scope.pokemon.defense += Math.floor(Math.random()*10)-4;
         console.log("LEVELED UP!");
       }
       else{
@@ -94,6 +96,7 @@ function reduceTime() {
        //Add or subtract hp, very exciting
       $timeout(function() {
         userRef.child("pokemon").update({
+            happiness: $scope.pokemon.happiness,
             exp: $scope.pokemon.exp,
             hp: $scope.pokemon.hp,
             lvl: $scope.pokemon.lvl,
@@ -113,7 +116,7 @@ function reduceTime() {
 
     $scope.enemyMonsterAni = "animated wobble";
     var randomMonster = Math.floor((Math.random() * 718) + 1);
-    var randomAtk1 = Math.floor((Math.random() * 10) + 1);
+    var randomAtk1 = Math.floor((Math.random() * 5) + 1);
     var randomAtk2 = Math.floor((Math.random() * 10) + 1);
 
     if ($scope.temp_monster.curHp === 0) {
@@ -174,9 +177,9 @@ function reduceTime() {
     Companion.sprite.get({uri:spriteUri}, function(data){
       monster.new_sprite = 'http://pokeapi.co' + data.image;
       console.log("SPRITE DATA "+monster.new_sprite);
-      $scope.enemyMonsterAni = "animated lightSpeedIn";
+      $scope.enemyMonsterAni = "animated lightSpeedIn"; //entering the fields
     }, function(data){
-      monster.new_sprite = 'http://imgur.com/gallery/geH3T';
+      monster.new_sprite = '';
       $scope.status = "There was an error";
     });
   }
