@@ -47,69 +47,46 @@ function reduceTime() {
   }
 }
 
-  // Get pokemon data
-  var getPokemon = function() {
-    if($scope.user.pokemon === 'egg') {
-      $scope.pokemon.sprite = 'images/egg_jump.gif';
-    }
-    else {
-      console.log("WE GOT A MONSTER");
-      $scope.pokemon = $scope.user.pokemon;
-      $scope.pokemon.curHp = $scope.pokemon.hp;
-    }
-  }
-
   var takeDmg = function() {
     $scope.combo = 1;
     var random2 = Math.floor((Math.random() * 10) + 1);
-    $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.pokemon.defense));
-    $scope.pokemon.happiness = Math.max(0,$scope.pokemon.happiness-1);
+    $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.user.pokemon.defense));
+    $scope.user.pokemon.happiness = Math.max(0,$scope.user.pokemon.happiness-1);
+    // Update user
+    Companion.setUser($scope.user);
 
-    if ($scope.pokemon.curHp<=0){
-      userRef.update({ //Gör väldigt många calls i consolen när den dör
-              pokemon: 'egg',
-              lvl: 0
-            });
-      window.location.href = '#/home';
+    // If user's pokémon is dead
+    if ($scope.user.pokemon.curHp<=0){
+      $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
+      // Update user
+      Companion.setUser($scope.user);
+      $location.path('#/home');
     }
   }
 
   var battleWon = function(){
       $scope.battle = false;
-      $scope.pokemon.exp += 30;
+      $scope.user.pokemon.exp += 30;
       $scope.user.wins += 1; //WINS
-      $scope.pokemon.happiness += 10;
+      $scope.user.pokemon.happiness += 10;
 
-      if ($scope.pokemon.exp>=300){
+      if ($scope.user.pokemon.exp>=300){
         $scope.myMonsterAni = "animated tada";
-        $scope.pokemon.exp = 0;
-        $scope.pokemon.lvl += 1;
-        $scope.pokemon.hp += Math.floor(Math.random()*21)-8;
-        $scope.pokemon.attack += Math.floor(Math.random()*10)-4;
-        $scope.pokemon.defense += Math.floor(Math.random()*10)-4;
+        $scope.user.pokemon.exp = 0;
+        $scope.user.pokemon.lvl += 1;
+        $scope.user.pokemon.hp += Math.floor(Math.random()*21)-8;
+        $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+        $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
+        $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
         console.log("LEVELED UP!");
       }
       else{
         $scope.myMonsterAni = "animated bounce";
       }
 
-       //Add or subtract hp, very exciting
-      $timeout(function() {
-        userRef.child("pokemon").update({
-            happiness: $scope.pokemon.happiness,
-            exp: $scope.pokemon.exp,
-            hp: $scope.pokemon.hp,
-            lvl: $scope.pokemon.lvl,
-            attack: $scope.pokemon.attack,
-            defense: $scope.pokemon.defense
-          });
-      },500);
-      /*userRef.update({ //Gör väldigt många calls i consolen
-            wins: $scope.user.wins
-          });
-        */
-      console.log($scope.pokemon);
-      $scope.pokemon.curHp = $scope.pokemon.hp;
+      // Update user
+      Companion.setUser($scope.user);
+      getRandomPokemon();
   }
 
   $scope.attackEnemy = function() {
@@ -132,24 +109,26 @@ function reduceTime() {
         $scope.enemyMonsterAni = "animated shake";
       }
       
-      $scope.yourDmg = Math.floor(($scope.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense);
-      $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.pokemon.defense);
+      $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense);
+      $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.user.pokemon.defense);
 
       $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-$scope.yourDmg);
-      $scope.pokemon.curHp = Math.max(0,$scope.pokemon.curHp-$scope.enemyDmg);
+      $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
+      // Update user
+      Companion.setUser($scope.user);
 
       if ($scope.temp_monster.curHp<=0) { //If enemy is dead
         $scope.enemyMonsterAni = "animated fadeOutUp";
         battleWon();
       }
 
-      if ($scope.pokemon.curHp<=0){
+      // If user's pokémon is dead
+      if ($scope.user.pokemon.curHp<=0){
         $scope.battle = false;
-        userRef.update({ //Gör väldigt många calls i consolen när den dör
-                pokemon: 'egg',
-                lvl: 0
-              });
-        window.location.href = '#/home';
+        $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
+        // Update user
+        Companion.setUser($scope.user);
+        $location.path('#/home');
       }
       rate = Math.floor((Math.random() * 10) + 12 - $scope.combo);
       $scope.timer = 0;
@@ -164,22 +143,26 @@ function reduceTime() {
         $scope.temp_monster = data;
         getSprite($scope.temp_monster);
         $scope.temp_monster.curHp = $scope.temp_monster.hp;
-        console.log($scope.temp_monster);
+        console.log("Temp monster:",$scope.temp_monster);
       }, function(data){
         $scope.status = "Could not find a new enemy";
     });
   }
 
-  // Get the sprite of $scope.pokemon and set it as $scope.sprite
+  var getRandomPokemon = function() {
+    var random = Math.floor((Math.random() * 718) + 1);
+    getSpecificPokemon(random);
+  }
+
+  // Get the sprite of $scope.user.pokemon and set it as $scope.sprite
   var getSprite = function(monster) {
 
     var parts = monster.sprites[0].resource_uri.split("/");
     var spriteUri = parts[parts.length - 2];
-    //monster.new_sprite = 'LOL';
 
     Companion.sprite.get({uri:spriteUri}, function(data){
       monster.new_sprite = 'http://pokeapi.co' + data.image;
-      console.log("SPRITE DATA "+monster.new_sprite);
+      console.log("SPRITE DATA ",monster.new_sprite);
       $scope.enemyMonsterAni = "animated lightSpeedIn"; //entering the fields
     }, function(data){
       monster.new_sprite = '';
@@ -187,24 +170,38 @@ function reduceTime() {
     });
   }
 
-  // Attach an asynchronous callback to read the data at our posts reference and get user
-  userRef.on("value", function(snapshot) {
+  // Attach an asynchronous callback to read the data at our posts reference
+  // userRef.on("value", function(snapshot) {
+  //   console.log('omg');
+  //   var url = $location.url();
+  //   if(url === "/fields"){
+  //     console.log(url);
+  //     $scope.user = snapshot.val();
+  //     console.log($scope.user);
+  //     $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+  //     var random = Math.floor((Math.random() * 718) + 1);
+  //     getSpecificPokemon(random);
+  //     //Ok, den hinner hämta typ 20 pokemons om det finns en timeout här
+  //     //$timeout(function (){$scope.enemyMonsterAni = "animated fadeInDown";},1500); //Reset animation when sprite is found
+  //   }
+  //   else{
+  //     $scope.battle = false;
+  //   }
+  //   }, function (errorObject) {
+  //     console.log("The read failed: " + errorObject.code);
+  // });
+  
+  // Get pokémon challanger upon entering arena
+  getRandomPokemon();
+
+  $scope.$on('userChanged', function() {
     var url = $location.url();
     if(url === "/fields"){
-      console.log(url);
-      $scope.user = snapshot.val();
-      console.log($scope.user);
-      getPokemon();
-      var random = Math.floor((Math.random() * 718) + 1);
-      getSpecificPokemon(random);
-      //Ok, den hinner hämta typ 20 pokemons om det finns en timeout här
-      //$timeout(function (){$scope.enemyMonsterAni = "animated fadeInDown";},1500); //Reset animation when sprite is found
+      $scope.user = Companion.getUser();
     }
     else{
       $scope.battle = false;
     }
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
+  });
 
 });

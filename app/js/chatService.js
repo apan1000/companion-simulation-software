@@ -23,7 +23,6 @@ companionApp.factory('ChatService', function ($rootScope, Companion) {
     angular.forEach(snap.val(), function(value, key) {
       this.push(value);
     }, onlineUsers);
-    console.log('onlineUsers: ',onlineUsers);
     $rootScope.$broadcast('onOnlineUser');
   });
 
@@ -33,10 +32,8 @@ companionApp.factory('ChatService', function ($rootScope, Companion) {
 
   this.getOnlineUsers = function() {
     return onlineUsers;
-    console.log('onlineUsers: ',onlineUsers);
+    console.log('onlineUsers:',onlineUsers);
   }
 
-  return this;/*{
-    getOnlineUserCount: getOnlineUserCount
-  }*/
+  return this;
 });

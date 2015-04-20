@@ -13,9 +13,6 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 		//Get messages as an array
 		$scope.messages = $firebaseArray(chatRef);
 
-		//Get users as an array
-		$scope.users = $firebaseArray(usersRef);
-
 		//Post message function
 		$scope.postMessage = function(e) {
 			if (e.keyCode === 13 && !e.shiftKey) {

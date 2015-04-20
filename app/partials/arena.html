@@ -12,10 +12,10 @@
 
 	<div class="row">
 		<div class="col-md-5 text-center">
-			<h2>{{pokemon.name}}</h2>
-			<progress id="health" value="{{pokemon.curHp}}" max="{{pokemon.hp}}"></progress>
+			<h2>{{user.pokemon.name}}</h2>
+			<progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress>
 			<h3>({{enemyDmg}}) <small>damage</small></h3>
-			<img class="fightImage" ng-class="myMonsterAni" id="yourMonsterImage" ng-src="{{pokemon.sprite}}" alt="*">
+			<img class="fightImage" ng-class="myMonsterAni" id="yourMonsterImage" ng-src="{{user.pokemon.sprite}}" alt="*">
 		</div>
 
 		<div class="col-md-2 text-center">
@@ -35,5 +35,5 @@
 			<img class="fightImage" ng-class="enemyMonsterAni" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt="">
 		</div>
 	</div>
-	<!--<img ng-src="{{sprite}}" alt="{{pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">-->
+	<!--<img ng-src="{{sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">-->
 </div>

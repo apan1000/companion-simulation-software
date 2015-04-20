@@ -1,10 +1,10 @@
 <div id="statusbar">
-	<h3>MonsterID: {{pokemon.id}} </h3>
-	<h3>Name: {{pokemon.name}}</h3>
+	<h3>MonsterID: {{user.pokemon.id}} </h3>
+	<h3>Name: {{user.pokemon.name}}</h3>
 	<div class="row">
 		<div class="col-sm-6">
-			<h4>Level: <small>{{pokemon.lvl}}</small></h4>
-			<h4>Type: <small ng-repeat="type in pokemon.types">{{type}} </small></h4>
+			<h4>Level: <small>{{user.pokemon.lvl}}</small></h4>
+			<h4>Type: <small ng-repeat="type in user.pokemon.types">{{type}}</small></h4>
 		</div>
 		<div class="col-sm-6">
 			<h4>Wins: <small>{{user.wins}}</small></h4>
@@ -13,34 +13,34 @@
 	</div>
 	<h4>Total Score: </h4>
 	<h4>Rank: </h4>
-	<div class="row" ng-controller="ArenaCtrl">
+	<div class="row">
 		<div class="hpbar">
 			<h4>HP</h4>
-			<progress id="health" value="{{pokemon.curHp}}" max="{{pokemon.hp}}"></progress>
+			<progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress>
 		</div>
-		<div id="hp">{{pokemon.curHp}}/{{pokemon.hp}}</div>
+		<div id="hp">{{user.pokemon.curHp}}/{{user.pokemon.hp}}</div>
 		<div class="expbar">
 			<h4>EXP</h4>
-			<progress id="expprogress" value="{{pokemon.exp}}" max="300"></progress>
+			<progress id="expprogress" value="{{user.pokemon.exp}}" max="300"></progress>
 		</div>
-		<div id="hp">{{pokemon.exp}}/300</div>
+		<div id="hp">{{user.pokemon.exp}}/300</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6">
-			<h4>Attack: {{pokemon.attack}}</h4>
-			<h4>Defense: {{pokemon.defense}}</h4>
+			<h4>Attack: {{user.pokemon.attack}}</h4>
+			<h4>Defense: {{user.pokemon.defense}}</h4>
 		</div>
 		<div class="col-sm-6">
-			<h4>Happiness: {{pokemon.happiness}}</h4>
+			<h4>Happiness: {{user.pokemon.happiness}}</h4>
 		</div>
 	</div>
 	<!--<div class="row">
 		<div class="col-sm-6">
-			<div id="attack"><h4>{{pokemon.abilities[0].name}}</h4></div>
+			<div id="attack"><h4>{{user.pokemon.abilities[0].name}}</h4></div>
 			<div id="attack"><h4>Attack</h4></div>
 		</div>
 		<div class="col-sm-6">
-			<div id="attack"><h4>{{pokemon.abilities[1].name}}</h4></div>
+			<div id="attack"><h4>{{user.pokemon.abilities[1].name}}</h4></div>
 			<div id="attack"><h4>Attack</h4></div>
 		</div>
 	</div>-->

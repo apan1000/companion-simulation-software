@@ -79,4 +79,10 @@ companionApp.run(function($rootScope, $location) {
 			}
 		}
 	});
+
+	// $rootScope.$on("$routeChangeSuccess", function(event, current, previous) {
+	// 	if (current.templateUrl === "partials/bar.html") {
+			
+	// 	} 
+	// });
 });

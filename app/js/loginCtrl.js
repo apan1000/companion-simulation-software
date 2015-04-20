@@ -1,11 +1,8 @@
 // Login controller that we use whenever we want to login or logout
-companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$firebaseObject,$timeout) {
+companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$firebaseObject,$timeout,$location) {
 
-  var ref = new Firebase("https://companion-simulation.firebaseio.com");
-  var usersRef = ref.child('users');
-
+  $scope.user = Companion.getUser();
   $scope.loginMsg = "";
-  $scope.auth = null;
   $scope.loading = false;
 
   // Logout the user
@@ -20,32 +17,8 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
       $scope.loading = true;
       console.log($scope.createAccForm.newEmail);
       console.log($scope.createAccForm.newPassword);
-      var emailVal = $scope.newEmail;
-      var passwordVal = $scope.newPassword;
-      //Companion.createAccount(emailVal, passwordVal);
-
-      ref.createUser({
-        email    : emailVal,
-        password : passwordVal
-      }, function(error, userData) {
-        if (error) {
-          $scope.loading = false;
-          showNewAccMsg(error.code);
-        } else {
-          showNewAccMsg("Success! Logging in...")
-          console.log("Successfully created user account with uid:", userData.uid);
-          console.log(userData);
-          ref.child("users").child(userData.uid).set({
-            name: emailVal.replace(/@.*/, ''),
-            pokemon: 'egg',
-            wins: 0,
-            losses: 0
-          });
-          $scope.loginWithPassword(true);
-        }
-      });
-    }
-    else {
+      Companion.createAccount($scope.newEmail, $scope.newPassword);
+    } else {
       $scope.loading = false;
       if ($scope.createAccForm.newEmail.$error.email || $scope.createAccForm.newEmail.$error.required) {
         console.log('\nemail error: ');
@@ -67,28 +40,7 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
       var emailVal = $scope.email;
       var passwordVal = $scope.password;
     }
-    //Companion.loginWithPassword(emailVal, passwordVal);
-
-    ref.authWithPassword({
-      email    : emailVal,
-      password : passwordVal
-    }, function(error, authData) {
-      if (error) {
-        $scope.loading = false;
-        console.log(error);
-        showLoginMsg(error.code);
-      } else {
-        $scope.loading = false;
-        console.log("Authenticated successfully with payload:", authData);
-        // Reset email and password inputs
-        $scope.email = "";
-        $scope.password = "";
-        $scope.loginForm.email.$setUntouched();
-        $scope.loginForm.password.$setUntouched();
-        // Show success toast
-        showLoginMsg(authData);
-      }
-    });
+    Companion.loginWithPassword(emailVal, passwordVal);
   }
 
   // For use when we want to login using the enter key in a text-input field
@@ -102,89 +54,33 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
 
   // Login using social media account
   $scope.loginWithSocial = function(provider) {
-    //Companion.loginWithSocial(provider);
-    // prefer pop-ups, so we don't navigate away from the page
-    ref.authWithOAuthPopup(provider, function(error, authData) {
-      if (error) {
-        if (error.code === "TRANSPORT_UNAVAILABLE") {
-          // fall-back to browser redirects, and pick up the session
-          // automatically when we come back to the origin page
-          ref.authWithOAuthRedirect(provider, function(error) {
-            /* ... */
-          });
-        }
-      }
-      else if (authData) {
-        // user authenticated with Firebase
-        showLoginMsg(authData);
-      }
-    });
-  }
-
-  // Sets user to the authorized user
-  function setUser(authData) {
-    if (authData) {
-      usersRef.child(authData.uid).once('value', function(dataSnapshot) {
-        var user = dataSnapshot.val();
-        user.uid = authData.uid;
-        Companion.setUser(user);
-      });
-    } else {
-      Companion.setUser(null);
-    }
-  }
-
-  // Find a suitable name based on the meta info given by each provider
-  function getName(authData) {
-    switch (authData.provider) {
-       case 'password':
-         return authData.password.email.replace(/@.*/, '');
-       case 'twitter':
-         return authData.twitter.username;
-       case 'facebook':
-         return authData.facebook.displayName;
-    }
-  }
-
-  // Check if /users/<authData.uid> exists.
-  // If it doesn't exist, add to firebase.
-  // If it exists, do nothing. 
-  function addUserIfNew(authData) {
-    usersRef.child(authData.uid).once('value', function(snapshot) {
-      if (snapshot.val() === null) {
-        usersRef.child(authData.uid).set({
-          name: getName(authData),
-          pokemon: 'egg',
-          wins: 0,
-          losses: 0
-        });
-      }
-    });
+    Companion.loginWithSocial(provider);
   }
 
   // Show success or error message for login
   function showLoginMsg(obj) {
+    $scope.loading = false;
     var type = "";
     var msg = "";
 
     switch (obj) {
-      case Object(obj):
+      case "success":
         type = "success";
-        msg = "Logged in!";
+        $scope.loginMsg = "Logged in!";
         console.log("Logged in!");
         break;
       case "INVALID_EMAIL":
         type = "emailError";
-        msg = "Invalid Email";
+        $scope.loginMsg = "Invalid Email";
         console.log("The specified email is not a valid email.");
         break;
       case "INVALID_PASSWORD":
         type = "passwordError";
-        msg = "Wrong Password, try again.";
+        $scope.loginMsg = "Wrong Password, try again.";
         break;
       case "INVALID_USER":
         type = "emailError";
-        msg = "The specified user does not exist.";
+        $scope.loginMsg = "The specified user does not exist.";
         break;
       default:
         console.log(obj);
@@ -193,15 +89,18 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
     if (type === 'success') {
       $timeout(function(){
         $scope.success = true;
-        $scope.loginMsg = msg;
         $scope.emailSuccess = true;
         $scope.passwordSuccess = true;
+        // Reset email and password inputs
+        $scope.email = "";
+        $scope.password = "";
+        // $scope.loginForm.email.$setUntouched();
+        // $scope.loginForm.password.$setUntouched();
       });
     }
-    else if (type === 'emailError' || type === 'passwordError') {
+    else {
       $timeout(function(){
         $scope.error = true;
-        $scope.loginMsg = msg;
         if (type === 'emailError') {
           $scope.emailError = true;
           $scope.passwordError = false;
@@ -216,28 +115,29 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
 
   // Show success or error message for creating account
   function showNewAccMsg(obj) {
+    $scope.loading = false;
     var type = "";
     var msg = "";
 
     switch (obj) {
-      case Object(obj):
+      case "success": //Object(obj)
         type = "success";
-        msg = "Logged in!";
+        $scope.newAccMsg = "Success! Logging in...";
         console.log("Logged in!");
         break;
       case "EMAIL_TAKEN":
         type = "emailError";
-        msg = "Email already taken";
+        $scope.newAccMsg = "Email already taken";
         console.log("The new user account cannot be created because the email is already in use.");
         break;
       case "INVALID_EMAIL":
         type = "emailError";
-        msg = "Invalid Email";
+        $scope.newAccMsg = "Invalid Email";
         console.log("The specified email is not a valid email.");
         break;
       case "INVALID_PASSWORD":
         type = "passwordError";
-        msg = "Wrong Password, try again.";
+        $scope.newAccMsg = "Wrong Password, try again.";
         break;
       default:
         console.log(obj);
@@ -246,15 +146,13 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
     if (type === 'success') {
       $timeout(function(){
         $scope.newAccSuccess = true;
-        $scope.newAccMsg = msg;
         $scope.newAccEmailSuccess = true;
         $scope.newAccPasswordSuccess = true;
       });
     }
-    else if (type === 'emailError' || type === 'passwordError') {
+    else {
       $timeout(function(){
         $scope.newAccError = true;
-        $scope.newAccMsg = msg;
         if (type === 'emailError') {
           $scope.newAccEmailError = true;
           $scope.newAccPasswordError = false;
@@ -267,23 +165,27 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
     }
   }
 
-  // Check authData when authorizing
-  ref.onAuth(function(authData) {
-    $timeout(function() {
-      $scope.auth = authData;
-    });
-    $scope.auth = authData;
-    console.log("authData:");
-    console.log(authData);
-    if (authData) {
-      setUser(authData);
-      if (authData.provider !== 'password') {
-        addUserIfNew(authData);
-      }
-    } else if (Companion.getUser()) {
-      console.log("huehue",authData);
-      //setUser(null);
-    }
+  $scope.$on('loginMsgChange', function() {
+    showLoginMsg(Companion.getLoginMsg());
   });
 
+  $scope.$on('newAccMsgChange', function() {
+    showNewAccMsg(Companion.getNewAccMsg());
+  });
+
+  // When changes to user has been made redirect if necessary
+  $scope.$on('userChanged', function() {
+    $scope.user = Companion.getUser();
+    if ($scope.user) {
+      if ($location.path() === "/") {
+        $timeout(function() {
+          $location.path("/home");
+        });
+      }
+    } else {
+      $timeout(function() {
+        $location.path("/");
+      });
+    }
+  })
 });

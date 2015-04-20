@@ -32,11 +32,11 @@ companionApp.controller('CanvasCtrl', function ($scope,$routeParams,$firebaseObj
 	}
 
 	$scope.$on('onOnlineUser', function() {
-		console.log($scope.onlineUsers);
+		console.log("onlineUsers, before:",$scope.onlineUsers);
     $scope.$apply(function() {
       $scope.totalViewers = ChatService.getOnlineUserCount();
       $scope.onlineUsers = ChatService.getOnlineUsers();
-      console.log($scope.onlineUsers);
+      console.log("onlineUsers, after:",$scope.onlineUsers);
     });
   });
 
