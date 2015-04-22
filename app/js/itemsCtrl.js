@@ -46,7 +46,9 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	            lvl: $scope.user.pokemon.lvl,
 	            attack: $scope.user.pokemon.attack,
 	            defense: $scope.user.pokemon.defense
-	        });	
+	        });
+
+	        document.getElementById("Rare Candy").style.opacity = "0.5";	
 		}
 
 		if (data.name === "Poke bell") {
@@ -58,6 +60,19 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 				happiness: $scope.user.pokemon.happiness
 			});
 
+		}
+
+		if (data.name === "Potion") {
+			console.log("Current hp; ", $scope.user.pokemon.curHp);
+			$scope.user.pokemon.curHp += 10;
+			$scope.monsterAni = "animated bounce";
+			if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
+				$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+			}
+			
+			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
+				curHp: $scope.user.pokemon.curHp
+			});
 		}
 
 		showReaction();
