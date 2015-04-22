@@ -4,9 +4,9 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	var ref = new Firebase("https://companion-simulation.firebaseio.com");
 	var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
-	$scope.items = [{name:'Rare Candy',image:'rarecandy.png'},
-		{name:'Poke bell',image:'pokebell.png'},
-		{name:'Potion',image:'potion.png'}];
+	$scope.items = [{name:'Rare Candy',image:'rarecandy.png',id:'rare-candy'},
+		{name:'Poke bell',image:'pokebell.png',id:'poke-bell'},
+		{name:'Potion',image:'potion.png',id:'potion'}];
 	$scope.givenItems = [];
 	/*$scope.reactionImage = "";*/
 
@@ -48,7 +48,9 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	            defense: $scope.user.pokemon.defense
 	        });
 
-	        document.getElementById("Rare Candy").style.opacity = "0.5";	
+	        var rarecandyImg = document.getElementById("rare-candy");
+	        rarecandyImg.style.opacity = "0.5";
+	        rarecandyImg.setAttribute('ng-drag', false);
 		}
 
 		if (data.name === "Poke bell") {
@@ -59,7 +61,10 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
 				happiness: $scope.user.pokemon.happiness
 			});
-
+			
+			var pokeBellImg = document.getElementById("poke-bell");
+	        pokeBellImg.style.opacity = "0.5";
+	        pokeBellImg.setAttribute('ng-drag', false); 	
 		}
 
 		if (data.name === "Potion") {
@@ -73,6 +78,9 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
 				curHp: $scope.user.pokemon.curHp
 			});
+			var potionImg = document.getElementById("potion");
+	        potionImg.style.opacity = "0.5";
+	        potionImg.setAttribute('ng-drag', false);
 		}
 
 		showReaction();
