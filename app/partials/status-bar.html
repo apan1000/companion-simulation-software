@@ -3,12 +3,12 @@
 	<h3>Name: {{user.pokemon.name}}</h3>
 	<div class="row">
 		<div class="col-sm-6">
-			<h4>Level: <small>{{user.pokemon.lvl}}</small></h4>
-			<h4>Type: <small ng-repeat="type in user.pokemon.types">{{type}}</small></h4>
+			<h4>Level: {{user.pokemon.lvl}}</h4>
+			<h4>Type: <small ng-repeat="type in user.pokemon.types">{{type}} </small></h4>
 		</div>
 		<div class="col-sm-6">
-			<h4>Wins: <small>{{user.wins}}</small></h4>
-			<h4>Losses: <small>{{user.losses}}</small></h4>
+			<h4>Wins: {{user.wins}}</h4>
+			<h4>Losses: {{user.losses}}</h4>
 		</div>
 	</div>
 	<h4>Total Score: </h4>
@@ -21,9 +21,9 @@
 		<div id="hp">{{user.pokemon.curHp}}/{{user.pokemon.hp}}</div>
 		<div class="expbar">
 			<h4>EXP</h4>
-			<progress id="expprogress" value="{{user.pokemon.exp}}" max="300"></progress>
+			<progress id="expprogress" value="{{user.pokemon.curExp}}" max="{{user.pokemon.exp}}"></progress>
 		</div>
-		<div id="hp">{{user.pokemon.exp}}/300</div>
+		<div id="hp">{{user.pokemon.curExp}}/{{user.pokemon.exp}}</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6">
@@ -44,6 +44,7 @@
 			<div id="attack"><h4>Attack</h4></div>
 		</div>
 	</div>-->
-	<a ng-href="#/fields" id="to-the-gym-btn" class="btn btn-default btn-lg" type="button">To the fields!</a>
+	<a ng-href="#/fields" id="to-the-gym-btn" class="btn btn-default btn-lg btn-danger" type="button">To the fields!</a>
 	<a ng-href="#/bar" id="toTheBar" class="btn btn-default btn-lg" type="button">To the Bar!</a>
+	<a ng-href="#/home" id="toHome" class="btn btn-default btn-lg" type="button">Home</a>
 </div>

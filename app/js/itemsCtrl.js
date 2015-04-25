@@ -29,9 +29,10 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 		if (data.name === "Rare Candy") {
 			/*$scope.reactionImage = "levelup.png";*/
 
-			$scope.user.pokemon.exp = 0;
+			$scope.user.pokemon.curExp = 0;
+			$scope.user.pokemon.exp += Math.floor(Math.random()*10)+10;
 	        $scope.user.pokemon.lvl += 1;
-	        $scope.user.pokemon.hp += Math.floor(Math.random()*21)-8;
+	        $scope.user.pokemon.hp += Math.floor(Math.random()*10);
 	        $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
 	        $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
 	        console.log("LEVELED UP!");
@@ -39,7 +40,7 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	        $scope.monsterAni = "animated tada";
 			//var level = $scope.user.pokemon.lvl + 1;
 			//console.log("level: ", level);
-
+			/*
 			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
 	            exp: $scope.user.pokemon.exp,
 	            hp: $scope.user.pokemon.hp,
@@ -47,6 +48,8 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	            attack: $scope.user.pokemon.attack,
 	            defense: $scope.user.pokemon.defense
 	        });
+			*/
+			Companion.setUser($scope.user);
 
 	        var rarecandyImg = document.getElementById("rare-candy");
 	        rarecandyImg.style.opacity = "0.5";
@@ -69,7 +72,7 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 
 		if (data.name === "Potion") {
 			console.log("Current hp; ", $scope.user.pokemon.curHp);
-			$scope.user.pokemon.curHp += 10;
+			$scope.user.pokemon.curHp += 20;
 			$scope.monsterAni = "animated bounce";
 			if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
 				$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
