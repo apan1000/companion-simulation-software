@@ -1,5 +1,10 @@
 <div class="col-sm-12" id="items">
 	<div>Items</div>
-	<img ng-repeat="item in items" id="{{item.id}}" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="item.allowClone !== false">
+	<span class="col-md-3" ng-repeat="item in items">
+		<img id="{{item.id}}" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="item.allowClone !== false"></img>
+		{{item.count}}
+	</span>
+	{{user.items}}
+	
 	<img id="reactionImg" ng-src="images/{{reactionImage}}" alt="plusOne" style="display: none;"></img>
 </div>

@@ -4,9 +4,9 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	var ref = new Firebase("https://companion-simulation.firebaseio.com");
 	var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
-	$scope.items = [{name:'Rare Candy',image:'rarecandy.png',id:'rare-candy'},
-		{name:'Poke bell',image:'pokebell.png',id:'poke-bell'},
-		{name:'Potion',image:'potion.png',id:'potion'}];
+	$scope.items = [{name:'Rare Candy',image:'rarecandy.png',id:'rare-candy',count:$scope.user.items.lvlup},
+		{name:'Poke bell',image:'pokebell.png',id:'poke-bell',count:$scope.user.items.happy},
+		{name:'Potion',image:'potion.png',id:'potion',count:$scope.user.items.heal}];
 	$scope.givenItems = [];
 	/*$scope.reactionImage = "";*/
 
@@ -27,66 +27,61 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
     	}
 
 		if (data.name === "Rare Candy") {
-			/*$scope.reactionImage = "levelup.png";*/
+			if ($scope.user.items.lvlup>0){
+				showReaction();
+				/*$scope.reactionImage = "levelup.png";*/
+				$scope.user.items.lvlup -= 1;
+				$scope.user.pokemon.curExp = 0;
+				$scope.user.pokemon.exp += Math.floor(Math.random()*10)+10;
+		        $scope.user.pokemon.lvl += 1;
+		        $scope.user.pokemon.hp += Math.floor(Math.random()*10);
+		        $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+		        $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
+		        $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
+		        console.log("LEVELED UP!");
 
-			$scope.user.pokemon.curExp = 0;
-			$scope.user.pokemon.exp += Math.floor(Math.random()*10)+10;
-	        $scope.user.pokemon.lvl += 1;
-	        $scope.user.pokemon.hp += Math.floor(Math.random()*10);
-	        $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
-	        $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
-	        console.log("LEVELED UP!");
+		        $scope.monsterAni = "animated tada";
+				Companion.setUser($scope.user);
 
-	        $scope.monsterAni = "animated tada";
-			//var level = $scope.user.pokemon.lvl + 1;
-			//console.log("level: ", level);
-			/*
-			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
-	            exp: $scope.user.pokemon.exp,
-	            hp: $scope.user.pokemon.hp,
-	            lvl: $scope.user.pokemon.lvl,
-	            attack: $scope.user.pokemon.attack,
-	            defense: $scope.user.pokemon.defense
-	        });
-			*/
-			Companion.setUser($scope.user);
-
-	        var rarecandyImg = document.getElementById("rare-candy");
-	        rarecandyImg.style.opacity = "0.5";
-	        rarecandyImg.setAttribute('ng-drag', false);
+		        var rarecandyImg = document.getElementById("rare-candy");
+		        rarecandyImg.style.opacity = "0.5";
+		        rarecandyImg.setAttribute('ng-drag', false);
+	    	}
 		}
 
 		if (data.name === "Poke bell") {
-			$scope.reactionImage = "prettyspeech.png";
-			$scope.user.pokemon.happiness += 10;
-			$scope.monsterAni = "animated bounce";
+			if ($scope.user.items.happy>0){
+				showReaction();
+				$scope.user.items.happy -= 1;
+				$scope.reactionImage = "prettyspeech.png";
+				$scope.user.pokemon.happiness += 10;
+				$scope.monsterAni = "animated bounce";
 
-			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
-				happiness: $scope.user.pokemon.happiness
-			});
-			
-			var pokeBellImg = document.getElementById("poke-bell");
-	        pokeBellImg.style.opacity = "0.5";
-	        pokeBellImg.setAttribute('ng-drag', false); 	
+				Companion.setUser($scope.user);
+				
+				var pokeBellImg = document.getElementById("poke-bell");
+		        pokeBellImg.style.opacity = "0.5";
+		        pokeBellImg.setAttribute('ng-drag', false); 
+	        }	
 		}
 
 		if (data.name === "Potion") {
-			console.log("Current hp; ", $scope.user.pokemon.curHp);
-			$scope.user.pokemon.curHp += 20;
-			$scope.monsterAni = "animated bounce";
-			if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
-				$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-			}
-			
-			ref.child("users").child($rootScope.user.uid).child("pokemon").update({
-				curHp: $scope.user.pokemon.curHp
-			});
-			var potionImg = document.getElementById("potion");
-	        potionImg.style.opacity = "0.5";
-	        potionImg.setAttribute('ng-drag', false);
-		}
+			if ($scope.user.items.heal>0){
+				showReaction();
+				$scope.user.items.heal -= 1;
+				console.log("Current hp; ", $scope.user.pokemon.curHp);
+				$scope.user.pokemon.curHp += 20;
+				$scope.monsterAni = "animated bounce";
+				if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
+					$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+				}
+				Companion.setUser($scope.user);
 
-		showReaction();
+				var potionImg = document.getElementById("potion");
+		        potionImg.style.opacity = "0.5";
+		        potionImg.setAttribute('ng-drag', false);
+	    	}
+		}
 	}
 
 	$scope.onDragSuccess = function(data,evt) {

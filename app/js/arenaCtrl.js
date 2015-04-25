@@ -48,7 +48,7 @@ function reduceTime() {
 
   var takeDmg = function() {
     $scope.combo = 1;
-    var random2 = Math.floor((Math.random() * 10) + 2);
+    var random2 = Math.floor((Math.random() * 10) + 1);
     $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.user.pokemon.defense));
     $scope.user.pokemon.happiness = Math.max(0,$scope.user.pokemon.happiness-1);
     // Update user
@@ -64,10 +64,18 @@ function reduceTime() {
   }
 
   var battleWon = function(){
+
     $scope.battle = false;
-    $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.attack+$scope.temp_monster.defense)*0.2);
+    $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.2);
     $scope.user.wins += 1; //WINS
     $scope.user.pokemon.happiness += 10;
+
+    if (Math.random()*5>1){
+      console.log("ITEM DROPS, should change so .items is an array for convinience");
+      $scope.user.items.lvlup += Math.floor(Math.random()*3);
+      $scope.user.items.happy += Math.floor(Math.random()*3);
+      $scope.user.items.heal += Math.floor(Math.random()*3);
+    }
 
     if ($scope.user.pokemon.curExp>=$scope.user.pokemon.exp){
       $scope.myMonsterAni = "animated tada";
@@ -90,7 +98,6 @@ function reduceTime() {
   }
 
   var battleLost = function(){
-    $scope.battle = false;
     $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
     // Update user
     Companion.setUser($scope.user);
@@ -101,8 +108,8 @@ function reduceTime() {
 
     $scope.enemyMonsterAni = "animated wobble";
     var randomMonster = Math.floor((Math.random() * 718) + 1);
-    var randomAtk1 = Math.floor((Math.random() * 5) + 1);
-    var randomAtk2 = Math.floor((Math.random() * 10) + 1);
+    var randomAtk1 = Math.floor((Math.random() * 4) + 2);
+    var randomAtk2 = Math.floor((Math.random() * 6) + 2);
 
     if ($scope.temp_monster.curHp === 0) {
       return
@@ -133,6 +140,7 @@ function reduceTime() {
       // If user's pokémon is dead
       if ($scope.user.pokemon.curHp<=0){
         $scope.myMonsterAni = "animated fadeOutUp";
+        $scope.battle = false;
         $timeout( function(){ battleLost(); }, 2000);
       }
 

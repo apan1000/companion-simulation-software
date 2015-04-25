@@ -148,7 +148,8 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           name: emailVal.replace(/@.*/, ''),
           pokemon: {name:'egg',sprite:'images/egg_jump.gif'},
           wins: 0,
-          losses: 0
+          losses: 0,
+          items: {lvlup:5, happy:5, heal:5}
         });
         self.loginWithPassword(emailVal,passwordVal);
         newAccMsg = "success";
@@ -207,7 +208,8 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           name: getName(authData),
           pokemon: {name:'egg',sprite:'images/egg_jump.gif'},
           wins: 0,
-          losses: 0
+          losses: 0,
+          items: {lvlup:5, happy:5, heal:5}
         }, function() {
           getRefUser(authData);
         });
