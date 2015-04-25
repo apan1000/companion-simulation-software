@@ -320,7 +320,17 @@ input[type=email].success, input[type=password].success {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 220px;
+	margin-top: 200px;
+
+	-webkit-transition: margin 0.1s ease-out;
+    -moz-transition: margin 0.1s ease-out;
+    -o-transition: margin 0.1s ease-out;
+}
+
+.monsterImage:hover {
+
+	margin-top: 190px;
+
 }
 
 #reactionImg {
