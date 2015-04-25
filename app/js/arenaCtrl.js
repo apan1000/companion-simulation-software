@@ -22,7 +22,6 @@ $scope.startCombat = function() {
   }
 }
 
-
 function reduceTime() {
   if ($scope.timer < $scope.maxTimer){
     //console.log($scope.timer);
@@ -49,7 +48,7 @@ function reduceTime() {
 
   var takeDmg = function() {
     $scope.combo = 1;
-    var random2 = Math.floor((Math.random() * 10) + 1);
+    var random2 = Math.floor((Math.random() * 10) + 2);
     $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.user.pokemon.defense));
     $scope.user.pokemon.happiness = Math.max(0,$scope.user.pokemon.happiness-1);
     // Update user
@@ -65,28 +64,37 @@ function reduceTime() {
   }
 
   var battleWon = function(){
-      $scope.battle = false;
-      $scope.user.pokemon.exp += 30;
-      $scope.user.wins += 1; //WINS
-      $scope.user.pokemon.happiness += 10;
+    $scope.battle = false;
+    $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.attack+$scope.temp_monster.defense)*0.2);
+    $scope.user.wins += 1; //WINS
+    $scope.user.pokemon.happiness += 10;
 
-      if ($scope.user.pokemon.exp>=300){
-        $scope.myMonsterAni = "animated tada";
-        $scope.user.pokemon.exp = 0;
-        $scope.user.pokemon.lvl += 1;
-        $scope.user.pokemon.hp += Math.floor(Math.random()*21)-8;
-        $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-        $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
-        $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
-        console.log("LEVELED UP!");
-      }
-      else{
-        $scope.myMonsterAni = "animated bounce";
-      }
+    if ($scope.user.pokemon.curExp>=$scope.user.pokemon.exp){
+      $scope.myMonsterAni = "animated tada";
+      $scope.user.pokemon.curExp = 0;
+      $scope.user.pokemon.exp += Math.floor(Math.random()*10)+10;
+      $scope.user.pokemon.lvl += 1;
+      $scope.user.pokemon.hp += Math.floor(Math.random()*10);
+      $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+      $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
+      $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
+      console.log("LEVELED UP!");
+    }
+    else{
+      $scope.myMonsterAni = "animated bounce";
+    }
 
-      // Update user
-      Companion.setUser($scope.user);
-      getRandomPokemon();
+    // Update user
+    Companion.setUser($scope.user);
+    getRandomPokemon();
+  }
+
+  var battleLost = function(){
+    $scope.battle = false;
+    $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
+    // Update user
+    Companion.setUser($scope.user);
+    $location.path('#/home');
   }
 
   $scope.attackEnemy = function() {
@@ -124,20 +132,16 @@ function reduceTime() {
 
       // If user's pokémon is dead
       if ($scope.user.pokemon.curHp<=0){
-        $scope.battle = false;
-        $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
-        // Update user
-        Companion.setUser($scope.user);
-        $location.path('#/home');
+        $scope.myMonsterAni = "animated fadeOutUp";
+        $timeout( function(){ battleLost(); }, 2000);
       }
+
       rate = Math.floor((Math.random() * 10) + 12 - $scope.combo);
       $scope.timer = 0;
     }
   }
 
   var getSpecificPokemon = function(monster_id) {
-
-     //$scope.spinner = "images/spinner2.gif";
     
     Companion.pokemon.get({id:monster_id}, function(data){
         $scope.temp_monster = data;
