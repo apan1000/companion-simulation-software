@@ -13,19 +13,10 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
 //var myVar2=setInterval(function () {reduceTime()}, 1000);
 
-$scope.startCombat = function() {
-  if ($scope.battle == false){
-    $scope.combo = 1;
-    $scope.battle = true;
-    $scope.myMonsterAni = "";
-    reduceTime(); //START MORTAL COMBAT
-  }
-}
-
 function reduceTime() {
   if ($scope.timer < $scope.maxTimer){
     //console.log($scope.timer);
-    $scope.timer = $scope.timer + 1;
+    $scope.timer = $scope.timer + 2;
 
     if ($scope.timer <= 90 && $scope.timer >= 70){
       $scope.rightMoment = "progress-bar-success";
@@ -115,6 +106,13 @@ function reduceTime() {
   }
 
   $scope.attackEnemy = function() {
+
+    if ($scope.battle == false){
+      $scope.combo = 1;
+      $scope.battle = true;
+      $scope.myMonsterAni = "";
+      reduceTime(); //START MORTAL COMBAT
+    }
 
     $scope.enemyMonsterAni = "animated wobble";
     var randomMonster = Math.floor((Math.random() * 718) + 1);

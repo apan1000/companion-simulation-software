@@ -353,6 +353,18 @@ input[type=email].success, input[type=password].success {
     filter: FlipH;
     -ms-filter: "FlipH";
 
+    -webkit-transition: margin 0.2s ease-out;
+    -moz-transition: margin 0.2s ease-out;
+    -o-transition: margin 0.2s ease-out;
+
+}
+
+#yourMonsterImage:hover{
+	margin-top: -5px;
+}
+
+.hpbars{
+	margin-bottom: 20px;
 }
 
 .fightImage {
@@ -361,22 +373,6 @@ input[type=email].success, input[type=password].success {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 320px;
-
-	-webkit-transition: margin 0.2s ease-out;
-    -moz-transition: margin 0.2s ease-out;
-    -o-transition: margin 0.2s ease-out;
-}
-
-.fightImage:hover {
-
-	margin-top: 300px;
-
-}
-
-.fightImage:active {
-
-	.grayscale {-webkit-filter: grayscale(100%);}
-
 }
 
 .fadein.ng-hide-remove,
@@ -403,6 +399,7 @@ input[type=email].success, input[type=password].success {
 	margin-right: auto;
 	left: 0;
 	right: 0;
+	bottom: 200px;
 	position:absolute;
 }
 
