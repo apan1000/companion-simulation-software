@@ -55,11 +55,10 @@ function reduceTime() {
 
     // If user's pokémon is dead
     if ($scope.user.pokemon.curHp<=0){
-      $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
-      // Update user
-      Companion.setUser($scope.user);
-      $location.path('#/home');
-    }
+        $scope.myMonsterAni = "animated fadeOutUp";
+        $scope.battle = false;
+        $timeout( function(){ battleLost(); }, 2000);
+      }
   }
 
   var battleWon = function(){
@@ -77,7 +76,7 @@ function reduceTime() {
     }
 
     if ($scope.user.pokemon.curExp>=$scope.user.pokemon.exp){
-      $scope.myMonsterAni = "animated tada";
+      $scope.myMonsterAni = "animated flip";
       $scope.user.pokemon.curExp -= $scope.user.pokemon.exp;
       $scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
       //Cant gain more than one lvl, fix later
@@ -196,27 +195,6 @@ function reduceTime() {
     });
   }
 
-  // Attach an asynchronous callback to read the data at our posts reference
-  // userRef.on("value", function(snapshot) {
-  //   console.log('omg');
-  //   var url = $location.url();
-  //   if(url === "/fields"){
-  //     console.log(url);
-  //     $scope.user = snapshot.val();
-  //     console.log($scope.user);
-  //     $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-  //     var random = Math.floor((Math.random() * 718) + 1);
-  //     getSpecificPokemon(random);
-  //     //Ok, den hinner hämta typ 20 pokemons om det finns en timeout här
-  //     //$timeout(function (){$scope.enemyMonsterAni = "animated fadeInDown";},1500); //Reset animation when sprite is found
-  //   }
-  //   else{
-  //     $scope.battle = false;
-  //   }
-  //   }, function (errorObject) {
-  //     console.log("The read failed: " + errorObject.code);
-  // });
-  
   // Get pokémon challanger upon entering arena
 
   if ($routeParams.user != '0') {
