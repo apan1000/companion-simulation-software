@@ -34,8 +34,8 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 		        $scope.user.pokemon.lvl += 1;
 		        $scope.user.pokemon.hp += Math.floor(Math.random()*10);
 		        $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-		        $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
-		        $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
+		        $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
+		        $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
 		        console.log("LEVELED UP!");
 
 		        $scope.monsterAni = "animated tada";

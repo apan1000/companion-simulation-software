@@ -1,18 +1,28 @@
 <div id="arena">
 	<div class="row">
-		<div class="col-md-5 text-center fightImage">
-			<div class="row hpbars">
-				<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h2>{{enemyDmg}}</h2></div>
-				<h3>{{user.pokemon.name}}</h3>
-				<progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress>
-			</div>
-			<div class="row">
-				<img ng-class="myMonsterAni" id="yourMonsterImage" ng-src="{{user.pokemon.sprite}}" alt="*">
+		<div class="col-md-3 col-md-offset-2">
+			<div class="fightImage">
+				<div class="bubble">
+						<p>Health: <span class="badge">{{user.pokemon.hp}}</span></p>
+				    	<p>Attack: <span class="badge">{{user.pokemon.attack}}</span></p>
+				    	<p>Defense: <span class="badge">{{user.pokemon.defense}}</span></p>
+				    	<p>Experience: <span class="badge">{{user.pokemon.exp*0.5}}</span></p>
+				</div>
+				<span class="text-center">
+					<div class="row hpbars">
+						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h2>{{enemyDmg}}</h2></div>
+						<h3>{{user.pokemon.name}}</h3>
+						<progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress>
+					</div>
+					<div class="row">
+						<img ng-class="myMonsterAni" class="monsterImageClass" ng-src="{{user.pokemon.sprite}}" alt="*">
+					</div>
+				</span>
 			</div>
 		</div>
 
-		<div class="col-md-2 text-center fightImage">
-			<div class="btn btn-primary">
+		<div class="col-md-2 text-center middleElement">
+			<div class="btn btn-primary disabled">
 			  Combo <span class="badge">{{combo}}</span>
 			</div>
 			<div class="progress">
@@ -22,14 +32,24 @@
 			</div>
 		</div>
 
-		<div class="col-md-5 enemy_monster text-center fightImage">
-			<div class="row hpbars">
-				<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h2>{{yourDmg}}</h2></div>
-				<h3>{{temp_monster.name}}</h3>
-				<progress id="health" value="{{temp_monster.curHp}}" max="{{temp_monster.hp}}"></progress>
-			</div>
-			<div class="row">
-				<img ng-class="enemyMonsterAni" id="yourMonsterImage" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt="">
+		<div class="col-md-3">
+			<div class="fightImage">
+				<div class="bubble">
+						<p>Health: <span class="badge">{{temp_monster.hp}}</span></p>
+				    	<p>Attack: <span class="badge">{{temp_monster.attack}}</span></p>
+				    	<p>Defense: <span class="badge">{{temp_monster.defense}}</span></p>
+				    	<p>Experience: <span class="badge">{{temp_monster.exp*0.5}}</span></p>
+				</div>
+				<span class="text-center">
+					<div class="row hpbars">
+						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h2>{{yourDmg}}</h2></div>
+						<h3>{{temp_monster.name}}</h3>
+						<progress id="health" value="{{temp_monster.curHp}}" max="{{temp_monster.hp}}"></progress>
+					</div>
+					<div class="row">
+						<img ng-class="enemyMonsterAni" class="monsterImageClass" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt="">
+					</div>
+				</span>
 			</div>
 		</div>
 	</div>

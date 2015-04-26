@@ -85,8 +85,8 @@ function reduceTime() {
       $scope.user.pokemon.lvl += 1;
       $scope.user.pokemon.hp += Math.floor(Math.random()*10);
       $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-      $scope.user.pokemon.attack += Math.floor(Math.random()*10)-4;
-      $scope.user.pokemon.defense += Math.floor(Math.random()*10)-4;
+      $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
+      $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
       console.log("LEVELED UP!");
     }
     else{
@@ -117,7 +117,7 @@ function reduceTime() {
     $scope.enemyMonsterAni = "animated wobble";
     var randomMonster = Math.floor((Math.random() * 718) + 1);
     var randomAtk1 = Math.floor((Math.random() * 4) + 2);
-    var randomAtk2 = Math.floor((Math.random() * 6) + 2);
+    var randomAtk2 = Math.floor((Math.random() * 4) + 2);
 
     if ($scope.temp_monster.curHp === 0) {
       return
