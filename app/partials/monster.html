@@ -1,6 +1,6 @@
 <div id="monster" ng-controller="ItemsCtrl">
 	<span ng-repeat="item in givenItems track by $index">
-		<img ng-src="images/{{item.image}}" alt="lel" style="height:25px;display:inline;float:left;background:#f0f;">
+		<img ng-src="images/{{item.image}}" alt="lel" style="background:#f0f;">
 	</span>
 	<img ng-src="{{user.pokemon.sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-class="monsterAni" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)">
 </div>
