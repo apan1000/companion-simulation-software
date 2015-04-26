@@ -66,7 +66,7 @@ function reduceTime() {
   var battleWon = function(){
 
     $scope.battle = false;
-    $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.2);
+    $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.5);
     $scope.user.wins += 1; //WINS
     $scope.user.pokemon.happiness += 10;
 
@@ -79,8 +79,8 @@ function reduceTime() {
 
     if ($scope.user.pokemon.curExp>=$scope.user.pokemon.exp){
       $scope.myMonsterAni = "animated tada";
-      $scope.user.pokemon.curExp = 0;
-      $scope.user.pokemon.exp += Math.floor(Math.random()*10)+10;
+      $scope.user.pokemon.curExp -= $scope.user.pokemon.exp;
+      $scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
       $scope.user.pokemon.lvl += 1;
       $scope.user.pokemon.hp += Math.floor(Math.random()*10);
       $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
@@ -123,9 +123,15 @@ function reduceTime() {
         $scope.combo = 1;
         $scope.enemyMonsterAni = "animated shake";
       }
+
+      $scope.showMessage = true;
       
       $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense);
       $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.user.pokemon.defense);
+
+      $timeout(function() {
+          $scope.showMessage = false;
+        }, 1000);
 
       $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-$scope.yourDmg);
       $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
@@ -204,11 +210,26 @@ function reduceTime() {
   // });
   
   // Get pokémon challanger upon entering arena
-  getRandomPokemon();
+
+  if ($routeParams.user != '0') {
+    var otherUserRef = ref.child('users/'+$routeParams.user);
+    console.log("USER FIENDE");
+    otherUserRef.on("value", function(snapshot) {
+      $timeout(function() {
+        $scope.otherUser = snapshot.val();
+        console.log("otherUser:",$scope.otherUser);
+        $scope.temp_monster = $scope.otherUser.pokemon;
+        $scope.temp_monster.new_sprite = $scope.otherUser.pokemon.sprite;
+      });
+    });
+  }
+  else{
+    getRandomPokemon();
+  }
 
   $scope.$on('userChanged', function() {
     var url = $location.url();
-    if(url === "/fields"){
+    if(url === "/fields/"+$routeParams.user || url === "/fields/0"){
       $scope.user = Companion.getUser();
     }
     else{
