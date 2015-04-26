@@ -14,7 +14,13 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   $scope.hatchEgg = function() {
     if($scope.user.pokemon.name === 'egg') {
       Companion.getNewPokemon();
+      $scope.shownickname = "true";
     }
+  }
+
+  $scope.addNickname = function() {
+    console.log("Nickname: ",$scope.newNickname);
+    $scope.user.pokemon.name = $scope.newNickname;
   }
 
   // var getAttacks = function() {

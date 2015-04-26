@@ -1,8 +1,29 @@
 <div id="monster" ng-controller="ItemsCtrl">
-	<span ng-repeat="item in givenItems track by $index">
-		<img ng-src="images/{{item.image}}" alt="lel" style="height:25px;display:inline;float:left;background:#f0f;">
-	</span>
 	<img ng-src="{{user.pokemon.sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-class="monsterAni" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)">
 </div>
 <ng-include class="row" src="'partials/items.html'" ng-controller="ItemsCtrl"></ng-include>
+
+<div class="create-acc-overlay" ng-show="shownickname" ng-controller="UserCtrl">
+	<div id="create-acc-div" ng-click="$event.stopPropagation();">
+		<h1>Congratulations!</h1>	
+		<img ng-src="{{user.pokemon.sprite}}" alt="userpokemon">
+		<h4>{{user.pokemon.name}} hatched from the egg! Give a nickname to {{user.pokemon.name}}?</h4>
+		<form name="createNickname">
+			<button type="button" class="btn btn-success" ng-click="addnickname=true">Yes</button>
+		    <button type="button" class="btn btn-danger" ng-click="shownickname=false">Nah</button>
+		    <br></br>
+		    <div ng-show="addnickname">
+		    	<input type="text" class="form-control login-input" placeholder="Enter name" ng-model="newNickname" name="newNickname" id="newNickname" required></input>
+		    	<button type="button" class="btn btn-success" ng-click="addNickname(); shownickname=false;  nicknamesuccess=true">Give nickname!</button>
+		    </div>
+		</form>
+	</div>
+</div>
+
+<div class="create-acc-overlay" ng-show="nicknamesuccess" ng-controller="UserCtrl">
+	<div id="create-acc-div" ng-click="$event.stopPropagation();">		
+		<h4>Your monsters name is now {{user.pokemon.name}}!</h4>
+		<button type="button" class="btn btn-success" ng-click="nicknamesuccess=false">Ok</button>
+	</div>
+</div>
 
