@@ -27,7 +27,7 @@ companionApp.config(['$routeProvider',
       when('/home', {
         templateUrl: 'partials/home.html'
       }).
-      when('/fields', {
+      when('/fields/:user', {
         templateUrl: 'partials/fields.html'
       }).
       when('/bar',{

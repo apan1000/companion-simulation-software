@@ -14,7 +14,7 @@
 		<div class="col-md-5 text-center">
 			<h2>{{user.pokemon.name}}</h2>
 			<progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress>
-			<h3>({{enemyDmg}}) <small>damage</small></h3>
+			<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h2>{{enemyDmg}}</h2></div>
 			<img class="fightImage" ng-class="myMonsterAni" id="yourMonsterImage" ng-src="{{user.pokemon.sprite}}" alt="*">
 		</div>
 
@@ -28,7 +28,7 @@
 		<div class="col-md-5 enemy_monster text-center">
 			<h2>{{temp_monster.name}}</h2>
 			<progress id="health" value="{{temp_monster.curHp}}" max="{{temp_monster.hp}}"></progress>
-			<h3>({{yourDmg}}) <small>damage</small></h3>
+			<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h2>{{yourDmg}}</h2></div>
 			<!--<h3>Attack: {{temp_monster.attack}}</h3>
 			<h3>Defense: {{temp_monster.defense}}</h3>
 			<h1>Hp: {{temp_monster.hp}}</h1>-->
