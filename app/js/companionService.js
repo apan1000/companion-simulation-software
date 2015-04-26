@@ -59,7 +59,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           attack:data.attack,
           defense:data.defense,
           evolutions:data.evolutions,
-          exp:data.exp,
+          exp:Math.max(data.exp,50),
           curExp:0,
           happiness:100,
           height:data.height,

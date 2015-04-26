@@ -1,6 +1,6 @@
 <div id="statusbar">
-	<h3>MonsterID: {{user.pokemon.id}} </h3>
-	<h3>Name: {{user.pokemon.name}}</h3>
+	<h2>Name: {{user.pokemon.name}}
+	<br/><small>MonsterID: {{user.pokemon.id}} </small></h2>
 	<div class="row">
 		<div class="col-sm-6">
 			<h4>Level: {{user.pokemon.lvl}}</h4>
@@ -26,12 +26,22 @@
 		<div id="hp">{{user.pokemon.curExp}}/{{user.pokemon.exp}}</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-6">
-			<h4>Attack: {{user.pokemon.attack}}</h4>
-			<h4>Defense: {{user.pokemon.defense}}</h4>
+		<h4>Stats</h4>
+		<div class="col-md-5">
+			<div class="alert alert-warning" role="alert">
+			  <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+			  Atk: {{user.pokemon.attack}}
+			</div>
+			<div class="alert alert-info" role="alert">
+			  <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+			  Def: {{user.pokemon.defense}}
+			</div>
 		</div>
-		<div class="col-sm-6">
-			<h4>Happiness: {{user.pokemon.happiness}}</h4>
+		<div class="col-md-7">
+			<div class="alert alert-success" role="alert">
+			  <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>
+			  Happiness: {{user.pokemon.happiness}}
+			</div>
 		</div>
 	</div>
 	<!--<div class="row">
