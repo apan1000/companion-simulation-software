@@ -32,7 +32,7 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 				/*$scope.reactionImage = "levelup.png";*/
 				$scope.user.items.lvlup -= 1;
 				$scope.user.pokemon.curExp = 0;
-				$scope.user.pokemon.exp += Math.floor(Math.random()*10)+10;
+				$scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
 		        $scope.user.pokemon.lvl += 1;
 		        $scope.user.pokemon.hp += Math.floor(Math.random()*10);
 		        $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
@@ -54,7 +54,7 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 				showReaction();
 				$scope.user.items.happy -= 1;
 				$scope.reactionImage = "prettyspeech.png";
-				$scope.user.pokemon.happiness += 10;
+				$scope.user.pokemon.happiness += 20;
 				$scope.monsterAni = "animated bounce";
 
 				Companion.setUser($scope.user);

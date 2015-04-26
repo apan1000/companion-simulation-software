@@ -49,8 +49,16 @@ function reduceTime() {
   var takeDmg = function() {
     $scope.combo = 1;
     var random2 = Math.floor((Math.random() * 10) + 1);
-    $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-Math.floor(($scope.temp_monster.attack*random2)/$scope.user.pokemon.defense));
-    $scope.user.pokemon.happiness = Math.max(0,$scope.user.pokemon.happiness-1);
+    $scope.yourDmg = 0;
+    $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*random2)/$scope.user.pokemon.defense);
+    $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
+    $scope.user.pokemon.happiness = Math.max(0,$scope.user.pokemon.happiness-5);
+
+    $scope.showMessage = true;
+      
+    $timeout(function() {
+      $scope.showMessage = false;
+    }, 1000);
     // Update user
     Companion.setUser($scope.user);
 
@@ -68,11 +76,11 @@ function reduceTime() {
     $scope.battle = false;
     $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.5);
     $scope.user.wins += 1; //WINS
-    $scope.user.pokemon.happiness += 10;
+    $scope.user.pokemon.happiness += 5;
 
     if (Math.random()*5>1){
       console.log("ITEM DROPS, should change so .items is an array for convinience");
-      $scope.user.items.lvlup += Math.floor(Math.random()*3);
+      $scope.user.items.lvlup += Math.floor(Math.random()*2);
       $scope.user.items.happy += Math.floor(Math.random()*3);
       $scope.user.items.heal += Math.floor(Math.random()*3);
     }
@@ -81,6 +89,8 @@ function reduceTime() {
       $scope.myMonsterAni = "animated tada";
       $scope.user.pokemon.curExp -= $scope.user.pokemon.exp;
       $scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
+      //Cant gain more than one lvl, fix later
+      $scope.user.pokemon.curExp = Math.min($scope.user.pokemon.exp-10,$scope.user.pokemon.curExp);
       $scope.user.pokemon.lvl += 1;
       $scope.user.pokemon.hp += Math.floor(Math.random()*10);
       $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
