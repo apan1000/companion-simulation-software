@@ -1,4 +1,4 @@
-// Chat controller that we use whenever we 
+// Controller we use to list users
 companionApp.controller('ListCtrl', ["$scope", "$firebaseArray", "Companion",
 	function ($scope, $firebaseArray, Companion) {
 
