@@ -149,9 +149,10 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           pokemon: {name:'egg',sprite:'images/egg_jump.gif'},
           wins: 0,
           losses: 0,
-          items: {lvlup:5, happy:5, heal:5},
+          items: [2,5,5],
           x_coord: 0,
-          y_coord: 0
+          y_coord: 0,
+          score: 0
         });
         self.loginWithPassword(emailVal,passwordVal);
         newAccMsg = "success";

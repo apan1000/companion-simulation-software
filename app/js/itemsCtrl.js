@@ -4,9 +4,9 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	var ref = new Firebase("https://companion-simulation.firebaseio.com");
 	var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
-	$scope.items = [{name:'Rare Candy',image:'rarecandy.png',id:'rare-candy',count:$scope.user.items.lvlup},
-		{name:'Poke bell',image:'pokebell.png',id:'poke-bell',count:$scope.user.items.happy},
-		{name:'Potion',image:'potion.png',id:'potion',count:$scope.user.items.heal}];
+	$scope.items = [{name:'Rare Candy',image:'rarecandy.png',id:'rare-candy'},
+		{name:'Poke bell',image:'pokebell.png',id:'poke-bell'},
+		{name:'Potion',image:'potion.png',id:'potion'}];
 	/*$scope.reactionImage = "";*/
 
 	$scope.onDropComplete = function(data,evt) {
