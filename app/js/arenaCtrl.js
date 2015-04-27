@@ -79,9 +79,9 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
     if (Math.random()*5>1){
       console.log("ITEM DROPS, should change so .items is an array for convinience");
-      $scope.user.items.lvlup += Math.floor(Math.random()*2);
-      $scope.user.items.happy += Math.floor(Math.random()*3);
-      $scope.user.items.heal += Math.floor(Math.random()*3);
+
+      var rand = Math.floor(Math.random()*2);
+      $scope.user.items[rand] += 1;
     }
 
     if ($scope.user.pokemon.curExp>=$scope.user.pokemon.exp){
