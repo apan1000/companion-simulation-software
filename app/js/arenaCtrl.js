@@ -12,19 +12,18 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
-  //var myVar2=setInterval(function () {reduceTime()}, 1000);
-
   $scope.getHpPercentage = function() {
     return $scope.user.pokemon.curHp/$scope.user.pokemon.hp*100;
   }
 
   $scope.getEnemyHpPercentage = function() {
-    return $scope.temp_monster.curHp/$scope.temp_monster.hp*100;
+    if ($scope.temp_monster) {
+      return $scope.temp_monster.curHp/$scope.temp_monster.hp*100;
+    }
   }
 
   function reduceTime() {
     if ($scope.timer < $scope.maxTimer){
-      //console.log($scope.timer);
       $scope.timer = $scope.timer + 20;
     }
     else
@@ -33,8 +32,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       takeDmg();
       $scope.timer = 0;
     }
-
-    //updateProgress();
 
     if($scope.battle){
       $timeout( function(){ reduceTime(); }, rate);
@@ -70,7 +67,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     $scope.combo = 1;
     $scope.battle = false;
     $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.5);
-    $scope.user.wins += 1; //WINS
+    $scope.user.wins += 1;
     $scope.user.pokemon.happiness += 5;
 
     if (Math.random()*5>1){
@@ -104,6 +101,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   var battleLost = function(){
     $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
+    $scope.user.losses +=1;
     // Update user
     Companion.setUser($scope.user);
     $location.path('#/home');
