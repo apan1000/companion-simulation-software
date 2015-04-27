@@ -8,7 +8,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   $scope.timer = 0;
   $scope.rightMoment = "";
   $scope.turnBased = true;
-  var rate = 20;
+  var rate = 500;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
@@ -25,21 +25,16 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   function reduceTime() {
     if ($scope.timer < $scope.maxTimer){
       //console.log($scope.timer);
-      $scope.timer = $scope.timer + 2;
-
-      if ($scope.timer <= 90 && $scope.timer >= 70){
-        $scope.rightMoment = "progress-bar-success";
-      }
-      else{
-        $scope.rightMoment = "";
-      }
+      $scope.timer = $scope.timer + 20;
     }
     else
     {
-      rate = Math.floor((Math.random() * 10) + 10);
+      rate = 500;
       takeDmg();
       $scope.timer = 0;
     }
+
+    //updateProgress();
 
     if($scope.battle){
       $timeout( function(){ reduceTime(); }, rate);
@@ -72,15 +67,16 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   var battleWon = function(){
 
+    $scope.combo = 1;
     $scope.battle = false;
     $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.5);
     $scope.user.wins += 1; //WINS
     $scope.user.pokemon.happiness += 5;
 
     if (Math.random()*5>1){
-      console.log("ITEM DROPS, should change so .items is an array for convinience");
+      console.log("ITEM DROP");
 
-      var rand = Math.floor(Math.random()*2);
+      var rand = Math.round(Math.random()*2);
       $scope.user.items[rand] += 1;
     }
 
@@ -121,53 +117,68 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       $scope.myMonsterAni = "";
       reduceTime(); //START MORTAL COMBAT
     }
+    else{
 
-    $scope.enemyMonsterAni = "animated wobble";
-    var randomMonster = Math.floor((Math.random() * 718) + 1);
-    var randomAtk1 = Math.floor((Math.random() * 4) + 2);
-    var randomAtk2 = Math.floor((Math.random() * 4) + 2);
+      $scope.enemyMonsterAni = "animated wobble";
+      var randomMonster = Math.floor((Math.random() * 718) + 1);
+      var randomAtk1 = Math.floor((Math.random() * 3) + 3);
+      var randomAtk2 = Math.floor((Math.random() * 3) + 3);
 
-    if ($scope.temp_monster.curHp === 0) {
-      return
-    } else {
+      if ($scope.temp_monster.curHp === 0) {
+        return
+      } 
+      else
+      {
 
-      if ($scope.timer <= 90 && $scope.timer >= 70){
-        $scope.combo += 1;
-        $scope.enemyMonsterAni = "animated rubberBand";
+        //if ($scope.timer <= 90 && $scope.timer >= 70){
+        if ($scope.timer == 40){
+          $scope.combo += 1;
+          $scope.enemyMonsterAni = "animated rubberBand";
+          $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.75)/$scope.temp_monster.defense);
+          } 
+          else{
+          if ($scope.timer == 60){
+            $scope.defBreaker = 2/$scope.combo;
+            $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.combo)/($scope.temp_monster.defense*$scope.defBreaker));
+            $scope.combo = 1;
+            $scope.enemyMonsterAni = "animated wobble";
+          }
+          else{
+            $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1)/$scope.temp_monster.defense);
+            $scope.combo = 1;
+            $scope.enemyMonsterAni = "animated shake";
+          }
         }
-      else{
-        $scope.combo = 1;
-        $scope.enemyMonsterAni = "animated shake";
+
+        $scope.showMessage = true;
+        
+        //$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense);
+        $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.user.pokemon.defense);
+
+        $timeout(function() {
+            $scope.showMessage = false;
+          }, 1000);
+
+        $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-$scope.yourDmg);
+        $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
+        // Update user
+        Companion.setUser($scope.user);
+
+        if ($scope.temp_monster.curHp<=0) { //If enemy is dead
+          $scope.enemyMonsterAni = "animated fadeOutUp";
+          battleWon();
+        }
+
+        // If user's pokémon is dead
+        if ($scope.user.pokemon.curHp<=0){
+          $scope.myMonsterAni = "animated fadeOutUp";
+          $scope.battle = false;
+          $timeout( function(){ battleLost(); }, 2000);
+        }
+
+        rate = 550-($scope.combo*25);
+        $scope.timer = 0;
       }
-
-      $scope.showMessage = true;
-      
-      $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense);
-      $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.user.pokemon.defense);
-
-      $timeout(function() {
-          $scope.showMessage = false;
-        }, 1000);
-
-      $scope.temp_monster.curHp = Math.max(0,$scope.temp_monster.curHp-$scope.yourDmg);
-      $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
-      // Update user
-      Companion.setUser($scope.user);
-
-      if ($scope.temp_monster.curHp<=0) { //If enemy is dead
-        $scope.enemyMonsterAni = "animated fadeOutUp";
-        battleWon();
-      }
-
-      // If user's pokémon is dead
-      if ($scope.user.pokemon.curHp<=0){
-        $scope.myMonsterAni = "animated fadeOutUp";
-        $scope.battle = false;
-        $timeout( function(){ battleLost(); }, 2000);
-      }
-
-      rate = Math.floor((Math.random() * 10) + 12 - $scope.combo);
-      $scope.timer = 0;
     }
   }
 
@@ -178,6 +189,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         getSprite($scope.temp_monster);
         $scope.temp_monster.curHp = $scope.temp_monster.hp;
         console.log("Temp monster:",$scope.temp_monster);
+        $scope.timer = 0;
       }, function(data){
         $scope.status = "Could not find a new enemy";
     });

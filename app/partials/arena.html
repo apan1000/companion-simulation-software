@@ -26,14 +26,9 @@
 		</div>
 
 		<div class="col-md-2 text-center middleElement">
-			<div class="btn btn-primary disabled">
+			<!--div class="btn btn-primary disabled">
 			  Combo <span class="badge">{{combo}}</span>
-			</div>
-			<div class="progress">
-			  <div class="progress-bar" ng-class="rightMoment" ng-style="{width : ( timer + '%' ) }" ng-click="rightMoment='progress-bar-success'">
-			    <span class="sr-only"></span>
-			  </div>
-			</div>
+			</div-->
 		</div>
 
 		<div class="col-md-3">
@@ -60,5 +55,29 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<!--<div class="progress">
+				  <div class="progress-bar" ng-class="rightMoment" ng-style="{width : ( timer + '%' ) }" ng-click="rightMoment='progress-bar-success'">
+				    <span class="sr-only"></span>
+				  </div>
+				</div>-->
+				<table class="table-progress">
+				    <thead>
+				        <tr>
+				        	<th></th><th>-</th><th>Combo</th><th>Finisher</th><th>-</th>
+				        </tr>
+				    </thead>
+				    <tbody class="table-body">
+				        <tr>
+				        	<td><div class="progress_t" ng-style="{left : ((timer - 100)+'%')}"></div>Action</td><td>|</td><td>|</td><td>|</td><td>|</td>
+				        </tr>
+				        <tr data-progress="10">
+				            <td><div class="progress_c" ng-style="{left : ((combo*10 - 100)+'%')}"></div>Combo</td><td>|</td><td>|</td><td>|</td><td>|</td>
+				        </tr>
+				    </tbody>
+				</table>
+			</div>
+		</div>
 	<!--<img ng-src="{{sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">-->
 </div>
