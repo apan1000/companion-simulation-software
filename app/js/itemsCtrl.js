@@ -1,12 +1,12 @@
 //https://www.kth.se/social/files/54e66df1f2765449f03b4804/DH2641-2015-DnD.pptx.pdf
-companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObject,Companion, $rootScope) {
+companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObject,Companion, $rootScope,$timeout) {
 	
 	var ref = new Firebase("https://companion-simulation.firebaseio.com");
 	var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
-	$scope.items = [{name:'Rare Candy',image:'rarecandy.png',id:'rare-candy'},
-		{name:'Poke bell',image:'pokebell.png',id:'poke-bell'},
-		{name:'Potion',image:'potion.png',id:'potion'}];
+	$scope.items = [{name:'Rare Candy',image:'rarecandy.png',id:'rare-candy',count:$scope.user.items[0]},
+		{name:'Poke bell',image:'pokebell.png',id:'poke-bell',count:$scope.user.items[1]},
+		{name:'Potion',image:'potion.png',id:'potion',count:$scope.user.items[2]}];
 	/*$scope.reactionImage = "";*/
 
 	$scope.onDropComplete = function(data,evt) {
@@ -25,10 +25,10 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
     	}
 
 		if (data.name === "Rare Candy") {
-			if ($scope.user.items.lvlup>0){
+			if ($scope.user.items[0]>0){
 				showReaction();
-				/*$scope.reactionImage = "levelup.png";*/
-				$scope.user.items.lvlup -= 1;
+
+				$scope.user.items[0] -= 1;
 				$scope.user.pokemon.curExp = 0;
 				$scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
 		        $scope.user.pokemon.lvl += 1;
@@ -48,9 +48,9 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 		}
 
 		if (data.name === "Poke bell") {
-			if ($scope.user.items.happy>0){
+			if ($scope.user.items[1]>0){
 				showReaction();
-				$scope.user.items.happy -= 1;
+				$scope.user.items[1] -= 1;
 				$scope.reactionImage = "prettyspeech.png";
 				$scope.user.pokemon.happiness += 20;
 				$scope.monsterAni = "animated bounce";
@@ -64,9 +64,10 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 		}
 
 		if (data.name === "Potion") {
-			if ($scope.user.items.heal>0){
+			if ($scope.user.items[2]>0){
 				showReaction();
-				$scope.user.items.heal -= 1;
+				
+				$scope.user.items[2] -= 1;
 				console.log("Current hp; ", $scope.user.pokemon.curHp);
 				$scope.user.pokemon.curHp += 20;
 				$scope.monsterAni = "animated bounce";
