@@ -7,6 +7,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   $scope.battle = false;
   $scope.timer = 0;
   $scope.rightMoment = "";
+  $scope.turnBased = true;
   var rate = 20;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
