@@ -66,6 +66,23 @@ companionApp.directive('scrollBottom', function () {
   }
 });
 
+// Directive for focusing on an element
+companionApp.directive('focusMe', function($timeout) {
+  return {
+    scope: { trigger: '=focusMe' },
+    link: function(scope, element) {
+      scope.$watch('trigger', function(value) {
+        if(value === true) { 
+          console.log('trigger',value);
+          $timeout(function() {
+            element[0].focus();
+          });
+        }
+      });
+    }
+  };
+});
+
 companionApp.run(function($rootScope, $location) {
 	$rootScope.$on("$routeChangeStart", function(event, next, current) {
 		if ($rootScope.user == null) {

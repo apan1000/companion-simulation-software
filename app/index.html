@@ -14,9 +14,8 @@ which module to associate the app with. In app.js we create the "companionSimula
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Josefin+Sans" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Leckerli+One" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Coda">
+    <link href='http://fonts.googleapis.com/css?family=Marck+Script' rel='stylesheet' type='text/css'>
     <!-- jQuery -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <!-- Bootstrap JavaScript, needed if you want for instance tabs, models, popovers etc. -->
@@ -51,19 +50,16 @@ which module to associate the app with. In app.js we create the "companionSimula
   <body ng-controller="LoginCtrl">
     <!-- Here in index.html you should put only the layout that is shared among all the screens (e.g. header
     ,footer, etc.). The rest of the view specific layout will go into the html partials (check partials folder) -->
-    <nav id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <nav ng-if="user" id="navbar" class="navbar navbar-default navbar-fixed-top">
 	    <div class="container-fluid">
-        <div ng-if="!user" class="navbar-header">
-            <a class="navbar-brand" href="#/">Companion Simulation Software</a>
-        </div>
-        <div ng-if="user" class="navbar-header">
+        <div class="navbar-header">
         	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         		<span class="icon-bar"></span>
         		<span class="icon-bar"></span>
         		<span class="icon-bar"></span>
         	</button>
         </div>
-        <div ng-if="user" class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse">
 	        <ul class="nav navbar-nav">
 	        	<li><a ng-href="#/home" id="toHome" class="" type="button"><span class="glyphicon glyphicon-home"></span> Home</a></li>
 						<li><a ng-href="#/fields/0" class="" type="button"><span class="glyphicon glyphicon-leaf"></span> Fields</a></li>

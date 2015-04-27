@@ -107,13 +107,101 @@ input[type=email].success, input[type=password].success {
 }
 
 /* Login */
-#login-div {
+.login-bg {
+	position: absolute;
+	z-index: -1;
+	right: 0;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	background: url(../images/login-bg.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.first-screen {
+	height: 100%;
+	width: 100%;
+	text-align: center;
+}
+
+.logo-img {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.intro-text {
+	width: 40%;
+	padding: 40px;
+	border-radius: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	color: #fff;
+	background: rgba(50,50,50,.7);
+	font-family: 'Marck Script', cursive;
+	font-size: 20px;
+	-webkit-transition: width .2s ease;
+    -moz-transition: width .2s ease;
+    -o-transition: width .2s ease;
+	transition: width .2s ease;
+}
+
+@media screen and (max-width: 1000px) {
+	.intro-text {
+		width: 90%;
+	}
+}
+
+@media screen and (min-width: 1001px) {
+	.intro-text {
+		width: 60%;
+	}
+}
+
+.play-btn {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.login-container {
 	width: 40%;
 	max-width: 500px;
 	min-width: 400px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#login-div {
+	width: 100%;
+	max-width: 500px;
+	min-width: 400px;
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
 	text-align: center;
+	border-radius: 5px;
+	padding: 50px;
+	padding-top: 15px;
+	background: rgba(50,50,50,.7);
+}
+
+#login-div h1 {
+	color: #fff;
+}
+
+.login-logo {
+	position: relative;
+	left: -40px;
+	top: 90px;
+	height: 100px;
 }
 
 .login-btn, .login-input {
@@ -155,7 +243,7 @@ input[type=email].success, input[type=password].success {
 #create-acc-div {
 	z-index: 100;
 	position: absolute;
-	top: 85px;
+	top: 160px;
 	left: 50%;
 	transform: translateX(-50%);
 	width: 40%;
@@ -408,6 +496,9 @@ input[type=email].success, input[type=password].success {
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	position: relative;
+	-webkit-transition: width .1s linear;
+    -moz-transition: width .1s linear;
+    -o-transition: width .1s linear;
 	transition: width .1s linear;
 }
 

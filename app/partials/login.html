@@ -1,32 +1,50 @@
-<div id="login-div">
-	<h1>Welcome</h1>
-	<form name="loginForm">
-	    <input type="email" class="form-control login-input" placeholder="Email" id="email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: emailSuccess, error: emailError}" autofocus required>
-	    <input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: passwordSuccess, error: passwordError}" required>
-	    <div ng-class="{success: success, error: error}">{{loginMsg}}</div>
-	    <button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">
-	    	<img src="images/spinner2.gif" alt="Loading" height="18px" ng-show="loading">
-	    	<span ng-hide="loading">Login</span>
-	    </button>
-	</form>
-	<hr>
-	<button type="button" class="btn btn-default login-btn" ng-click="showCreateAcc=true">Create account</button>
-	<button type="button" class="btn btn-info login-btn" ng-click="loginWithSocial('twitter')">Twitter</button>
-	<button type="button" class="btn btn-primary login-btn" ng-click="loginWithSocial('facebook')">Facebook</button>
-	<button type="button" class="btn btn-danger login-btn" ng-click="loginWithSocial('google')">Google+</button>
-</div>
-<div class="create-acc-overlay" ng-click="showCreateAcc=false" ng-show="showCreateAcc">
-	<div id="create-acc-div" ng-click="$event.stopPropagation();">
-		<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="showCreateAcc=false"></span>
-		<h1>Create new account</h1>
-		<form name="createAccForm">
-		    <input type="email" class="form-control login-input" placeholder="Email" id="newEmail" name="newEmail" ng-model="newEmail" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccEmailSuccess, error: newAccEmailError}" required>
-		    <input type="password" class="form-control login-input" placeholder="Password" name="newPassword" ng-model="newPassword" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccPasswordSuccess, error: newAccPasswordError}" required>
-		    <div ng-class="{success: newAccSuccess, error: newAccError}">{{newAccMsg}}</div>
-		    <button type="button" class="btn btn-success login-btn" ng-click="createAccount()" ng-disabled="createAccForm.newEmail.$invalid || createAccForm.newPassword.$invalid">
-		    	<img src="images/spinner2.gif" alt="Loading" height="18px" ng-show="loading">
-		    	<span ng-hide="loading">Create!</span>
-		    </button>
-		</form>
+<div class="login-bg">
+	<div class="first-screen" ng-hide="showLogin">
+		<img class="logo-img" src="images/logo.png" alt="Egg of Companion">
+		<div class="intro-text">
+			<p>Once upon a time there were some eggs.</p>
+			<p>These powerful beings were conceived through might and magic.</p>
+			<p>The eggs cracked open and war raged for centuries.</p>
+			<p>No one recalls who came out as winner in the end, but what we are sure of is that what came out of the eggs returned and has slumbered ever since.</p>
+			<p>After thousand years of slumbering the eggs have awoken once more.</p>
+			<p>Now it's your time to wield the power of the egg and fight the companions!</p>
+		</div>
+		<button type="button" class="btn btn-default btn-lg play-btn btn-success" ng-click="showLogin=true; focusInput=true">Play</button>
+	</div>
+	<!-- Login and Create account forms -->
+	<div class="login-container" ng-show="showLogin">
+		<img class="login-logo" src="images/logo.png" alt="Egg of Companion">
+		<div id="login-div">
+			<h1>Welcome</h1>
+			<form name="loginForm">
+			    <input type="email" class="form-control login-input" placeholder="Email" id="email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: emailSuccess, error: emailError}" focus-me="showLogin" autofocus required>
+			    <input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: passwordSuccess, error: passwordError}" required>
+			    <div ng-class="{success: success, error: error}">{{loginMsg}}</div>
+			    <button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">
+			    	<img src="images/spinner2.gif" alt="Loading" height="18px" ng-show="loading">
+			    	<span ng-hide="loading">Login</span>
+			    </button>
+			</form>
+			<button type="button" class="btn btn-info login-btn" ng-click="loginWithSocial('twitter')">Twitter</button>
+			<button type="button" class="btn btn-primary login-btn" ng-click="loginWithSocial('facebook')">Facebook</button>
+			<button type="button" class="btn btn-danger login-btn" ng-click="loginWithSocial('google')">Google+</button>
+			<hr>
+			<button type="button" class="btn btn-default login-btn" ng-click="showCreateAcc=true">Create account</button>
+		</div>
+		<div class="create-acc-overlay" ng-click="showCreateAcc=false" ng-show="showCreateAcc">
+			<div id="create-acc-div" ng-click="$event.stopPropagation();">
+				<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="showCreateAcc=false"></span>
+				<h1>Create new account</h1>
+				<form name="createAccForm">
+				    <input type="email" class="form-control login-input" placeholder="Email" id="newEmail" name="newEmail" ng-model="newEmail" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccEmailSuccess, error: newAccEmailError}" focus-me="showCreateAcc" required>
+				    <input type="password" class="form-control login-input" placeholder="Password" name="newPassword" ng-model="newPassword" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccPasswordSuccess, error: newAccPasswordError}" required>
+				    <div ng-class="{success: newAccSuccess, error: newAccError}">{{newAccMsg}}</div>
+				    <button type="button" class="btn btn-success login-btn" ng-click="createAccount()" ng-disabled="createAccForm.newEmail.$invalid || createAccForm.newPassword.$invalid">
+				    	<img src="images/spinner2.gif" alt="Loading" height="18px" ng-show="loading">
+				    	<span ng-hide="loading">Create!</span>
+				    </button>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
