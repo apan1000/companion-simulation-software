@@ -15,7 +15,7 @@
 						<!--progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress-->
 						<div class="bar">
 							<span>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</span>
-							<div class="bar-cur health-bar-cur" ng-style="{'width':user.pokemon.curHp/user.pokemon.hp*100+'%'}"></div>
+							<div class="bar-cur" ng-class="{'health-bar-high': getHpPercentage() > 30, 'health-bar-low': getHpPercentage() <= 30}" ng-style="{'width':getHpPercentage()+'%'}"></div>
 						</div>
 					</div>
 					<div class="row">
@@ -50,7 +50,7 @@
 						<h3>{{temp_monster.name}}</h3>
 						<div class="bar">
 							<span>{{temp_monster.curHp}}/{{temp_monster.hp}}</span>
-							<div class="bar-cur health-bar-cur" ng-style="{'width':temp_monster.curHp/temp_monster.hp*100+'%'}"></div>
+							<div class="bar-cur" ng-class="{'health-bar-high': getEnemyHpPercentage() > 30, 'health-bar-low': getEnemyHpPercentage() <= 30}" ng-style="{'width': getEnemyHpPercentage()+'%'}"></div>
 						</div>
 					</div>
 					<div class="row">

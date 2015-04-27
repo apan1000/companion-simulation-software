@@ -18,14 +18,14 @@
 			<h4>HP</h4>
 			<div class="bar">
 				<span>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</span>
-				<div class="bar-cur health-bar-cur" ng-style="{'width':user.pokemon.curHp/user.pokemon.hp*100+'%'}"></div>
+				<div class="bar-cur" ng-class="{'health-bar-high': user.pokemon.curHp/user.pokemon.hp > 0.3, 'health-bar-low': user.pokemon.curHp/user.pokemon.hp <= 0.3}" ng-style="{'width':user.pokemon.curHp/user.pokemon.hp*100+'%'}"></div>
 			</div>
 		</div>
 		<div class="expbar">
 			<h4>EXP</h4>
 			<div class="bar">
 				<span>{{user.pokemon.curExp}}/{{user.pokemon.exp}}</span>
-				<div class="bar-cur exp-bar-cur" ng-style="{'width':user.pokemon.curExp/user.pokemon.exp*100+'%'}"></div>
+				<div class="bar-cur exp-bar" ng-style="{'width':user.pokemon.curExp/user.pokemon.exp*100+'%'}"></div>
 			</div>
 		</div>
 	</div>

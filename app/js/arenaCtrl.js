@@ -11,31 +11,39 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
-//var myVar2=setInterval(function () {reduceTime()}, 1000);
+  //var myVar2=setInterval(function () {reduceTime()}, 1000);
 
-function reduceTime() {
-  if ($scope.timer < $scope.maxTimer){
-    //console.log($scope.timer);
-    $scope.timer = $scope.timer + 2;
+  $scope.getHpPercentage = function() {
+    return $scope.user.pokemon.curHp/$scope.user.pokemon.hp*100;
+  }
 
-    if ($scope.timer <= 90 && $scope.timer >= 70){
-      $scope.rightMoment = "progress-bar-success";
+  $scope.getEnemyHpPercentage = function() {
+    return $scope.temp_monster.curHp/$scope.temp_monster.hp*100;
+  }
+
+  function reduceTime() {
+    if ($scope.timer < $scope.maxTimer){
+      //console.log($scope.timer);
+      $scope.timer = $scope.timer + 2;
+
+      if ($scope.timer <= 90 && $scope.timer >= 70){
+        $scope.rightMoment = "progress-bar-success";
+      }
+      else{
+        $scope.rightMoment = "";
+      }
     }
-    else{
-      $scope.rightMoment = "";
+    else
+    {
+      rate = Math.floor((Math.random() * 10) + 10);
+      takeDmg();
+      $scope.timer = 0;
+    }
+
+    if($scope.battle){
+      $timeout( function(){ reduceTime(); }, rate);
     }
   }
-  else
-  {
-    rate = Math.floor((Math.random() * 10) + 10);
-    takeDmg();
-    $scope.timer = 0;
-  }
-
-  if($scope.battle){
-    $timeout( function(){ reduceTime(); }, rate);
-  }
-}
 
   var takeDmg = function() {
     $scope.combo = 1;

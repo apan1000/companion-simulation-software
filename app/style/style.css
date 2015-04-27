@@ -380,12 +380,16 @@ input[type=email].success, input[type=password].success {
 	transition: width .1s linear;
 }
 
-.health-bar-cur {
+.health-bar-high {
 	background: #2bc253;
 }
 
-.exp-bar-cur {
-	background: #f28b3d;
+.health-bar-low {
+	background: #f24e3d;
+}
+
+.exp-bar {
+	background: #2bbdc2;
 }
 
 .hpbars{
