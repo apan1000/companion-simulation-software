@@ -5,8 +5,8 @@
 
 <div class="create-acc-overlay" ng-show="shownickname" ng-controller="UserCtrl">
 	<div id="create-acc-div" ng-click="$event.stopPropagation();">
-		<h1>Congratulations!</h1>	
-		<img ng-src="{{user.pokemon.sprite}}" alt="userpokemon">
+		<h1>Congratulations!</h1>
+		<img class="monsterImageStatic" ng-src="{{user.pokemon.sprite}}" alt="userpokemon">
 		<h4>{{user.pokemon.name}} hatched from the egg! Give a nickname to {{user.pokemon.name}}?</h4>
 		<form name="createNickname">
 			<button type="button" class="btn btn-success" ng-click="addnickname=true">Yes</button>

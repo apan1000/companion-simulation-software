@@ -1,7 +1,7 @@
-<div class="col-md-6">
+<div class="col-md-3">
 	<h2>{{otherUser.pokemon.name}}<br/><small>Master: {{otherUser.name}}</small></h2>
 	<h4>MonsterID: {{otherUser.pokemon.id}}</h4>
-	<img ng-src="{{otherUser.pokemon.sprite}}" alt="{{otherUser.pokemon.name}}">
+	<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
 	<div>
 		<h4>Hp: {{otherUser.pokemon.hp}}</h4>
 		<h4>Attack: {{otherUser.pokemon.attack}}</h4>
@@ -11,7 +11,4 @@
 	</div>
 	<a class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}">Challenge this pokemon (offline)</a>
 </div>
-
-<div class="col-md-6">
-	<ng-include src="'partials/chat.html'" ng-controller="ChatCtrl"></ng-include>
-</div>
+<ng-include class="col-sm-9" src="'partials/list.html'" ng-controller="ListCtrl"></ng-include>

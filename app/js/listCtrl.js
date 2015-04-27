@@ -4,8 +4,8 @@ companionApp.controller('ListCtrl', ["$scope", "$firebaseArray", "Companion",
 
 		var ref = new Firebase('https://companion-simulation.firebaseio.com/');
 		var usersRef = ref.child('users');
-		$scope.sortType = 'name';
-		$scope.sortReverse = false;
+		$scope.sortType = 'wins';
+		$scope.sortReverse = true;
 
 		$scope.status = "Loading...";
 		usersRef.on("value", function(snapshot) {
