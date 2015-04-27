@@ -83,6 +83,14 @@ input[type=email].success, input[type=password].success {
 	background-color: #fff;
 }
 
+.navbar-default .navbar-link {
+  color: #000;
+}
+
+.navbar-default .navbar-text {
+	margin-top: 13px;
+}
+
 .navbar-brand {
 	font-family: 'Coda';
 	/* 'Leckerli One' */
