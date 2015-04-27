@@ -30,15 +30,40 @@ var app = angular.module('companionSimulation');
 //   };
 // });
 
-app.directive("drawing", function($document){
+app.directive("drawing", function($document, Companion, $firebaseObject, $firebaseArray){
   return {
     restrict: "A",
     link: function(scope, element, attrs){
 
         var ref = new Firebase("https://companion-simulation.firebaseio.com");
-        var usersRef = ref.child("users");
+        // var syncObject = firebaseObject(ref);
+        // syncObject.$bindTo(scope, "users");
+
+        // var usersRef = ref.child("users");
+        // var users = $firebaseObject(usersRef);
+        var users = {};
+        scope.users = users;
+        scope.users = $firebaseArray(ref.child("users"));
+
+        //syncObject.$bindTo(scope, "users");
+        scope.users.$loaded(
+          function(data) {
+            console.log(data === scope.users); // true
+            console.log(data);
+              initOthers();
+              //initPlayer();
+
+              update();
+              render();
+              dataUpdate();
+              console.log("GO");
+          },
+          function(error) {
+            console.error("Error:", error);
+        }
+      );
         //Settings
-        var movespeed = 300;
+        var movespeed = 200;
 
         //Init Canvas
         var canvas = element[0];
@@ -48,18 +73,19 @@ app.directive("drawing", function($document){
         //Init Player
         var playerImage = new Image();
         var player = {x:10,y:10};
+        var initPlayer = function(){
 
-        playerImage.src = scope.user.pokemon.sprite;
-        playerImage.onload = function() {
-            update();
-            render();
+          playerImage.src = scope.user.pokemon.sprite;
+          playerImage.onload = function() {
+              return;
+          }
+
         }
+
         //Init Background
         var background = new Image();
         background.src = "../images/background.png";
 
-        var otherPlayers = [];
-        var otherPlayersImages = [];
 
         window.requestAnimationFrame = function(){
             return(
@@ -98,6 +124,27 @@ app.directive("drawing", function($document){
             setTimeout( update, 1000 / 60 );//multifaster
         }
 
+        function dataUpdate(){
+            if (scope.user.x_coord != player.x || scope.user.y_coord != player.y){
+              scope.user.x_coord = player.x;
+              scope.user.y_coord = player.y;
+              Companion.setUser(scope.user);
+              console.log("updated XY");
+
+              var opLength = otherPlayersUids.length;
+              var currentUid = "";
+
+              for (i = 0; i < opLength; i++){
+
+                currentUid = otherPlayersUids[i];
+
+                otherPlayers[currentUid].x_coord = scope.users[i].x_coord;
+                otherPlayers[currentUid].y_coord = scope.users[i].y_coord;
+              }
+
+            }
+            setTimeout(dataUpdate, 1000/10);
+        }
         
         function render(){
             ctx.clearRect(0, 0, canvas.width, canvas.height);;
@@ -111,7 +158,24 @@ app.directive("drawing", function($document){
         function drawBackground(){
           ctx.drawImage(background,0,0);
         }
+        function drawOthers(){
+          var opLength = otherPlayersUids.length;
 
+          var currentUid = "";
+          for (i = 0; i < opLength; i++){
+            currentUid = otherPlayersUids[i];
+
+            ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
+          }
+        //  var i = 0;
+        //  angular.forEach(otherPlayers, function(user, key) {
+           //  ctx.drawImage(otherPlayersImages[i], user.x_coord, user.y_coord);
+           //  i++;
+           // });
+        //     for(i in otherPlayers){
+        //         ctx.drawImage(otherPlayers[i].Image, otherPlayers[i].x_coord, otherPlayers[i].y_coord);
+        //     }
+        }
         function drawPlayer(){
             ctx.drawImage(playerImage, player.x,player.y);
 
@@ -181,6 +245,14 @@ app.directive("drawing", function($document){
             if (keyDown === true) {
                 player.y = player.y+amount;
             }
+
+            
+
+            // usersRef.child(scope.user.uid).child("x_coord").update(player.x);
+            // usersRef.child(scope.user.uid).child("y_coord").update(player.y);
+
+
+
         }
 
 
@@ -194,30 +266,65 @@ app.directive("drawing", function($document){
        // var lastX;
        // var lastY;
 
-        getSprite = function(sprites){
-        	for (i in sprites){
-        		var otherImage = new Image();
-            	var other = {x:10,y:10};
-            	otherImage.src = scope.user.pokemon.sprite;
-            	otherPlayers.push(player);
-            	otherPlayersImages.push(otherImage);
+       //  getSprite = function(sprites){
+       //    var other
+       //  	for (i in sprites){
+       //      	var other = {x:10,y:10};
+       //        createImage(scope.user.pokemon.sprite)
+       //      	otherPlayers.push(player);
+       //      	otherPlayersImages.push(createImage(scope.user.pokemon.sprite));
+       //  	}
+       // }
 
-        	}
+       var createImage = function(src){
+          var img = new Image();
+          img.src = src;
+          img.onload = function() {
+              console.log(src+" loaded!");  
+          }
+          return img;
+       };
 
-       }
+       var otherPlayers = { };
+       var otherPlayersImages = [];
+       var otherPlayersUids = [];
 
+       var initOthers = function(){
+        
+        var i = 0;
+        var arrLength = scope.users.length;
+        //console.log(scope.users);
+        console.log("INITOTHERS");
+        var uid = "";
+        for (i=0; i < arrLength; i++){
+          //scope.users[i];
 
-        var drawOthers = function(){
-   //      	var i = 0;
-   //      	angular.forEach(otherPlayers, function(user, key) {
-			//   ctx.drawImage(otherPlayersImages[i], user.x, user.y);
-			//   i++;
-			// });
-   //          for(i in otherPlayers){
-   //              ctx.drawImage(otherPlayers[i].Image, otherPlayers[i].x, otherPlayers[i].y);
-   //          }
+          uid = scope.users[i].uid;
+          console.log("UserFound"+uid)
+          otherPlayers[uid] = {};
+          otherPlayers[uid].x_coord = scope.users[i].x_coord;
+          otherPlayers[uid].y_coord = scope.users[i].y_coord;
+          otherPlayers[uid].image = {};
+          otherPlayers[uid].image = createImage(scope.users[i].pokemon.sprite);
+          console.log("IMAGES:");
+          console.log(createImage(scope.users[i].pokemon.sprite));
+          otherPlayersUids.push(uid);
+
         }
+        console.log(otherPlayers);
+        window.setTimeout(initPlayer, 3000);
+          // player.x = scope.user[i].x_coord;
+          // player.y = scope.user[i].y_coord;
+          // var uid = scope.user[i].uid;
+
+          // otherPlayers.push(scope.user[i]);
+          // otherPlayerImages.push(createImage(scope.user[i].pokemon.sprite));
+      }
+
+        
+
    //      var sprites = [];
+
    //      usersRef.once("value", function(snapshot) {
    //          var array = snapshot.val();
    //        	angular.forEach(array, function(user, key) {
@@ -227,14 +334,8 @@ app.directive("drawing", function($document){
    //          }, function (errorObject) {
    //          console.log("The read failed: " + errorObject.code);
    //      });
-        // var draw = function(){
-        //     if(!redraw)
-        //         return;
-        //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //     //What to draw
-        //     drawPlayer();
-        //     drawOthers();
-        // }
+
+
 
         //player.x * wallDim + wallDim ,player.y * wallDim + wallDim ,50,50);
 
@@ -281,16 +382,7 @@ app.directive("drawing", function($document){
       //  element[0].width = element[0].width; 
       // }
 
-      // function draw(lX, lY, cX, cY){
-      //   // line from
-      //   ctx.moveTo(lX,lY);
-      //   // to
-      //   ctx.lineTo(cX,cY);
-      //   // color
-      //   ctx.strokeStyle = "#4bf";
-      //   // draw it
-      //   ctx.stroke();
-      // }
+
     
   }
 }
