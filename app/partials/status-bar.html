@@ -16,14 +16,18 @@
 	<div class="row">
 		<div class="hpbar">
 			<h4>HP</h4>
-			<progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress>
+			<div class="bar">
+				<span>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</span>
+				<div class="bar-cur health-bar-cur" ng-style="{'width':user.pokemon.curHp/user.pokemon.hp*100+'%'}"></div>
+			</div>
 		</div>
-		<div id="hp">{{user.pokemon.curHp}}/{{user.pokemon.hp}}</div>
 		<div class="expbar">
 			<h4>EXP</h4>
-			<progress id="expprogress" value="{{user.pokemon.curExp}}" max="{{user.pokemon.exp}}"></progress>
+			<div class="bar">
+				<span>{{user.pokemon.curExp}}/{{user.pokemon.exp}}</span>
+				<div class="bar-cur exp-bar-cur" ng-style="{'width':user.pokemon.curExp/user.pokemon.exp*100+'%'}"></div>
+			</div>
 		</div>
-		<div id="hp">{{user.pokemon.curExp}}/{{user.pokemon.exp}}</div>
 	</div>
 	<div class="row">
 		<h4>Stats</h4>
@@ -54,12 +58,4 @@
 			<div id="attack"><h4>Attack</h4></div>
 		</div>
 	</div>-->
-	<div class="btn-group btn-group-lg" role="group">
-		<a ng-href="#/fields/0" class="btn btn-lg btn-success" type="button"><span class="glyphicon glyphicon-leaf"> Fields</a>
-		<a ng-href="#/bar" id="toTheBar" class="btn btn-default btn-lg" type="button"><span class="glyphicon glyphicon-glass"></span> Bar</a>
-	</div>
-	<div class="btn-group btn-group-lg" role="group">
-		<a ng-href="#/rankings" id="toHome" class="btn btn-default btn-lg" type="button"><span class="glyphicon glyphicon-th-list"></span> Ranks</a>
-		<a ng-href="#/home" id="toHome" class="btn btn-default btn-lg" type="button"><span class="glyphicon glyphicon-home"></span> Home</a>
-	</div>
 </div>
