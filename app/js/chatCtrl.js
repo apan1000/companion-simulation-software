@@ -21,12 +21,13 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 				if ($scope.msg) {
 					var user = $scope.getUser();
 					console.log(user);
-
+					var time = Date.now();
 					//Add to firebase
 					var newMsg = chatRef.push({
 						user: user.uid,
 						name: user.name,
-						text: $scope.msg
+						text: $scope.msg,
+						timestamp: time
 					});
 					newMsgID = {};
 					newMsgID = newMsg.key();

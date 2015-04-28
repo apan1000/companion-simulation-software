@@ -1,39 +1,10 @@
 var app = angular.module('companionSimulation');
-
-// Canvas directive
-// app.direcive("bar", function(){
-//     return{
-//         restrict: "A",
-//         link: function(scope,element,attrs){
-//             //console.log
-//     var ctx = elemeny[0].getContext('2d');
-//     }
-// });
-
-// app.directive("canvas", function(){
-//   return {
-//     restrict: "A",
-//     link: function(scope, elem, attrs){
-
-//         elem.bind('click', function() {
-//             console.log(scope.totalViewers);
-//         scope.$apply(function() {
-//           scope.context = elem[0].getContext('2d');
-//         });
-//       });
-        
-//       // canvas reset
-//       function reset(){
-//        scope.context.clearRect (0, 0, canvas.width, canvas.height);
-//       }
-//     }
-//   };
-// });
-
-app.directive("drawing", function($document, Companion, $firebaseObject, $firebaseArray){
+app.directive("drawing", function($document, Companion, ChatService, $firebaseObject, $firebaseArray){ // ChatService,
   return {
     restrict: "A",
     link: function(scope, element, attrs){
+        var playerUser = scope.user;
+        console.log("user: ", playerUser);
 
         var ref = new Firebase("https://companion-simulation.firebaseio.com");
 
@@ -45,11 +16,26 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
             
             console.log("ARRAY loaded");
             console.log(syncArray);
+
               initOthers();
 
               update();
               render();
               dataUpdate();
+          },
+          function(error) {
+            console.error("Error:", error);
+          }
+        );
+
+        var messages = $firebaseArray(ref.child("chat"));
+        messages.$loaded(
+          function(data) {
+            console.log(data === messages); // true
+            
+            console.log("MESSAGES loaded");
+            console.log(messages);
+
           },
           function(error) {
             console.error("Error:", error);
@@ -70,48 +56,120 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
         // var users = {};
         // scope.users = users;
 
-        var syncObject = $firebaseObject(ref.child("users"));
-        syncObject.$bindTo(scope, "users");
+
+        var refSyncObject = new Firebase("https://companion-simulation.firebaseio.com/users/"+playerUser.uid);
+
+        var syncObject = $firebaseObject(refSyncObject); //.child("users").child(playerUser.uid));
+  
+        //scope.playerData = syncObject;
+        syncObject.$bindTo(scope, "playerData");
+
         syncObject.$loaded(
           function(data) {
             console.log(data === syncObject); // true
             
             console.log("OBJECT loaded");
-            console.log(scope.users);
+            console.log(scope.playerData);
 
-              initPlayer();
+            initPlayer();
 
-              update();
-              render();
-              dataUpdate();
           },
           function(error) {
             console.error("Error:", error);
-        }
-      );
+          }
+        );
+
+
         //Settings
         var movespeed = 200;
 
         //Init Canvas
         var canvas = element[0];
         var ctx = canvas.getContext('2d');
+        var canvasWidth = 1280
+        var canvasHeight = 800
 
 
         //Init Player
-        var playerImage = new Image();
-        var player = {x:10,y:10};
-        var initPlayer = function(){
+        //var playerImage = new Image();
+        var player = {x:10,y:10}; //{x:scope.playerData.x_coord,y:scope.playerData.y_coord};
 
-          playerImage.src = scope.user.pokemon.sprite;
-          playerImage.onload = function() {
-              return;
-          }
+        var initPlayer = function(){
+          player["image"] = {};
+          player.image = createImage(scope.playerData.pokemon.sprite);
+          //playerImage.src = scope.playerData.pokemon.sprite;
+          //playerImage.onload = function() {
+          //    return;
+          //}
 
         }
 
         //Init Background
         var background = new Image();
         background.src = "../images/background.png";
+
+        //var grassTile = createImage("../images/grassTile1.png");
+
+        var grassTile = new Image();
+        grassTile.src = "../images/grassTile1.png";
+
+
+       var createImage = function(src){
+          var img = new Image();
+          img.src = src;
+          img.onload = function() {
+              console.log(src+" loaded!");  
+          }
+          return img;
+       };
+
+      var otherPlayers = { };
+      var otherPlayersImages = [];
+      var otherPlayersUids = [];
+
+      var initOthers = function(){
+        
+        var i = 0;
+        var arrLength = syncArray.length;
+        console.log(arrLength);
+        console.log("INITOTHERS");
+        var uid = "";
+        for (i=0; i < arrLength; i++){
+          //scope.users[i];
+
+          uid = syncArray[i].uid;
+            otherPlayers[uid] = {};
+            otherPlayers[uid].x_coord = syncArray[i].x_coord;
+            otherPlayers[uid].y_coord = syncArray[i].y_coord;
+            otherPlayers[uid].image = {};
+            otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
+            otherPlayers[uid].name = {};
+            otherPlayers[uid].name = syncArray[i].name;
+            otherPlayersUids.push(uid);
+          // var onlineUsers = ChatService.getOnlineUsers();
+          // for (j=0; j < onlineUsers.length; j++){
+          //     if(onlineUsers[j].uid === uid){
+          //       otherPlayers[uid] = {};
+          //       otherPlayers[uid].x_coord = syncArray[i].x_coord;
+          //       otherPlayers[uid].y_coord = syncArray[i].y_coord;
+          //       otherPlayers[uid].image = {};
+          //       otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
+          //       otherPlayersUids.push(uid);
+
+          //     }
+          // }
+          
+        }
+
+        console.log("OTHERPLAYERS",otherPlayers);
+        window.setTimeout(initPlayer, 3000);
+          // player.x = scope.user[i].x_coord;
+          // player.y = scope.user[i].y_coord;
+          // var uid = scope.user[i].uid;
+
+          // otherPlayers.push(scope.user[i]);
+          // otherPlayerImages.push(createImage(scope.user[i].pokemon.sprite));
+      }
 
 
         window.requestAnimationFrame = function(){
@@ -153,11 +211,20 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
 
         function dataUpdate(){
 
-            if (scope.users[scope.user.uid].x_coord != player.x || scope.users[scope.user.uid].y_coord != player.y){
-              console.log("oyOYOY");
-              scope.users[scope.user.uid].x_coord = player.x;
-              scope.users[scope.user.uid].y_coord = player.y;
+            if (scope.playerData.x_coord != player.x || scope.playerData.y_coord != player.y){
+              
+              scope.playerData.x_coord = player.x;
+              scope.playerData.y_coord = player.y;
+
+              syncObject.x_coord = player.x;
+              syncObject.y_coord = player.y;
+
+              syncObject.$save();
+
               //Companion.setUser(scope.user);
+
+              //console.log("scope.playerData", scope.playerData);
+              //console.log("syncObject",syncObject);
             }
             
             var opLength = otherPlayersUids.length;
@@ -169,7 +236,7 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
                 otherPlayers[currentUid].x_coord = syncArray[i].x_coord;
                 otherPlayers[currentUid].y_coord = syncArray[i].y_coord;
             }
-            setTimeout(dataUpdate, 1000/30);
+            setTimeout(dataUpdate, 1000/10);
         }
         
         function render(){
@@ -177,13 +244,38 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
             drawBackground();
             drawPlayer();
             drawOthers();
+            drawMessages();
             setTimeout( render, 1000 / 60 );
             //requestAnimationFrame(render);
         }
 
         function drawBackground(){
+
+          
+          var ptrn = ctx.createPattern(grassTile, 'repeat'); // Create a pattern with this image, and set it to "repeat".
+          ctx.fillStyle = ptrn;
+          ctx.fillRect(0, 0, canvasWidth, canvasHeight);
           ctx.drawImage(background,0,0);
         }
+
+        function drawMessages(){
+          ctx.font = 'italic 12pt Calibri';
+          ctx.fillStyle = 'blue';
+          var currentUid = "";
+          for (i=0;i<otherPlayersUids.length;i++){
+            var ytext = 0
+
+            for (i=0;i<messages.length;i++){
+              if (messages[i].user === otherPlayersUids[i]){
+                currentUid=otherPlayersUids[i];
+                console.log(messsages[i].text);
+                ctx.fillText(messages[i].text, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
+                ytext = ytext+14;
+              }
+            }
+          }
+        }
+
         function drawOthers(){
           var opLength = otherPlayersUids.length;
 
@@ -202,11 +294,29 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
         //         ctx.drawImage(otherPlayers[i].Image, otherPlayers[i].x_coord, otherPlayers[i].y_coord);
         //     }
         }
-        function drawPlayer(){
-            ctx.drawImage(playerImage, player.x,player.y);
 
+
+
+        function drawPlayer(){
+            ctx.drawImage(player.image, player.x,player.y);
+            ctx.font = 'italic 12pt Calibri';
+            ctx.fillStyle = 'white';
+            ctx.fillText(syncObject.name, player.x+30, player.y+15);
+            var yOffset = 0;
+            for (i=0; i < messages.length; i++){
+              if (messages[i].user === playerUser.uid){
+                ctx.font = 'italic 12pt Calibri';
+                ctx.fillStyle = 'white';
+                ctx.fillText(messages[i].text, player.x+100, player.y+15+yOffset);
+                yOffset = yOffset+14;
+
+              }
+            }
         }
 
+
+
+        console.log("THIS IS MESSAGES", scope.messages);
         var amount = 0;
         var keyLeft = false;
         var keyUp = false;
@@ -259,17 +369,17 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
             amount = movespeed*delta/1000;
             //console.log(amount);
 
-            if (keyLeft === true) {
-                player.x = player.x-amount;
+            if (keyLeft === true && player.x > 0) {
+                player.x = Math.round(player.x-amount);
             }
-            if (keyRight === true) {
-                player.x = player.x+amount;
+            if (keyRight === true && player.x < canvasWidth-50) {
+                player.x = Math.round(player.x+amount);
             } 
-            if (keyUp === true) {
-                player.y = player.y-amount;
+            if (keyUp === true && player.y > 0) {
+                player.y = Math.round(player.y-amount);
             }
-            if (keyDown === true) {
-                player.y = player.y+amount;
+            if (keyDown === true && player.y < canvasHeight-50) {
+                player.y = Math.round(player.y+amount);
             }
 
             
@@ -302,50 +412,6 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
        //  	}
        // }
 
-       var createImage = function(src){
-          var img = new Image();
-          img.src = src;
-          img.onload = function() {
-              console.log(src+" loaded!");  
-          }
-          return img;
-       };
-
-       var otherPlayers = { };
-       var otherPlayersImages = [];
-       var otherPlayersUids = [];
-
-       var initOthers = function(){
-        
-        var i = 0;
-        var arrLength = syncArray.length;
-        //console.log(scope.users);
-        console.log("INITOTHERS");
-        var uid = "";
-        for (i=0; i < arrLength; i++){
-          //scope.users[i];
-
-          uid = syncArray[i].uid;
-          console.log("UserFound"+uid)
-          otherPlayers[uid] = {};
-          otherPlayers[uid].x_coord = syncArray[i].x_coord;
-          otherPlayers[uid].y_coord = syncArray[i].y_coord;
-          otherPlayers[uid].image = {};
-          otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
-          console.log("IMAGES:");
-          console.log(createImage(syncArray[i].pokemon.sprite));
-          otherPlayersUids.push(uid);
-
-        }
-        console.log(otherPlayers);
-        window.setTimeout(initPlayer, 3000);
-          // player.x = scope.user[i].x_coord;
-          // player.y = scope.user[i].y_coord;
-          // var uid = scope.user[i].uid;
-
-          // otherPlayers.push(scope.user[i]);
-          // otherPlayerImages.push(createImage(scope.user[i].pokemon.sprite));
-      }
 
         
 

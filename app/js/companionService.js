@@ -246,7 +246,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   if (self.getUser()) {
     var user = self.getUser();
     usersRef.child(user.uid).on("value",function(snapshot) {
-      console.log("userRef user:",snapshot.val());
+      //console.log("userRef user:",snapshot.val());
       $rootScope.user = snapshot.val();
       $localStorage.user = snapshot.val();
       $rootScope.$broadcast('userChanged');
