@@ -533,18 +533,16 @@ input[type=email].success, input[type=password].success {
 }
 
 .bubble {
-	opacity: 0.3;
 	background-color: #fff;
-	width: 80%;
+	width: 100%;
 	padding: 20px;
 	margin: 10px;
-	border-radius: 10px;
 
 	margin-left: auto;
 	margin-right: auto;
 	left: 0;
 	right: 0;
-	margin-bottom: 60px;
+	margin-bottom: 0px;
 }
 
 .bubble:hover {
@@ -562,7 +560,7 @@ input[type=email].success, input[type=password].success {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 300px;
+	margin-top:120%;
 }
 
 .fadein.ng-hide-remove,
@@ -663,6 +661,10 @@ input[type=email].success, input[type=password].success {
 }*/
 
 /* BOOTSTRAP CHANGES */
+
+.table-fix{
+	table-layout: fixed;
+}
 
 .orderBy {
 	color:#000;
