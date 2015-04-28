@@ -36,27 +36,54 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
     link: function(scope, element, attrs){
 
         var ref = new Firebase("https://companion-simulation.firebaseio.com");
-        // var syncObject = firebaseObject(ref);
-        // syncObject.$bindTo(scope, "users");
 
-        // var usersRef = ref.child("users");
-        // var users = $firebaseObject(usersRef);
-        var users = {};
-        scope.users = users;
-        scope.users = $firebaseArray(ref.child("users"));
+        var syncArray = $firebaseArray(ref.child("users"));
 
-        //syncObject.$bindTo(scope, "users");
-        scope.users.$loaded(
+        syncArray.$loaded(
           function(data) {
-            console.log(data === scope.users); // true
-            console.log(data);
+            console.log(data === syncArray); // true
+            
+            console.log("ARRAY loaded");
+            console.log(syncArray);
               initOthers();
-              //initPlayer();
 
               update();
               render();
               dataUpdate();
-              console.log("GO");
+          },
+          function(error) {
+            console.error("Error:", error);
+          }
+        );
+
+        // var refSnapshot = [];
+        // function dbSnapshot(){
+        //   ref.once("value", function(dataSnapshot) {
+        //     refSnapshot = dataSnapshot.child("users").val());
+        //     console.log("SUCCESS SNAPSHOT");
+        //    console.log(refSnapshot, dataSnapshot.child("users").val().length);
+
+        //   });
+          
+        
+        
+        // var users = {};
+        // scope.users = users;
+
+        var syncObject = $firebaseObject(ref.child("users"));
+        syncObject.$bindTo(scope, "users");
+        syncObject.$loaded(
+          function(data) {
+            console.log(data === syncObject); // true
+            
+            console.log("OBJECT loaded");
+            console.log(scope.users);
+
+              initPlayer();
+
+              update();
+              render();
+              dataUpdate();
           },
           function(error) {
             console.error("Error:", error);
@@ -128,22 +155,19 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
             if (scope.user.x_coord != player.x || scope.user.y_coord != player.y){
               scope.user.x_coord = player.x;
               scope.user.y_coord = player.y;
-              Companion.setUser(scope.user);
-              console.log("updated XY");
-
-              var opLength = otherPlayersUids.length;
-              var currentUid = "";
-
-              for (i = 0; i < opLength; i++){
+              //Companion.setUser(scope.user);
+            }
+            
+            var opLength = otherPlayersUids.length;
+            var currentUid = "";
+            for (i = 0; i < opLength; i++){
 
                 currentUid = otherPlayersUids[i];
 
-                otherPlayers[currentUid].x_coord = scope.users[i].x_coord;
-                otherPlayers[currentUid].y_coord = scope.users[i].y_coord;
-              }
-
+                otherPlayers[currentUid].x_coord = syncArray[i].x_coord;
+                otherPlayers[currentUid].y_coord = syncArray[i].y_coord;
             }
-            setTimeout(dataUpdate, 1000/10);
+            setTimeout(dataUpdate, 1000/30);
         }
         
         function render(){
@@ -292,22 +316,22 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
        var initOthers = function(){
         
         var i = 0;
-        var arrLength = scope.users.length;
+        var arrLength = syncArray.length;
         //console.log(scope.users);
         console.log("INITOTHERS");
         var uid = "";
         for (i=0; i < arrLength; i++){
           //scope.users[i];
 
-          uid = scope.users[i].uid;
+          uid = syncArray[i].uid;
           console.log("UserFound"+uid)
           otherPlayers[uid] = {};
-          otherPlayers[uid].x_coord = scope.users[i].x_coord;
-          otherPlayers[uid].y_coord = scope.users[i].y_coord;
+          otherPlayers[uid].x_coord = syncArray[i].x_coord;
+          otherPlayers[uid].y_coord = syncArray[i].y_coord;
           otherPlayers[uid].image = {};
-          otherPlayers[uid].image = createImage(scope.users[i].pokemon.sprite);
+          otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
           console.log("IMAGES:");
-          console.log(createImage(scope.users[i].pokemon.sprite));
+          console.log(createImage(syncArray[i].pokemon.sprite));
           otherPlayersUids.push(uid);
 
         }
