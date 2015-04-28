@@ -152,9 +152,11 @@ app.directive("drawing", function($document, Companion, $firebaseObject, $fireba
         }
 
         function dataUpdate(){
-            if (scope.user.x_coord != player.x || scope.user.y_coord != player.y){
-              scope.user.x_coord = player.x;
-              scope.user.y_coord = player.y;
+
+            if (scope.users[scope.user.uid].x_coord != player.x || scope.users[scope.user.uid].y_coord != player.y){
+              console.log("oyOYOY");
+              scope.users[scope.user.uid].x_coord = player.x;
+              scope.users[scope.user.uid].y_coord = player.y;
               //Companion.setUser(scope.user);
             }
             
