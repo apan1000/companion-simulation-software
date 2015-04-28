@@ -18,11 +18,12 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     }
   }
 
-  $scope.addNickname = function() {
-    console.log("Nickname: ",$scope.newNickname);
-    $scope.user.pokemon.name = $scope.newNickname;
+  $scope.addNickname = function(newNickname) {
+    console.log("Nickname: ",newNickname);
+    $scope.user.pokemon.name = newNickname;
     $scope.shownickname = false;
     $scope.nicknamesuccess = true;
+    Companion.setUser($scope.user);
   }
 
   // var getAttacks = function() {

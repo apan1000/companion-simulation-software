@@ -1,7 +1,7 @@
 <div class="col-sm-12" id="items">
 	<div>Items</div>
 	<span class="col-md-3" ng-repeat="item in items">
-		<img id="{{item.id}}" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="item.allowClone !== false"></img>
+		<img id="{{item.id}}" ng-style="itemOpacity" ng-disabled="{{user.items[$index]}}==0" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="item.allowClone !== false"></img>
 		<span class="badge">{{user.items[$index]}}</span>
 	</span>
 	

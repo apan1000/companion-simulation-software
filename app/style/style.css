@@ -222,7 +222,7 @@ input[type=email].success, input[type=password].success {
 	margin-right: 15px;
 }
 
-.create-acc-overlay {
+.popup-overlay {
  	z-index: 99;
 	position: absolute;
 	top: 0;
@@ -240,7 +240,7 @@ input[type=email].success, input[type=password].success {
   transition: all ease-in-out .2s;
 }
 
-#create-acc-div {
+.popup-div {
 	z-index: 100;
 	position: absolute;
 	top: 160px;
