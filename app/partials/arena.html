@@ -1,16 +1,19 @@
 <div id="arena">
 	<div class="row">
-		<div class="col-md-3 col-md-offset-2">
+		<div class="col-md-2">
+			<div class="bubble">
+		    	<p><span class="glyphicon glyphicon-flash"> Atk: {{user.pokemon.attack}}</span></p>
+		    	<p><span class="glyphicon glyphicon-unchecked"> Def: {{user.pokemon.defense}}</span></p>
+		    	<p><span class="glyphicon glyphicon-star"> Lvl: {{user.pokemon.lvl}}</span></p>
+		    	<p>Exp: {{user.pokemon.curExp}}/{{user.pokemon.exp}}</span></p>
+			</div>
+		</div>
+		<div class="col-md-3">
 			<div class="fightImage">
-				<div class="bubble">
-						<p>Health: <span class="badge">{{user.pokemon.hp}}</span></p>
-				    	<p>Attack: <span class="badge">{{user.pokemon.attack}}</span></p>
-				    	<p>Defense: <span class="badge">{{user.pokemon.defense}}</span></p>
-				    	<p>Experience: <span class="badge">{{user.pokemon.exp*0.5}}</span></p>
-				</div>
+				
 				<span class="text-center">
 					<div class="row hpbars">
-						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h2>{{enemyDmg}}</h2></div>
+						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h1>{{enemyDmg}}</h1></div>
 						<h3>{{user.pokemon.name}}</h3>
 						<!--progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress-->
 						<div class="bar">
@@ -24,24 +27,12 @@
 				</span>
 			</div>
 		</div>
-
-		<div class="col-md-2 text-center middleElement">
-			<!--div class="btn btn-primary disabled">
-			  Combo <span class="badge">{{combo}}</span>
-			</div-->
-		</div>
-
-		<div class="col-md-3">
+		<div class="col-md-3 col-md-offset-2">
 			<div class="fightImage">
-				<div class="bubble">
-						<p>Health: <span class="badge">{{temp_monster.hp}}</span></p>
-				    	<p>Attack: <span class="badge">{{temp_monster.attack}}</span></p>
-				    	<p>Defense: <span class="badge">{{temp_monster.defense}}</span></p>
-				    	<p>Experience: <span class="badge">{{temp_monster.exp*0.5}}</span></p>
-				</div>
+				
 				<span class="text-center">
 					<div class="row hpbars">
-						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h2>{{yourDmg}}</h2></div>
+						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h1>{{yourDmg}}</h1></div>
 						<h3>{{temp_monster.name}}</h3>
 						<div class="bar">
 							<span>{{temp_monster.curHp}}/{{temp_monster.hp}}</span>
@@ -52,6 +43,14 @@
 						<img ng-class="enemyMonsterAni" class="fight-monster-image other-monster" ng-src="{{temp_monster.new_sprite}}" ng-click="attackEnemy()" alt="">
 					</div>
 				</span>
+			</div>
+
+		</div>
+		<div class="col-md-2">
+			<div class="bubble">
+		    	<p><span class="glyphicon glyphicon-flash"> Atk: {{temp_monster.attack}}</span></p>
+		    	<p><span class="glyphicon glyphicon-unchecked"> Def: {{temp_monster.defense}}</span></p>
+		    	<p>Exp Worth: {{temp_monster.exp*0.5}}</p>
 			</div>
 		</div>
 	</div>
@@ -65,19 +64,24 @@
 				<table class="table-progress">
 				    <thead>
 				        <tr>
-				        	<th></th><th>-</th><th>Combo</th><th>Finisher</th><th>-</th>
+				        	<th></th><th>-</th>
+				        	<th>Combo</th>
+				        	<th>Finisher</th>
+				        	<th>-</th>
 				        </tr>
 				    </thead>
-				    <tbody class="table-body">
+				    <tbody class="table-body"> 
 				        <tr>
-				        	<td><div class="progress_t" ng-style="{left : ((timer - 100)+'%')}"></div>Action</td><td>|</td><td>|</td><td>|</td><td>|</td>
+				        	<td><div class="progress_t" ng-style="{left : (timer)+'%'}"></div> Action</td><td></td><td></td><td></td><td></td>
 				        </tr>
 				        <tr data-progress="10">
-				            <td><div class="progress_c" ng-style="{left : ((combo*10 - 100)+'%')}"></div>Combo</td><td>|</td><td>|</td><td>|</td><td>|</td>
+				            <td><div class="progress_c" ng-style="{left : ((combo*10 - 100)+'%')}"></div> Combo</td><td></td><td></td><td></td><td></td>
 				        </tr>
 				    </tbody>
 				</table>
 			</div>
 		</div>
-	<!--<img ng-src="{{sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">-->
+	<!--<img ng-src="{{sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
+	left : (timer - 100)+'%',
+	-->
 </div>
