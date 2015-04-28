@@ -68,6 +68,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     $scope.battle = false;
     $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.5);
     $scope.user.wins += 1;
+    $scope.user.score += 2;
     $scope.user.pokemon.happiness += 5;
 
     if (Math.random()*5>1){
@@ -102,6 +103,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   var battleLost = function(){
     $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
     $scope.user.losses +=1;
+    $scope.user.score -= 1;
     // Update user
     Companion.setUser($scope.user);
     $location.path('#/home');
@@ -174,7 +176,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
           $timeout( function(){ battleLost(); }, 2000);
         }
 
-        rate = 550-($scope.combo*25);
+        rate = 550-($scope.combo*20);
         $scope.timer = 0;
       }
     }

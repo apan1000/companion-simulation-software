@@ -2,7 +2,7 @@
 	<div>
 		<h3>Rankings</h3>
 	</div>
-	<table class="table table-hover table-striped">
+	<table class="table table-hover table-striped table-fix">
 	  <tr>
 	    <th>
 	    	<a class="orderBy" ng-click="sortType = 'name'; sortReverse = !sortReverse">
@@ -32,6 +32,13 @@
         		<span ng-show="sortType == 'wins' && sortReverse" class="caret-up"></span>
 			</a>
 		</th>
+		<th>
+	    	<a class="orderBy" ng-click="sortType = 'score'; sortReverse = !sortReverse">
+	    		Score
+	    		<span ng-show="sortType == 'score' && !sortReverse" class="caret"></span>
+        		<span ng-show="sortType == 'score' && sortReverse" class="caret-up"></span>
+			</a>
+		</th>
 	  </tr>
 	  <tr ng-repeat="user in users | orderBy:sortType:sortReverse">
 	    <td>
@@ -42,6 +49,7 @@
 	    <td>{{user.pokemon.name}}</td> 
 	    <td>{{user.pokemon.lvl}}</td>
 	    <td>{{user.wins}}</td>
+	    <td>{{user.score}}</td>
 	  </tr>
 	</table>
 </div>
