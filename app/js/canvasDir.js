@@ -113,6 +113,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var grassTile = new Image();
         grassTile.src = "../images/grassTile1.png";
 
+        var beach = new Image();
+        beach.src = "../images/beach.png"
+
 
        var createImage = function(src){
           var img = new Image();
@@ -256,6 +259,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           ctx.fillStyle = ptrn;
           ctx.fillRect(0, 0, canvasWidth, canvasHeight);
           ctx.drawImage(background,0,0);
+          ctx.drawImage(beach,640,0)
         }
 
         function drawMessages(){
@@ -282,8 +286,28 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           var currentUid = "";
           for (i = 0; i < opLength; i++){
             currentUid = otherPlayersUids[i];
-
+            var currentUidX = otherPlayers[currentUid].x_coord;
+            var currentUidY = otherPlayers[currentUid].y_coord;
+            var currentUidName = otherPlayers[currentUid].name;
+            var yOffset = 0;
+            //DRAW SPRITE
             ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
+
+            //DRAW NAMETAG
+            ctx.font = 'italic 12pt Calibri';
+            ctx.fillStyle = 'white';
+            ctx.fillText(currentUidName, currentUidX+30, currentUidY+15);
+
+            //DRAW MESSAGES
+            for (i=0; i < messages.length; i++){
+              if (messages[i].user === currentUid){
+                ctx.font = '12pt Calibri';
+                ctx.fillStyle = 'white';
+                ctx.fillText(messages[i].text, currentUidX+100, currentUidY+15+yOffset);
+                yOffset = yOffset+14;
+
+              }
+            }
           }
         //  var i = 0;
         //  angular.forEach(otherPlayers, function(user, key) {
@@ -305,7 +329,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             var yOffset = 0;
             for (i=0; i < messages.length; i++){
               if (messages[i].user === playerUser.uid){
-                ctx.font = 'italic 12pt Calibri';
+                ctx.font = '12pt Calibri';
                 ctx.fillStyle = 'white';
                 ctx.fillText(messages[i].text, player.x+100, player.y+15+yOffset);
                 yOffset = yOffset+14;
