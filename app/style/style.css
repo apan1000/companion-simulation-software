@@ -613,6 +613,13 @@ input[type=email].success, input[type=password].success {
 	opacity: 1 !important;
 }
 
+.badge {
+	position: absolute !important;
+	background-color: rgba(230,40,80,.90) !important;
+	font-size: 15px !important;
+	min-width: 25px !important;
+}
+
 /* Draggables */
 
 [ng-drag] [ng-drag-clone]{
