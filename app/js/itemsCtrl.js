@@ -13,15 +13,15 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	  console.log("drop success, data:", data);
 
 	  // Add level if dropped item is rare candy
-	  	var reactionDiv = document.getElementById("reactionImg");
 
 	  	var showReaction = function(){
-      		reactionDiv.style.display = "";
+      		$scope.reaction = true;
+      		$scope.status = false;
       		setTimeout(hideReaction, 3000);  // 3 seconds
     	}
 
     	var hideReaction = function(){
-      		reactionDiv.style.display = "none";
+      		$scope.reaction = false;
     	}
 
 		if (data.name === "Rare Candy") {
@@ -40,11 +40,7 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 
 		        $scope.monsterAni = "animated tada";
 				Companion.setUser($scope.user);
-
-		        var rarecandyImg = document.getElementById("rare-candy");
-		        rarecandyImg.style.opacity = "0.5";
-		        rarecandyImg.setAttribute('ng-drag', false);
-	    	}
+	    	} 
 		}
 
 		if (data.name === "Poke bell") {
@@ -56,10 +52,6 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 				$scope.monsterAni = "animated bounce";
 
 				Companion.setUser($scope.user);
-				
-				var pokeBellImg = document.getElementById("poke-bell");
-		        pokeBellImg.style.opacity = "0.5";
-		        pokeBellImg.setAttribute('ng-drag', false); 
 	        }	
 		}
 
@@ -75,10 +67,6 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 					$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
 				}
 				Companion.setUser($scope.user);
-
-				var potionImg = document.getElementById("potion");
-		        potionImg.style.opacity = "0.5";
-		        potionImg.setAttribute('ng-drag', false);
 	    	}
 		}
 	}
