@@ -1,6 +1,17 @@
 body {
 	padding-top: 70px;
-	/*background: url(../images/login-bg.jpg) no-repeat center center fixed;*/
+	position: absolute;
+	z-index: -1;
+	right: 0;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	background: url(../images/login-bg.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 ::-webkit-scrollbar {
@@ -109,6 +120,7 @@ input[type=email].success, input[type=password].success {
 
 /* Login */
 .login-bg {
+	/*
 	position: absolute;
 	z-index: -1;
 	right: 0;
@@ -121,6 +133,7 @@ input[type=email].success, input[type=password].success {
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	*/
 }
 
 .first-screen {
