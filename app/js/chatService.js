@@ -3,16 +3,17 @@ companionApp.factory('ChatService', function ($rootScope, Companion) {
   var onlineUsers = [];
 
   // Create our references
+  //var userRef = new Firebase('https://companion-simulation.firebaseio.com/presence/'+ $scope.user.uid);
   var listRef = new Firebase('https://companion-simulation.firebaseio.com/presence/');
   var userRef = listRef.push(); // This creates a unique reference for each user
   var presenceRef = new Firebase('https://companion-simulation.firebaseio.com/.info/connected');
 
   // Add ourselves to presence list when online.
-  presenceRef.on('value', function(snap) {
-    if (snap.val()) {
-      userRef.set(Companion.getUser());
-      // Remove ourselves when we disconnect.
+  presenceRef.on('value', function(snapshot) {
+    if (snapshot.val()) {
+      // Remove ourselves when we disconnect, has to be before, to prevent ghosts
       userRef.onDisconnect().remove();
+      userRef.set(Companion.getUser());
     }
   });
 

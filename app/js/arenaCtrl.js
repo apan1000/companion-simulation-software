@@ -137,7 +137,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         if ($scope.timer == 40){ //COMBO BUILDUP
           $scope.combo += 1;
           $scope.enemyMonsterAni = "animated rubberBand";
-          $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.75)/$scope.temp_monster.defense);
+          $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.50)/$scope.temp_monster.defense);
           } 
           else{
           if ($scope.timer == 60){ //UNLEASH THE COMBO

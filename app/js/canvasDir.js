@@ -10,6 +10,8 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         var syncArray = $firebaseArray(ref.child("users"));
 
+        //var syncArray = ChatService.onlineUsers; //Får bara ut de som är online
+
         syncArray.$loaded(
           function(data) {
             console.log(data === syncArray); // true
@@ -296,7 +298,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             //DRAW NAMETAG
             ctx.font = 'italic 12pt Calibri';
             ctx.fillStyle = 'white';
-            ctx.fillText(currentUidName, currentUidX+30, currentUidY+15);
+            ctx.fillText(currentUidName, currentUidX-20, currentUidY);
 
             //DRAW MESSAGES
             for (i=0; i < messages.length; i++){
@@ -325,13 +327,13 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             ctx.drawImage(player.image, player.x,player.y);
             ctx.font = 'italic 12pt Calibri';
             ctx.fillStyle = 'white';
-            ctx.fillText(syncObject.name, player.x+30, player.y+15);
+            ctx.fillText(syncObject.name, player.x-20, player.y);
             var yOffset = 0;
             for (i=0; i < messages.length; i++){
               if (messages[i].user === playerUser.uid){
                 ctx.font = '12pt Calibri';
                 ctx.fillStyle = 'white';
-                ctx.fillText(messages[i].text, player.x+100, player.y+15+yOffset);
+                ctx.fillText(messages[i].text, player.x+100, player.y+30+yOffset);
                 yOffset = yOffset+14;
 
               }
