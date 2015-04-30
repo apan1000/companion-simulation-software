@@ -11,19 +11,33 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     var userRef = ref.child('users/'+Companion.getUser().uid);
   }
 
+  // Gives user a new pokémon
   $scope.hatchEgg = function() {
     if($scope.user.pokemon.name === 'egg') {
       Companion.getNewPokemon();
-      $scope.shownickname = true;
+      $scope.nicknameSuccess = false;
+      $scope.showNickname = true;
     }
   }
 
+  // Sets a new name to user's pokemon
   $scope.addNickname = function(newNickname) {
     console.log("Nickname: ",newNickname);
     $scope.user.pokemon.name = newNickname;
-    $scope.shownickname = false;
-    $scope.nicknamesuccess = true;
+    $scope.showNickname = false;
+    $scope.showAddNickname = false;
+    $scope.nicknameSuccess = true;
     Companion.setUser($scope.user);
+  }
+
+  // Hides the create nickname popup
+  $scope.hideNickname = function() {
+    $scope.showNickname = false;
+  }
+
+  // Hides the nickname success popup
+  $scope.hideNicknameSuccess = function() {
+    $scope.nicknameSuccess = false;
   }
 
   // var getAttacks = function() {

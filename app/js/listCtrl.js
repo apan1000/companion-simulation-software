@@ -11,7 +11,7 @@ companionApp.controller('ListCtrl', ["$scope", "$firebaseArray", "Companion",
 		usersRef.on("value", function(snapshot) {
 			$scope.status = "";
 		});
-		//Get messages as an array
+		//Get users as an array
 		$scope.users = $firebaseArray(usersRef);
 
 		$scope.getUser = function() {

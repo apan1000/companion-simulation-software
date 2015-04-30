@@ -221,7 +221,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   if ($routeParams.user != '0') {
     var otherUserRef = ref.child('users/'+$routeParams.user);
     console.log("USER FIENDE");
-    otherUserRef.on("value", function(snapshot) {
+    // Fetches once, so it can't be healed by user giving candy etc.
+    otherUserRef.once("value", function(snapshot) {
       $timeout(function() {
         $scope.otherUser = snapshot.val();
         console.log("otherUser:",$scope.otherUser);

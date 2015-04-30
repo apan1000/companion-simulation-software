@@ -1,31 +1,31 @@
 // Controller we use when we want to do something with the user's items
-companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObject,Companion, $rootScope,$timeout) {
+companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout) {
 	
 	var ref = new Firebase("https://companion-simulation.firebaseio.com");
 	var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
-	$scope.items = [{name:'Rare Candy',image:'rarecandy.png',id:'rare-candy'},
+	$scope.items = [{name:'Rare candy',image:'rarecandy.png',id:'rare-candy'},
 		{name:'Poke bell',image:'pokebell.png',id:'poke-bell'},
 		{name:'Potion',image:'potion.png',id:'potion'}];
 	/*$scope.reactionImage = "";*/
 
+	var showReaction = function(){
+  		$scope.reaction = true;
+  		$scope.status = false;
+  		$timeout(hideReaction, 1000);
+	}
+
+	var hideReaction = function(){
+  		$scope.reaction = false;
+	}
+
 	$scope.onDropComplete = function(data,evt) {
-	  console.log("drop success, data:", data);
+		console.log("drop success, data:", data);
 
-	  // Add level if dropped item is rare candy
-
-	  	var showReaction = function(){
-      		$scope.reaction = true;
-      		$scope.status = false;
-      		setTimeout(hideReaction, 3000);  // 3 seconds
-    	}
-
-    	var hideReaction = function(){
-      		$scope.reaction = false;
-    	}
-
-		if (data.name === "Rare Candy") {
+		// Add level if dropped item is Rare candy
+		if (data.name === "Rare candy") {
 			if ($scope.user.items[0]>0){
+				$scope.reactionImage = "levelup.png";
 				showReaction();
 
 				$scope.user.items[0] -= 1;
@@ -43,8 +43,10 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	    	} 
 		}
 
+		// Add happiness if dropped items is Poke bell
 		if (data.name === "Poke bell") {
 			if ($scope.user.items[1]>0){
+				$scope.reactionImage = "prettyspeech.png";
 				showReaction();
 				$scope.user.items[1] -= 1;
 				$scope.reactionImage = "prettyspeech.png";
@@ -55,9 +57,10 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 	        }	
 		}
 
+		// Add health if dropped item is Potion
 		if (data.name === "Potion") {
 			if ($scope.user.items[2]>0){
-				showReaction();
+				//showReaction();
 				
 				$scope.user.items[2] -= 1;
 				console.log("Current hp; ", $scope.user.pokemon.curHp);
@@ -71,16 +74,16 @@ companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObje
 		}
 	}
 
-	$scope.onDragSuccess = function(data,evt) {
+	/*$scope.onDragSuccess = function(data,evt) {
 	  	console.log("drag success, data:", data);
 
 	  	if (data.name === "Rare Candy") {
-			$scope.reactionImage = "levelup.png";
+			
 		}
 
 		if (data.name === "Poke bell") {
-			$scope.reactionImage = "prettyspeech.png";
+			
 		}
-	}
+	}*/
 });
 

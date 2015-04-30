@@ -1,4 +1,4 @@
-<div id="monster" ng-controller="ItemsCtrl">
+<div id="monster">
 	<img ng-src="{{user.pokemon.sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-class="monsterAni" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)" ng-mouseenter="status=true" ng-mouseleave="status=false">
 	<div ng-show="status" class="statusBubble">
 		<h3>Name: {{user.pokemon.name}}
@@ -12,31 +12,37 @@
 			</div>
 		</div>
 	</div>
-	<img ng-show="reaction" id="reactionImg" ng-src="images/{{reactionImage}}" alt="plusOne"></img>
+	<img ng-show="reaction" id="reactionImg" ng-src="images/{{reactionImage}}" alt=":)"></img>
 </div>
-<ng-include class="row" src="'partials/items.html'" ng-controller="ItemsCtrl"></ng-include>
+<ng-include class="row" src="'partials/items.html'"></ng-include>
 
-<div class="popup-overlay" ng-show="shownickname">
-	<div class="popup-div">
+<div class="popup-overlay" ng-show="showNickname">
+	<div class="popup-div" ng-if="user.pokemon.name == 'egg'">
+		<h1>Your egg is hatching! :O</h1>
+		<img class="monsterImageStatic" ng-src="{{user.pokemon.sprite}}" alt="Egg">
+		<h4>What will come out?!</h4>
+	</div>
+	<div class="popup-div" ng-if="user.pokemon.name != 'egg'">
+		<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="hideNickname()"></span>
 		<h1>Congratulations!</h1>
-		<img class="monsterImageStatic" ng-src="{{user.pokemon.sprite}}" alt="userpokemon">
+		<img class="monsterImageStatic" ng-src="{{user.pokemon.sprite}}" alt="Awesome companion">
 		<h4>{{user.pokemon.name}} hatched from the egg! Give a nickname to {{user.pokemon.name}}?</h4>
 		<form name="createNickname">
-			<button type="button" class="btn btn-success" ng-click="addnickname=true">Yes</button>
-		    <button type="button" class="btn btn-danger" ng-click="shownickname=false">Nah</button>
+			<button type="button" class="btn btn-success" ng-click="showAddNickname=true" ng-keydown="$event.keyCode == 27 && hideNickname()" focus-me="showNickname">Yes</button>
+		    <button type="button" class="btn btn-danger" ng-click="hideNickname()">Nah</button>
 		    <br></br>
-		    <div ng-show="addnickname">
-		    	<input type="text" class="form-control login-input" placeholder="Enter name" ng-model="newNickname" name="newNickname" id="newNickname" ng-keypress="$event.keyCode == 13 && addNickname(newNickname)" required></input>
+		    <div ng-show="showAddNickname">
+		    	<input type="text" class="form-control login-input" placeholder="Enter name" ng-model="newNickname" name="newNickname" id="newNickname" ng-keypress="$event.keyCode == 13 && addNickname(newNickname)" focus-me="showAddNickname" required></input>
 		    	<button type="button" class="btn btn-success" ng-click="addNickname(newNickname)">Give nickname!</button>
 		    </div>
 		</form>
 	</div>
 </div>
 
-<div class="popup-overlay" ng-show="nicknamesuccess">
+<div class="popup-overlay" ng-show="nicknameSuccess">
 	<div class="popup-div">		
 		<h4>Your monsters name is now {{user.pokemon.name}}!</h4>
-		<button type="button" class="btn btn-success" ng-click="nicknamesuccess=false">Ok</button>
+		<button type="button" class="btn btn-success" ng-click="hideNicknameSuccess()" ng-keydown="$event.keyCode == 27 && hideNicknameSuccess()" focus-me="nicknameSuccess">Ok</button>
 	</div>
 </div>
 
