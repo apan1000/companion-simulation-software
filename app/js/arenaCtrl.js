@@ -6,8 +6,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   $scope.maxTimer = 100;
   $scope.battle = false;
   $scope.timer = 0;
-  $scope.rightMoment = "";
   $scope.turnBased = true;
+  $scope.ready = false;
   var rate = 500;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
@@ -40,7 +40,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   var takeDmg = function() {
     $scope.combo = 1;
-    var random2 = Math.floor((Math.random() * 10) + 1);
+    var random2 = Math.floor((Math.random() * 5) + 3);
     $scope.yourDmg = 0;
     $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*random2)/$scope.user.pokemon.defense);
     $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
@@ -66,6 +66,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
     $scope.combo = 1;
     $scope.battle = false;
+    $scope.ready = false;
     $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.5);
     $scope.user.wins += 1;
     $scope.user.score += 2;
@@ -102,8 +103,9 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   var battleLost = function(){
     $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif'};
-    $scope.user.losses +=1;
+    $scope.user.losses += 1;
     $scope.user.score -= 1;
+    $scope.ready = false;
     // Update user
     Companion.setUser($scope.user);
     $location.path('#/home');
@@ -112,34 +114,35 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   $scope.attackEnemy = function() {
 
     if ($scope.battle == false){
-      $scope.combo = 1;
-      $scope.battle = true;
-      $scope.myMonsterAni = "";
-      reduceTime(); //START MORTAL COMBAT
+      if ($scope.ready == true){
+        $scope.combo = 1;
+        $scope.battle = true;
+        $scope.myMonsterAni = "";
+        reduceTime(); //START MORTAL COMBAT
+      }
+      else{
+        console.log('Not ready yet!');
+      }
     }
     else{
-
-      $scope.enemyMonsterAni = "animated wobble";
-      var randomMonster = Math.floor((Math.random() * 718) + 1);
-      var randomAtk1 = Math.floor((Math.random() * 3) + 3);
-      var randomAtk2 = Math.floor((Math.random() * 3) + 3);
-
       if ($scope.temp_monster.curHp === 0) {
         return
       } 
       else
       {
+        var randomAtk1 = Math.floor((Math.random() * 3) + 3);
+        var randomAtk2 = Math.floor((Math.random() * 3) + 3);
 
         //if ($scope.timer <= 90 && $scope.timer >= 70){
-        if ($scope.timer == 40){
+        if ($scope.timer == 40){ //COMBO BUILDUP
           $scope.combo += 1;
           $scope.enemyMonsterAni = "animated rubberBand";
           $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.75)/$scope.temp_monster.defense);
           } 
           else{
-          if ($scope.timer == 60){
-            $scope.defBreaker = 2/$scope.combo;
-            $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.combo)/($scope.temp_monster.defense*$scope.defBreaker));
+          if ($scope.timer == 60){ //UNLEASH THE COMBO
+            var defBreaker = 2/$scope.combo;
+            $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.combo)/($scope.temp_monster.defense*defBreaker));
             $scope.combo = 1;
             $scope.enemyMonsterAni = "animated wobble";
           }
@@ -151,8 +154,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         }
 
         $scope.showMessage = true;
-        
-        //$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.combo)/$scope.temp_monster.defense);
         $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*randomAtk2)/$scope.user.pokemon.defense);
 
         $timeout(function() {
@@ -188,6 +189,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         $scope.temp_monster = data;
         getSprite($scope.temp_monster);
         $scope.temp_monster.curHp = $scope.temp_monster.hp;
+        $scope.temp_monster.lvl = 1;
         console.log("Temp monster:",$scope.temp_monster);
         $scope.timer = 0;
       }, function(data){
@@ -210,23 +212,25 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       monster.new_sprite = 'http://pokeapi.co' + data.image;
       console.log("SPRITE DATA ",monster.new_sprite);
       $scope.enemyMonsterAni = "animated lightSpeedIn"; //entering the fields
+      $scope.ready = true;
     }, function(data){
       monster.new_sprite = '';
       $scope.status = "There was an error";
     });
   }
 
-  // Get pokémon challanger upon entering arena
+  // Get a challenger upon entering arena
 
   if ($routeParams.user != '0') {
     var otherUserRef = ref.child('users/'+$routeParams.user);
-    console.log("USER FIENDE");
-    otherUserRef.on("value", function(snapshot) {
+    otherUserRef.on("value", function(snapshot) { //ONCE?
       $timeout(function() {
         $scope.otherUser = snapshot.val();
         console.log("otherUser:",$scope.otherUser);
         $scope.temp_monster = $scope.otherUser.pokemon;
         $scope.temp_monster.new_sprite = $scope.otherUser.pokemon.sprite;
+        $scope.temp_monster.curHp = $scope.temp_monster.hp;
+        $scope.ready = true;
       });
     });
   }
