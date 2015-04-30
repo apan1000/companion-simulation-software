@@ -120,6 +120,7 @@ input[type=email].success, input[type=password].success {
 
 /* Login */
 .login-bg {
+	margin-top: -70px;
 	/*
 	position: absolute;
 	z-index: -1;
@@ -163,13 +164,13 @@ input[type=email].success, input[type=password].success {
 	transition: width .2s ease;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1170px) {
 	.intro-text {
 		width: 90%;
 	}
 }
 
-@media screen and (min-width: 1001px) {
+@media screen and (min-width: 1171px) {
 	.intro-text {
 		width: 60%;
 	}
@@ -197,7 +198,10 @@ input[type=email].success, input[type=password].success {
 	width: 100%;
 	max-width: 500px;
 	min-width: 400px;
-	margin-top: 50px;
+	margin-top: 25px;
+	/*transform: translate(0,-50%);
+	-ms-transform: translate(0,-50%);
+    -webkit-transform: translate(0,-50%);*/
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
@@ -212,9 +216,10 @@ input[type=email].success, input[type=password].success {
 }
 
 .login-logo {
+	z-index: 10;
 	position: relative;
 	left: -40px;
-	top: 90px;
+	top: 84px;
 	height: 100px;
 }
 
