@@ -51,46 +51,73 @@
 				    <thead>
 				        <tr>
 				        	<th></th><th>-</th>
-				        	<th>Combo</th>
-				        	<th>Finisher</th>
+				        	<th>BuildUp</th>
+				        	<th>Unleash</th>
 				        	<th>-</th>
 				        </tr>
 				    </thead>
 				    <tbody class="table-body"> 
 				        <tr>
-				        	<td><div class="progress_t" ng-style="{left : (timer)+'%'}"></div> Action</td><td></td><td></td><td></td><td></td>
+				        	<td><div class="progress-bar progress-t" ng-style="{left : (timer)+'%'}"></div>Action</td><td></td><td></td><td></td><td></td>
 				        </tr>
-				        <tr data-progress="10">
-				            <td><div class="progress_c" ng-style="{left : ((combo*10 - 100)+'%')}"></div> Combo</td><td></td><td></td><td></td><td></td>
+				        <tr>
+				            <td><div class="progress-bar progress-c" ng-style="{left : ((combo*10 - 100)+'%')}"></div>Combo</td><td></td><td></td><td></td><td></td>
 				        </tr>
 				    </tbody>
 				</table>
 			</div>
 		</div>
-</div>
+
 	<div class="row">
 		<div class="col-md-4">
 			<div class="bubble">
-		    	<p><span class="glyphicon glyphicon-flash"> Atk: {{user.pokemon.attack}}</span></p>
-		    	<p><span class="glyphicon glyphicon-unchecked"> Def: {{user.pokemon.defense}}</span></p>
-		    	<p><span class="glyphicon glyphicon-star"> Lvl: {{user.pokemon.lvl}}</span></p>
-		    	<div class="expbar">
-					<h4>EXP</h4>
-					<div class="bar">
-						<span>{{user.pokemon.curExp}}/{{user.pokemon.exp}}</span>
-						<div class="bar-cur exp-bar" ng-style="{'width':user.pokemon.curExp/user.pokemon.exp*100+'%'}"></div>
-				</div>
-			</div>
+				<p><span class="glyphicon glyphicon-star"> Lvl: {{user.pokemon.lvl}}</span></p>
+				<table class="table-progress">
+				    <tbody class="table-body"> 
+				    	<tr>
+				            <td><div class="progress-bar progress-hp" ng-style="{left : ((user.pokemon.curHp/user.pokemon.hp)*100)-100+'%'}"></div> Health</td><td>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</td><td></td><td></td><td></td>
+				        </tr>
+				        <tr>
+				        	<td><div class="progress-bar progress-c" ng-style="{left : ((user.pokemon.curExp/user.pokemon.exp)*100)-100+'%'}"></div>Exp</td><td>{{user.pokemon.curExp}}/{{user.pokemon.exp}}</td><td></td><td></td><td></td>
+				        </tr>
+				        <tr><td>Stats</td></tr>
+				        <tr>
+				            <td><div class="progress-bar progress-h" ng-style="{left : ((user.pokemon.attack*0.5 - 100)+'%')}"></div>Attack</td><td>{{user.pokemon.attack}}</td><td></td><td></td><td></td>
+				        </tr>
+				        <tr>
+				            <td><div class="progress-bar progress-h" ng-style="{left : ((user.pokemon.defense*0.5 - 100)+'%')}"></div>Defense</td><td>{{user.pokemon.defense}}</td><td></td><td></td><td></td>
+				        </tr>
+				    </tbody>
+				</table>
 		</div>
 		</div>
 		<div class="col-md-4 col-md-offset-4">
 			<div class="bubble">
-		    	<p><span class="glyphicon glyphicon-flash"> Atk: {{temp_monster.attack}}</span></p>
-		    	<p><span class="glyphicon glyphicon-unchecked"> Def: {{temp_monster.defense}}</span></p>
-		    	<p>Exp Worth: {{temp_monster.exp*0.5}}</p>
+				<p><span class="glyphicon glyphicon-star"> Lvl: {{temp_monster.lvl}}</span></p>
+				<table class="table-progress">
+				    <tbody class="table-body"> 
+				    	<tr>
+				            <td><div class="progress-bar progress-hp" ng-style="{left : ((temp_monster.curHp/temp_monster.hp)*100)-100+'%'}"></div> Health</td><td>{{temp_monster.curHp}}/{{temp_monster.hp}}</td><td></td><td></td><td></td>
+				        </tr>
+				        <tr>
+				        	<td><div class="progress-bar progress-c" ng-style="{left : ((temp_monster.curExp/temp_monster.exp)*100)-100+'%'}"></div>Exp</td><td>{{temp_monster.exp*0.5}}</td><td></td><td></td><td></td>
+				        </tr>
+				        <tr><td>Stats</td></tr>
+				        <tr>
+				            <td><div class="progress-bar progress-h" ng-style="{left : ((temp_monster.attack*0.5 - 100)+'%')}"></div>Attack</td><td>{{temp_monster.attack}}</td><td></td><td></td><td></td>
+				        </tr>
+				        <tr>
+				            <td><div class="progress-bar progress-h" ng-style="{left : ((temp_monster.defense*0.5 - 100)+'%')}"></div>Defense</td><td>{{temp_monster.defense}}</td><td></td><td></td><td></td>
+				        </tr>
+				    </tbody>
+				</table>
+		    	<!--p><span class="glyphicon glyphicon-flash"> Atk: {{temp_monster.attack}}</span></p>
+		    	<p><span class="glyphicon glyphicon-unchecked"> Def: {{temp_monster.defense}}</span></p-->
+
 			</div>
 		</div>
 	</div>
+</div>
 	<!--<img ng-src="{{sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
 	left : (timer - 100)+'%',
 	-->
