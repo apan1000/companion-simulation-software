@@ -339,6 +339,41 @@ input[type=email].success, input[type=password].success {
 	letter-spacing: -2px;
 }
 
+/* Tutorial */
+.tutorial-div {
+	z-index: 100;
+	position: absolute;
+	top: 160px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 40%;
+	min-width: 400px;
+	max-width: 500px;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-top: 20px;
+	padding-bottom: 45px;
+	border-radius: 5px;
+	background: #fff;
+	box-shadow: 0 0 20px 0 rgba(0,0,0,.5);
+	opacity: 1;
+	text-align: center;
+    font-size: 12pt;
+}
+
+.guide {
+	height: 240px;
+	position: absolute;
+	left: 90%;
+	top:30%;
+	-moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
 /* Chat */
 #chat {
 	background: #fff;
