@@ -5,11 +5,11 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$timeout,$locati
   $scope.loginMsg = "";
   $scope.loading = false;
 
+  // Set current screen as selected in navbar
   var path = $location.path().substring(1);
   if (path.indexOf("/") > -1) {
     path = path.substring(0,path.indexOf('/'));
   }
-  console.log(path);
   $timeout(function() {
     $scope.navSelected = path;
   });
