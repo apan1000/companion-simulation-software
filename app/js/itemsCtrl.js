@@ -1,8 +1,5 @@
 // Controller we use when we want to do something with the user's items
-companionApp.controller('ItemsCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout) {
-	
-	var ref = new Firebase("https://companion-simulation.firebaseio.com");
-	var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
+companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 
 	$scope.items = [{name:'Rare candy',image:'rarecandy.png',id:'rare-candy'},
 		{name:'Poke bell',image:'pokebell.png',id:'poke-bell'},

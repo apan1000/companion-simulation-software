@@ -1,9 +1,18 @@
 // Login controller that we use whenever we want to login or logout
-companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$firebaseObject,$timeout,$location) {
+companionApp.controller('LoginCtrl', function ($scope,Companion,$timeout,$location) {
 
   $scope.user = Companion.getUser();
   $scope.loginMsg = "";
   $scope.loading = false;
+
+  var path = $location.path().substring(1);
+  if (path.indexOf("/") > -1) {
+    path = path.substring(0,path.indexOf('/'));
+  }
+  console.log(path);
+  $timeout(function() {
+    $scope.navSelected = path;
+  });
 
   // Logout the user
   $scope.logout = function() {

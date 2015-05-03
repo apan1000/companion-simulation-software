@@ -17,7 +17,7 @@ companionApp.factory('ChatService', function ($rootScope, Companion) {
     }
   });
 
-  // Get the user count and notify the application
+  // Get the users and notify the application
   listRef.on('value', function(snap) {
     numOnlineUsers = snap.numChildren();
     onlineUsers = [];
@@ -33,7 +33,6 @@ companionApp.factory('ChatService', function ($rootScope, Companion) {
 
   this.getOnlineUsers = function() {
     return onlineUsers;
-    console.log('onlineUsers:',onlineUsers);
   }
 
   return this;

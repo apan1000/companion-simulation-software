@@ -20,7 +20,7 @@
 		</th>
 	    <th>
 	    	<a class="orderBy" ng-click="sortType = 'pokemon.lvl'; sortReverse = !sortReverse">
-	    		Levels
+	    		Level
 	    		<span ng-show="sortType == 'pokemon.lvl' && !sortReverse" class="caret"></span>
         		<span ng-show="sortType == 'pokemon.lvl' && sortReverse" class="caret-up"></span>
 			</a>
@@ -46,7 +46,7 @@
 				<span>{{user.name}}</span>
 			</a>
 		</td>
-	    <td>{{user.pokemon.name}}</td> 
+	    <td><img width="30" height="30" src="{{user.pokemon.sprite}}" alt="lel">{{user.pokemon.name}}</td> 
 	    <td>{{user.pokemon.lvl}}</td>
 	    <td>{{user.wins}}</td>
 	    <td>{{user.score}}</td>
