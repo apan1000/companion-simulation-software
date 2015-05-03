@@ -17,8 +17,8 @@
 		<div id="login-div">
 			<h1>Welcome</h1>
 			<form name="loginForm">
-			    <input type="email" class="form-control login-input" placeholder="Email" id="email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: emailSuccess, error: emailError}" focus-me="showLogin" autofocus required>
-			    <input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: passwordSuccess, error: passwordError}" required>
+			    <input type="email" class="form-control login-input" placeholder="Email" id="email" name="email" ng-model="email" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: emailSuccess, error: emailError}" ng-focus="emailError=false" focus-me="showLogin" autofocus required>
+			    <input type="password" class="form-control login-input" placeholder="Password" name="password" ng-model="password" ng-keypress="$event.keyCode == 13 && loginWithEnter()" ng-click="$event.stopPropagation();" ng-class="{success: passwordSuccess, error: passwordError}" ng-focus="passwordError=false" required>
 			    <div ng-class="{success: success, error: error}">{{loginMsg}}</div>
 			    <button type="button" class="btn btn-success login-btn" ng-click="loginWithPassword()" ng-disabled="loginForm.email.$invalid || loginForm.password.$invalid">
 			    	<img src="images/spinner2.gif" alt="Loading" height="18px" ng-show="loading">
@@ -36,8 +36,8 @@
 				<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="showCreateAcc=false"></span>
 				<h1>Create new account</h1>
 				<form name="createAccForm">
-				    <input type="email" class="form-control login-input" placeholder="Email" id="newEmail" name="newEmail" ng-model="newEmail" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccEmailSuccess, error: newAccEmailError}" focus-me="showCreateAcc" required>
-				    <input type="password" class="form-control login-input" placeholder="Password" name="newPassword" ng-model="newPassword" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccPasswordSuccess, error: newAccPasswordError}" required>
+				    <input type="email" class="form-control login-input" placeholder="Email" id="newEmail" name="newEmail" ng-model="newEmail" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccEmailSuccess, error: newAccEmailError}" ng-focus="newAccEmailError=false" focus-me="showCreateAcc" required>
+				    <input type="password" class="form-control login-input" placeholder="Password" name="newPassword" ng-model="newPassword" ng-keypress="$event.keyCode == 13 && createAccount()" ng-class="{success: newAccPasswordSuccess, error: newAccPasswordError}" ng-focus="newAccPasswordError=false" required>
 				    <div ng-class="{success: newAccSuccess, error: newAccError}">{{newAccMsg}}</div>
 				    <button type="button" class="btn btn-success login-btn" ng-click="createAccount()" ng-disabled="createAccForm.newEmail.$invalid || createAccForm.newPassword.$invalid">
 				    	<img src="images/spinner2.gif" alt="Loading" height="18px" ng-show="loading">
@@ -47,4 +47,11 @@
 			</div>
 		</div>
 	</div>
+	<svg width="180px" height="50px" class="credit-text">
+		<text y="38" x="10" class="game-by">A game by:</text>
+		<text y="38" x="10" class="game-by no-stroke">A game by:</text>
+		<text y="38" x="100" class="group-name">G11</text>
+		<text y="38" x="100" class="group-name no-stroke">G11</text>
+	</svg>
+	<span class="game-by">A game by:<span>G11</span></span>
 </div>

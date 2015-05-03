@@ -40,12 +40,12 @@ h2 {
 }
 
 .error {
-	color: #b94a48;
+	color: #e94a48;/*#b94a48;*/
 }
 
 input[type=email].error, input[type=password].error {
 	color: #555;
-	border-color: #b94a48;
+	border-color: #e94a48;/*#b94a48;*/
 }
 
 .success {
@@ -251,10 +251,10 @@ input[type=email].success, input[type=password].success {
 	background: rgba(0,10,20,0.7);
  }
 
-.create-acc-overlay.ng-hide-add.ng-hide-add-active,
-.create-acc-overlay.ng-hide-remove.ng-hide-remove-active,
-.create-acc-overlay.ng-hide-add.ng-hide-add-active #create-acc-div,
-.create-acc-overlay.ng-hide-remove.ng-hide-remove-active #create-acc-div {
+.popup-overlay.ng-hide-add.ng-hide-add-active,
+.popup-overlay.ng-hide-remove.ng-hide-remove-active,
+.popup-overlay.ng-hide-add.ng-hide-add-active .popup-div,
+.popup-overlay.ng-hide-remove.ng-hide-remove-active .popup-div {
   -webkit-transition: all ease-in-out .2s;
   transition: all ease-in-out .2s;
 }
@@ -281,11 +281,11 @@ input[type=email].success, input[type=password].success {
     font-size: 12pt;
 }
 
-.create-acc-overlay.ng-hide, .create-acc-overlay.ng-hide #create-acc-div {
+.popup-overlay.ng-hide, .popup-overlay.ng-hide .popup-div {
 	opacity: 0;
 }
 
-.create-acc-overlay.ng-hide #create-acc-div {
+.popup-overlay.ng-hide .popup-div {
 	min-width: 0;
 	width: 50px;
 	height: 200px;
@@ -303,6 +303,35 @@ input[type=email].success, input[type=password].success {
 	position: relative;
 	left: 42px;
 	top: -12px;
+}
+
+.credit-text {
+	position: absolute;
+	z-index: -1;
+	bottom: 15px;
+	right: 5px;
+	-ms-transform: rotate(-10deg);
+    -webkit-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+    font-family: 'Noto Sans', cursive;
+	font-size: 12pt;
+	fill: #f97368;
+	stroke: white;
+	stroke-width: 6px;
+	stroke-linejoin: round;
+}
+
+.no-stroke {
+	stroke: none;
+}
+
+.game-by {
+
+}
+
+.group-name {
+	font-size: 30pt;
+	letter-spacing: -2px;
 }
 
 /* Chat */
@@ -372,11 +401,19 @@ input[type=email].success, input[type=password].success {
 .no-margin {
 	margin: 0 !important;
 }
-/*###*/
 
-#statusbar {
+/* status-bar */
+#status-bar {
 	font-family: "Coda";
 	font-size: 15pt;
+	color: white;
+}
+
+#status-bar h2 {
+	margin-left: 50%;
+	transform: translate(-50%,0);
+	-ms-transform: translate(-50%,0);
+    -webkit-transform: translate(-50%,0);
 }
 
 #attack {

@@ -91,9 +91,16 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
         $scope.success = true;
         $scope.emailSuccess = true;
         $scope.passwordSuccess = true;
-        // Reset email and password inputs
-        $scope.email = "";
-        $scope.password = "";
+        $timeout(function() {
+          // Reset email and password inputs
+          $scope.email = "";
+          $scope.password = "";
+          // Reset success state
+          $scope.success = false;
+          $scope.emailSuccess = false;
+          $scope.passwordSuccess = false;
+          $scope.passwordError = false;
+        },500);
         // $scope.loginForm.email.$setUntouched();
         // $scope.loginForm.password.$setUntouched();
       });
@@ -149,6 +156,13 @@ companionApp.controller('LoginCtrl', function ($scope,Companion,$routeParams,$fi
         $scope.newAccEmailSuccess = true;
         $scope.newAccPasswordSuccess = true;
       });
+      $timeout(function() {
+        // Reset success state
+        $scope.newAccSuccess = false;
+        $scope.newAccEmailSuccess = false;
+        $scope.newAccPasswordSuccess = false;
+        $scope.newAccMsg = "";
+      },1000);
     }
     else {
       $timeout(function(){

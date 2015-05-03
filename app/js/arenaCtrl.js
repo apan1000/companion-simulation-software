@@ -183,8 +183,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     }
   }
 
+  // Get a pokémon with the specified monster_id from database
   var getSpecificPokemon = function(monster_id) {
-    
     Companion.pokemon.get({id:monster_id}, function(data){
         $scope.temp_monster = data;
         getSprite($scope.temp_monster);
@@ -202,9 +202,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     getSpecificPokemon(random);
   }
 
-  // Get the sprite of $scope.user.pokemon and set it as $scope.sprite
+  // Get the sprite of enemy monster
   var getSprite = function(monster) {
-
     var parts = monster.sprites[0].resource_uri.split("/");
     var spriteUri = parts[parts.length - 2];
 
@@ -220,7 +219,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   }
 
   // Get a challenger upon entering arena
-
   if ($routeParams.user != '0') {
     var otherUserRef = ref.child('users/'+$routeParams.user);
     console.log("USER FIENDE");
