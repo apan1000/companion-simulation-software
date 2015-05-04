@@ -102,9 +102,12 @@ companionApp.run(function($rootScope, $location) {
 		}
 	});
 
-	// $rootScope.$on("$routeChangeSuccess", function(event, current, previous) {
-	// 	if (current.templateUrl === "partials/bar.html") {
-			
-	// 	} 
-	// });
+	$rootScope.$on("$routeChangeSuccess", function(event, current, previous) {
+		// Set current screen as selected in navbar
+	  var path = $location.path().substring(1);
+	  if (path.indexOf("/") > -1) {
+	  	path = path.substring(0,path.indexOf('/'));
+	  }
+	  $rootScope.navSelected = path;
+	});
 });

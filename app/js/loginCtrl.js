@@ -1,18 +1,18 @@
 // Login controller that we use whenever we want to login or logout
-companionApp.controller('LoginCtrl', function ($scope,Companion,$timeout,$location) {
+companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$timeout,$location) {
 
   $scope.user = Companion.getUser();
   $scope.loginMsg = "";
   $scope.loading = false;
 
-  // Set current screen as selected in navbar
-  var path = $location.path().substring(1);
-  if (path.indexOf("/") > -1) {
-    path = path.substring(0,path.indexOf('/'));
-  }
-  $timeout(function() {
-    $scope.navSelected = path;
-  });
+  // // Set current screen as selected in navbar
+  // var path = $location.path().substring(1);
+  // if (path.indexOf("/") > -1) {
+  //   path = path.substring(0,path.indexOf('/'));
+  // }
+  // $timeout(function() {
+  //   $scope.navSelected = path;
+  // });
 
   // Logout the user
   $scope.logout = function() {
