@@ -11,6 +11,8 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   // Firebase
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var usersRef = ref.child('users');
+  // Reference with connection status
+  var presenceRef = new Firebase('https://companion-simulation.firebaseio.com/.info/connected');
 
   // Get user from cookies
   $rootScope.user = $localStorage.user;
@@ -94,6 +96,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     console.log("setUser:",$localStorage.user);
     // Update user on Firebase
     if (newUser) {
+      newUser.online = true;
       usersRef.child(newUser.uid).set(newUser);
     }
     $rootScope.$broadcast('userChanged');
@@ -182,6 +185,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
 
   // Logout the user
   this.logout = function() {
+    usersRef.child(self.getUser().uid+'/online').set(false);
   	ref.unauth();
     this.setUser(null);
   }
@@ -232,6 +236,18 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     });
   }
 
+  // Set online status
+  presenceRef.on('value', function(snapshot) {
+    if (snapshot.val()) {
+      // Remove ourselves when we disconnect, has to be before, to prevent ghosts
+      if (self.getUser()) {
+        onlineRef = usersRef.child(self.getUser().uid+'/online');
+        onlineRef.onDisconnect().set(false);
+        onlineRef.set(true);
+      }
+    }
+  });
+
   // Check authData when authorizing
   ref.onAuth(function(authData) {
     //console.log("authData:",authData);
@@ -248,6 +264,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     // }
   });
 
+  // Check for changes to user
   if (self.getUser()) {
     var user = self.getUser();
     usersRef.child(user.uid).on("value",function(snapshot) {
