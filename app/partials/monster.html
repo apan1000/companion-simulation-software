@@ -30,9 +30,9 @@
 		<form name="createNickname">
 			<button type="button" class="btn btn-success" ng-click="showAddNickname=true" ng-keydown="$event.keyCode == 27 && hideNickname()" focus-me="showNickname">Yes</button>
 		    <button type="button" class="btn btn-danger" ng-click="hideNickname()">Nah</button>
-		    <br></br>
+		    <br>
 		    <div ng-show="showAddNickname">
-		    	<input type="text" class="form-control login-input" placeholder="Enter name" ng-model="newNickname" name="newNickname" id="newNickname" ng-keypress="$event.keyCode == 13 && addNickname(newNickname)" focus-me="showAddNickname" required></input>
+		    	<input type="text" class="form-control login-input" placeholder="Enter name" ng-model="newNickname" name="newNickname" id="newNickname" ng-keypress="$event.keyCode == 13 && addNickname(newNickname)" maxlength="20" focus-me="showAddNickname" required></input>
 		    	<button type="button" class="btn btn-success" ng-click="addNickname(newNickname)">Give nickname!</button>
 		    </div>
 		</form>

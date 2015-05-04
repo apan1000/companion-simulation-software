@@ -23,7 +23,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   // Sets a new name to user's pokemon
   $scope.addNickname = function(newNickname) {
     console.log("Nickname: ",newNickname);
-    $scope.user.pokemon.name = newNickname;
+    $scope.user.pokemon.name = newNickname.substring(0,20);
     $scope.showNickname = false;
     $scope.showAddNickname = false;
     $scope.nicknameSuccess = true;
