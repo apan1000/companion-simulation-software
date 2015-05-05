@@ -10,7 +10,7 @@ companionApp.controller('TutorialCtrl', function ($scope,$routeParams,$firebaseO
 		var userRef = ref.child('users/'+Companion.getUser().uid);
 	}
 
-	if($scope.user.pokemon.name === 'egg') {
+	if($scope.user.beginner === true) {
 		$scope.showTutorial = true;
 		$scope.welcome = true; 
 	}
@@ -23,5 +23,15 @@ companionApp.controller('TutorialCtrl', function ($scope,$routeParams,$firebaseO
   	$scope.hideStepOne = function() {
   		$scope.stepOne = false;
   		$scope.stepTwo = true;
+  	}
+
+  	$scope.hideStepTwo = function() {
+  		$scope.stepTwo = false;
+  		$scope.stepThree = true;
+  	}
+
+  	$scope.hideStepThree = function() {
+  		$scope.stepThree = false;
+  		$scope.stepFour = true;
   	}
 });

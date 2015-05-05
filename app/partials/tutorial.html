@@ -9,18 +9,34 @@
 			</div>
 			<div ng-show="stepOne">
 				<h2>Training</h2>
-				<h5>You will soon recieve your very own monster companion. You can train it by dragging the items to it. The <b>candy</b> raises its level by one, the <b>bell</b> increases happiness and the <b>potion</b> increases HP.</h5>
-				<h5>The items are limited, so use them wisely! Earn more items by fighting with other monsters.</h5>
+				<h5>You will soon recieve your very own monster companion. You can train it by dragging the items to it. The <span class="keyword">Candy</span> raises its level by one, the <span class="keyword">Bell</span> increases happiness and the <span class="keyword">Potion</span> increases HP.</h5>
+				<img class="tutorialItems" src="../images/rarecandy.png" alt="candy">
+				<img class="tutorialItems" src="../images/pokebell.png" alt="bell">
+				<img class="tutorialItems" src="../images/potion.png" alt="potion">
+				<h5>The items are limited, so use them wisely!</h5>
 				<button type="button" class="btn btn-success" ng-click="hideStepOne()" ng-keydown="$event.keyCode == 27 && hideStepOne()">Next</button>
 				<button type="button" class="btn btn-danger" ng-click="showTutorial=false">Skip tour</button>
 			</div>
 			<div ng-show="stepTwo">
 				<h2>Fighting</h2>
-				<button type="button" class="btn btn-success" ng-click="" ng-keydown="$event.keyCode == 27">Next</button>
+				<h5>Fight wild monsters at the <span class="keyword">Fields</span> to earn experience and items!</h5>
+				<h5>See who is the current master under <span class="keyword">Ranks</span></h5>
+				<button type="button" class="btn btn-success" ng-click="hideStepTwo()" ng-keydown="$event.keyCode == 27 && hideStepTwo()">Next</button>
 				<button type="button" class="btn btn-danger" ng-click="showTutorial=false">Skip tour</button>
 				<h5></h5>
 			</div>
-			<img src="images/guide.png" alt="guide" class="guide">
+			<div ng-show="stepThree">
+				<h2>The Bar</h2>
+				<h5>Walk around with your monster and interact with other players at the <span class="keyword">Bar</span>!</h5>
+				<button type="button" class="btn btn-success" ng-click="hideStepThree()" ng-keydown="$event.keyCode == 27 && hideStepThree()">Next</button>
+				<button type="button" class="btn btn-danger" ng-click="showTutorial=false">Skip tour</button>
+			</div>
+			<div ng-show="stepFour">
+				<h2>Your adventure begins now!</h2>
+				<h5>Click the egg to make it hatch!</h5>
+				<button type="button" class="btn btn-success" ng-click="showTutorial=false" ng-keydown="$event.keyCode == 27">Alright!</button>
+			</div>
+			<img src="images/guide3.gif" alt="guide" class="guide">
 		</div>
 	</div>
 </div>  

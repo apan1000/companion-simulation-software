@@ -388,6 +388,15 @@ input[type=email].success, input[type=password].success {
     -ms-filter: "FlipH";
 }
 
+.keyword {
+	font-size: 15pt;
+	color: rgba(230,40,80,1);
+}
+
+.tutorialItems {
+	padding: 20px;
+}
+
 /* Chat */
 #chat {
 	background: #fff;
