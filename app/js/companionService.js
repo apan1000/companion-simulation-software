@@ -153,7 +153,8 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           y_coord: 0,
           score: 0,
           online: false,
-          beginner: true
+          beginner: true,
+          challengers: 0
         });
         self.loginWithPassword(emailVal,passwordVal);
         newAccMsg = "success";
@@ -222,7 +223,8 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           y_coord: 0,
           score: 0,
           online: false,
-          beginner: true
+          beginner: true,
+          challengers: 0
         }, function() {
           getRefUser(authData);
         });
