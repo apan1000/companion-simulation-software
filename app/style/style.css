@@ -467,9 +467,18 @@ input[type=email].success, input[type=password].success {
 
 /* status-bar */
 #status-bar {
+	background: #FFF;
 	font-family: "Coda";
 	font-size: 15pt;
 	color: white;
+}
+
+.statusbar {
+	background: #FFF;
+}
+
+.title-head{
+	background: rgba(230,40,80,1);
 }
 
 #status-bar h2 {
@@ -840,7 +849,7 @@ input[type=email].success, input[type=password].success {
 .progress-t {
     width: 10%;
     background: #8F8;
-    transition:left 0.1s;
+    transition:left 0s;
 }
 
 .progress-c {

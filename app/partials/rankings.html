@@ -1,4 +1,6 @@
 <div class="container-fluid">
-	<ng-include class="col-sm-3" src="'partials/status-bar.html'" ng-controller="UserCtrl"></ng-include>
-	<ng-include class="col-sm-9" src="'partials/list.html'" ng-controller="ListCtrl"></ng-include>
+	<span ng-controller="ListCtrl">
+		<ng-include class="col-sm-2" src="'partials/user.html'"></ng-include>
+		<ng-include class="col-sm-10" src="'partials/list.html'"></ng-include>
+	</span>
 </div>

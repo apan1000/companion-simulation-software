@@ -1,71 +1,59 @@
-<!--
-<div class="col-md-3">
-	<h2>{{otherUser.pokemon.name}}<br/><small>Master: {{otherUser.name}}</small></h2>
-	<h4>MonsterID: {{otherUser.pokemon.id}}</h4>
-	<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
-	<div>
-		<h4>Hp: {{otherUser.pokemon.hp}}</h4>
-		<h4>Attack: {{otherUser.pokemon.attack}}</h4>
-		<h4>Defense: {{otherUser.pokemon.defense}}</h4>
-		<h4>Happiness: {{otherUser.pokemon.happiness}}</h4>
-		<h4>Level: {{otherUser.pokemon.lvl}}</h4>
+<div class="title-head row">
+	<div class="col-sm-12">
+		<h3>{{otherUser.pokemon.name}}<small> child of {{otherUser.name}}</small></h3>
 	</div>
 </div>
--->
-<div class="container-fluid">
-<div id="statusbar" class="col-md-3">
-	<h2>Name: {{otherUser.pokemon.name}}
-	<br/><small>MonsterID: {{otherUser.pokemon.id}} </small></h2>
-	<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
-	<div class="row">
-		<div class="col-sm-6">
-			<h4>Level: {{otherUser.pokemon.lvl}}</h4>
-			<h4>Type: <small ng-repeat="type in otherUser.pokemon.types">{{type}} </small></h4>
+<div class="statusbar row">
+	<div class="col-sm-12">
+		<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
+		<div class="row text-center">
+			<div class="col-sm-6">
+				<h4>Level: {{otherUser.pokemon.lvl}}</h4>
+				<h4>Type: <small ng-repeat="type in otherUser.pokemon.types">{{type}} </small></h4>
+			</div>
+			<div class="col-sm-6">
+				<h4>Wins: {{otherUser.wins}}</h4>
+				<h4>Score: {{otherUser.score}}</h4>
+			</div>
 		</div>
-		<div class="col-sm-6">
-			<h4>Wins: {{otherUser.wins}}</h4>
-			<h4>Score: 0</h4>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="hpbar">
+					<h4>HP</h4>
+					<div class="bar">
+						<span>{{otherUser.pokemon.curHp}}/{{otherUser.pokemon.hp}}</span>
+						<div class="bar-cur" ng-class="{'health-bar-high': otherUser.pokemon.curHp/otherUser.pokemon.hp > 0.3, 'health-bar-low': otherUser.pokemon.curHp/otherUser.pokemon.hp <= 0.3}" ng-style="{'width':otherUser.pokemon.curHp/otherUser.pokemon.hp*100+'%'}"></div>
+					</div>
+				</div>
+				<div class="expbar">
+					<h4>EXP</h4>
+					<div class="bar">
+						<span>{{otherUser.pokemon.curExp}}/{{otherUser.pokemon.exp}}</span>
+						<div class="bar-cur exp-bar" ng-style="{'width':otherUser.pokemon.curExp/otherUser.pokemon.exp*100+'%'}"></div>
+					</div>
+				</div>
+			</div>
 		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>Stats</h4>
+				<ul class="list-group">
+				 	<li class="list-group-item list-group-item-warning">
+				  		<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+						Atk: {{otherUser.pokemon.attack}}
+					</li>
+				  	<li class="list-group-item list-group-item-info">
+				  		<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+					 	Def: {{otherUser.pokemon.defense}}
+					</li>
+					<li class="list-group-item list-group-item-success">
+				  		<span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>
+					  	Happiness: {{otherUser.pokemon.happiness}}
+					</li>
+				</ul>
+			</div>
+		</div>
+		<a ng-if="otherUser.uid!=user.uid" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}">Challenge this pokemon (offline)</a>
+		<a ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}">ONLINE BATTLE!</a>
 	</div>
-	<div class="row">
-		<div class="hpbar">
-			<h4>HP</h4>
-			<div class="bar">
-				<span>{{otherUser.pokemon.curHp}}/{{otherUser.pokemon.hp}}</span>
-				<div class="bar-cur" ng-class="{'health-bar-high': otherUser.pokemon.curHp/otherUser.pokemon.hp > 0.3, 'health-bar-low': otherUser.pokemon.curHp/otherUser.pokemon.hp <= 0.3}" ng-style="{'width':otherUser.pokemon.curHp/otherUser.pokemon.hp*100+'%'}"></div>
-			</div>
-		</div>
-		<div class="expbar">
-			<h4>EXP</h4>
-			<div class="bar">
-				<span>{{otherUser.pokemon.curExp}}/{{otherUser.pokemon.exp}}</span>
-				<div class="bar-cur exp-bar" ng-style="{'width':otherUser.pokemon.curExp/otherUser.pokemon.exp*100+'%'}"></div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<h4>Stats</h4>
-		<div class="col-md-5">
-			<div class="alert alert-warning" role="alert">
-			  <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
-			  Atk: {{otherUser.pokemon.attack}}
-			</div>
-			<div class="alert alert-info" role="alert">
-			  <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
-			  Def: {{otherUser.pokemon.defense}}
-			</div>
-		</div>
-		<div class="col-md-7">
-			<div class="alert alert-success" role="alert">
-			  <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>
-			  Happiness: {{otherUser.pokemon.happiness}}
-			</div>
-		</div>
-	</div>
-	<a ng-if="otherUser.uid!=user.uid" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}">Challenge this pokemon (offline)</a>
-	<a ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}">ONLINE BATTLE!</a>
-</div>
-
-
-<ng-include class="col-sm-9" src="'partials/list.html'" ng-controller="ListCtrl"></ng-include>
 </div>

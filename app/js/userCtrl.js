@@ -2,6 +2,7 @@
 // information about a user
 companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout) {
   $scope.user = Companion.getUser();
+  $scope.otherUser = Companion.getUser();
 
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
 
