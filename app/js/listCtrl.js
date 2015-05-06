@@ -1,5 +1,5 @@
 // Controller we use to list users
-companionApp.controller('ListCtrl', function ($scope, $firebaseArray, Companion, $timeout) {
+companionApp.controller('ListCtrl', function ($scope, $routeParams, $firebaseArray, Companion, $timeout) {
 
 		var ref = new Firebase('https://companion-simulation.firebaseio.com/');
 		var usersRef = ref.child('users');
@@ -18,8 +18,6 @@ companionApp.controller('ListCtrl', function ($scope, $firebaseArray, Companion,
 			return Companion.getUser();
 		}
 
-		$scope.otherUser = $scope.getUser();
-
 		$scope.getOtherUser = function(uid) {
 			usersRef.child(uid).on("value",function(snapshot) {
 				$timeout(function() {
@@ -28,5 +26,17 @@ companionApp.controller('ListCtrl', function ($scope, $firebaseArray, Companion,
       			});
       		});
 		}
+
+		if ($routeParams.user != '0') {
+		    usersRef.child($routeParams.user).on("value",function(snapshot) {
+				$timeout(function() {
+      				$scope.otherUser = snapshot.val();
+      				console.log($scope.otherUser)
+      			});
+      		});
+		  }
+		  else{
+		    $scope.otherUser = $scope.getUser();
+		  }
 
 	});

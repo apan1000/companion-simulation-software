@@ -37,7 +37,7 @@ companionApp.config(['$routeProvider',
         templateUrl: 'partials/search.html',
         controller: 'SearchCtrl'
       }).
-      when('/rankings', {
+      when('/rankings/:user', {
         templateUrl: 'partials/rankings.html'
       }).
       when('/user/:user', {
