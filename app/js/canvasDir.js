@@ -66,7 +66,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             console.error("Error:", error);
           }
         );
-        
+
 
 
         // var refSnapshot = [];
@@ -276,11 +276,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           for (i=0;i<otherPlayersUids.length;i++){
             var ytext = 0
 
-            for (i=0;i<messages.length;i++){
-              if (messages[i].user === otherPlayersUids[i]){
-                currentUid=otherPlayersUids[i];
+            for (j=0;j<messages.length;j++){
+              if (messages[j].user === otherPlayersUids[j]){
+                currentUid=otherPlayersUids[j];
                 //console.log(messages[i].text);
-                ctx.fillText(messages[i].text, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
+                ctx.fillText(messages[j].text, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
                 ytext = ytext+14;
               }
             }
@@ -306,11 +306,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             ctx.fillText(currentUidName, currentUidX-20, currentUidY);
 
             //DRAW MESSAGES
-            for (i=0; i < messages.length; i++){
-              if (messages[i].user === currentUid){
+            for (j=0; j < messages.length; j++){
+              if (messages[j].user === currentUid){
                 ctx.font = '12pt Calibri';
                 ctx.fillStyle = 'white';
-                ctx.fillText(messages[i].text, currentUidX+100, currentUidY+15+yOffset);
+                ctx.fillText(messages[j].text, currentUidX+100, currentUidY+15+yOffset);
                 yOffset = yOffset+14;
 
               }
