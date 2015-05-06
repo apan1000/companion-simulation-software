@@ -194,12 +194,14 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   // Find a suitable name based on the meta info given by each provider
   function getName(authData) {
     switch (authData.provider) {
-       case 'password':
-         return authData.password.email.replace(/@.*/, '');
-       case 'twitter':
-         return authData.twitter.username;
-       case 'facebook':
-         return authData.facebook.displayName;
+      case 'password':
+        return authData.password.email.replace(/@.*/, '');
+      case 'twitter':
+        return authData.twitter.username;
+      case 'facebook':
+        return authData.facebook.displayName;
+      case 'google':
+        return authData.google.displayName;
     }
   }
 
