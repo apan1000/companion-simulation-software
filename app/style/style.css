@@ -814,6 +814,23 @@ input[type=email].success, input[type=password].success {
     vertical-align: middle;
 }
 
+.login-status-dot {
+	display: inline-block;
+	height: 8px;
+	width: 8px;
+	border-radius: 50%;
+	-webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) .4s;
+	transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) .4s;
+}
+
+.online-dot {
+	background: LimeGreen;
+}
+
+.offline-dot {
+	background: Crimson;
+}
+
 .progress-bar {
     position: absolute;
     height: 20px;

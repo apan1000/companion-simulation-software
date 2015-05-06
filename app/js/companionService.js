@@ -152,6 +152,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           x_coord: 0,
           y_coord: 0,
           score: 0,
+          online: false,
           beginner: true
         });
         self.loginWithPassword(emailVal,passwordVal);
@@ -217,6 +218,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           x_coord: 0,
           y_coord: 0,
           score: 0,
+          online: false,
           beginner: true
         }, function() {
           getRefUser(authData);
@@ -239,7 +241,6 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   // Set online status
   presenceRef.on('value', function(snapshot) {
     if (snapshot.val()) {
-      // Remove ourselves when we disconnect, has to be before, to prevent ghosts
       if (self.getUser()) {
         onlineRef = usersRef.child(self.getUser().uid+'/online');
         onlineRef.onDisconnect().set(false);

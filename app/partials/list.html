@@ -42,6 +42,7 @@
 	  </tr>
 	  <tr ng-repeat="user in users | orderBy:sortType:sortReverse">
 	    <td>
+	    	<span ng-class="{'online-dot animated bounceIn':user.online==true, 'offline-dot':user.online==false}" class="login-status-dot"></span>
 	    	<a ng-href="#/user/{{user.uid}}">
 				<span>{{user.name}}</span>
 			</a>
