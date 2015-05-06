@@ -6,16 +6,7 @@
 <div class="statusbar row">
 	<div class="col-sm-12">
 		<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
-		<div class="row text-center">
-			<div class="col-sm-6">
-				<h4>Level: {{otherUser.pokemon.lvl}}</h4>
-				<h4>Type: <small ng-repeat="type in otherUser.pokemon.types">{{type}} </small></h4>
-			</div>
-			<div class="col-sm-6">
-				<h4>Wins: {{otherUser.wins}}</h4>
-				<h4>Score: {{otherUser.score}}</h4>
-			</div>
-		</div>
+		<div class="circle-image text-center"><span class="fix-inside">{{otherUser.pokemon.lvl}}</span></div>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="hpbar">
@@ -57,8 +48,8 @@
 				</ul>
 			</div>
 		</div>
-		<a ng-if="otherUser.uid!=user.uid" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}">Challenge this pokemon (offline)</a>
-		<a ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}">ONLINE BATTLE!</a>
-		<a ng-if="otherUser.online==false && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}" disabled>ONLINE BATTLE!</a>
+		<a ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}"><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)<span></a>
+		<a ng-if="otherUser.online==false && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></a>
+		<a ng-if="otherUser.uid!=user.uid" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}"><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
 	</div>
 </div>

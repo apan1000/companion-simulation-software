@@ -798,6 +798,49 @@ input[type=email].success, input[type=password].success {
 
 /* BOOTSTRAP CHANGES */
 
+h3 small {
+	color:white;
+}
+
+.fix-inside{
+	margin-left: auto;
+	margin-right: auto;
+	top: 30%;
+	position: relative;
+	transform: translate(0,50%);
+	-ms-transform: translate(0,50%);
+    -webkit-transform: translate(0,50%);
+
+    color:black;
+    font: 24px Arial;
+
+}
+
+.circle-image{
+	margin-left: auto;
+	margin-right: auto;
+    width:72px;
+    height:72px;
+    background-image:url("/images/shield.png");
+    background-size: 100%;
+    display:block;
+    background-position: center center;
+}
+
+.numberCircle {
+    border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    padding: 8px;
+
+    background: #fff;
+    border: 2px solid #666;
+    color: #666;
+    text-align: center;
+
+    font: 32px Arial, sans-serif;
+}
+
 .table-fix{
 	table-layout: fixed;
 	background: #FFF;
