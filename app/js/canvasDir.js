@@ -141,28 +141,28 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         
         var i = 0;
         var arrLength = syncArray.length;
+
         console.log(arrLength);
         console.log("INITOTHERS");
         var uid = "";
-        for (i=0; i < arrLength; i++){
-          //scope.users[i];
-          uid = syncArray[i].uid;
-          var onlineUsers = ChatService.getOnlineUsers();
+        var onlineUsers = ChatService.getOnlineUsers();
+        var onlineLength = onlineUsers.length;
+        for (i=0; i < onlineLength; i++){
+          for(j=0; j < arrLength; j++){
+            uid = syncArray[j].uid;
 
-          for(j=0; i < onlineUsers.length; i++){
-            if(onlineUsers[j].uid === uid){
+            if(onlineUsers[i].uid === uid){
               otherPlayers[uid] = {};
+
               otherPlayers[uid].x_coord = syncArray[i].x_coord;
               otherPlayers[uid].y_coord = syncArray[i].y_coord;
-              otherPlayers[uid].image = {};
               otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
-              otherPlayers[uid].name = {};
               otherPlayers[uid].name = syncArray[i].name;
+
               otherPlayersUids.push(uid);
             }
-          console.log("#players",otherPlayersUids.length);
           }
-          
+        console.log("#players",otherPlayersUids.length, otherPlayersUids);
 
           // var onlineUsers = ChatService.getOnlineUsers();
           // for (j=0; j < onlineUsers.length; j++){
@@ -306,7 +306,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             var currentUidName = otherPlayers[currentUid].name;
             var yOffset = 0;
             //DRAW SPRITE
-            ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
+            ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord, 120, 120);
 
             //DRAW NAMETAG
             ctx.font = 'italic 12pt Calibri';
@@ -337,7 +337,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
 
         function drawPlayer(){
-            ctx.drawImage(player.image, player.x,player.y);
+            ctx.drawImage(player.image, player.x,player.y, 120, 120);
             ctx.font = 'italic 12pt Calibri';
             ctx.fillStyle = 'white';
             ctx.fillText(syncObject.name, player.x-20, player.y);
