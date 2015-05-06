@@ -70,17 +70,5 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 	    	}
 		}
 	}
-
-	/*$scope.onDragSuccess = function(data,evt) {
-	  	console.log("drag success, data:", data);
-
-	  	if (data.name === "Rare Candy") {
-			
-		}
-
-		if (data.name === "Poke bell") {
-			
-		}
-	}*/
 });
 
