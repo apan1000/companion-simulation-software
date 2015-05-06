@@ -5,8 +5,14 @@
 </div>
 <div class="statusbar row">
 	<div class="col-sm-12">
-		<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
-		<div class="circle-image text-center"><span class="fix-inside">{{otherUser.pokemon.lvl}}</span></div>
+		<div class="row">
+			<div class="col-sm-6">
+			<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
+			</div>
+			<div class="col-sm-6">
+			<div class="circle-image text-center"><span class="fix-inside">{{otherUser.pokemon.lvl}}</span></div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="hpbar">

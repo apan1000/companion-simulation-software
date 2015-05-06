@@ -811,7 +811,7 @@ h3 small {
 	-ms-transform: translate(0,50%);
     -webkit-transform: translate(0,50%);
 
-    color:black;
+    color:white;
     font: 24px Arial;
 
 }
@@ -821,10 +821,13 @@ h3 small {
 	margin-right: auto;
     width:72px;
     height:72px;
-    background-image:url("/images/shield.png");
+    background-image:url("/images/shield2.png");
     background-size: 100%;
     display:block;
     background-position: center center;
+    transform: translate(0,50%);
+	-ms-transform: translate(0,50%);
+    -webkit-transform: translate(0,50%);
 }
 
 .numberCircle {
