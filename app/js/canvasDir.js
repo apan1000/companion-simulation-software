@@ -6,11 +6,34 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var playerUser = scope.user;
         console.log("user: ", playerUser);
 
-        var ref = new Firebase("https://companion-simulation.firebaseio.com");
 
-        var syncArray = $firebaseArray(ref.child("users"));
 
         //var syncArray = ChatService.onlineUsers; //Får bara ut de som är online
+        var refSyncObject = new Firebase("https://companion-simulation.firebaseio.com/users/"+playerUser.uid);
+        var syncObject = $firebaseObject(refSyncObject); //.child("users").child(playerUser.uid));
+  
+        //scope.playerData = syncObject;
+        syncObject.$bindTo(scope, "playerData");
+
+        syncObject.$loaded(
+          function(data) {
+            console.log(data === syncObject); // true
+            
+            console.log("OBJECT loaded");
+            console.log(scope.playerData);
+
+            initPlayer();
+
+          },
+          function(error) {
+            console.error("Error:", error);
+          }
+        );
+
+
+
+        var ref = new Firebase("https://companion-simulation.firebaseio.com");
+        var syncArray = $firebaseArray(ref.child("users"));
 
         syncArray.$loaded(
           function(data) {
@@ -59,27 +82,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         // scope.users = users;
 
 
-        var refSyncObject = new Firebase("https://companion-simulation.firebaseio.com/users/"+playerUser.uid);
 
-        var syncObject = $firebaseObject(refSyncObject); //.child("users").child(playerUser.uid));
-  
-        //scope.playerData = syncObject;
-        syncObject.$bindTo(scope, "playerData");
-
-        syncObject.$loaded(
-          function(data) {
-            console.log(data === syncObject); // true
-            
-            console.log("OBJECT loaded");
-            console.log(scope.playerData);
-
-            initPlayer();
-
-          },
-          function(error) {
-            console.error("Error:", error);
-          }
-        );
 
 
         //Settings
@@ -274,7 +277,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             for (i=0;i<messages.length;i++){
               if (messages[i].user === otherPlayersUids[i]){
                 currentUid=otherPlayersUids[i];
-                console.log(messsages[i].text);
+                console.log(messages[i].text);
                 ctx.fillText(messages[i].text, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
                 ytext = ytext+14;
               }
