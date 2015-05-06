@@ -145,7 +145,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
         console.log(userData);
         usersRef.child(userData.uid).set({
           name: emailVal.replace(/@.*/, ''),
-          pokemon: {name:'egg',sprite:'images/egg_jump.gif'},
+          pokemon: {name:'egg',sprite:'images/egg_jump.gif',lvl:0},
           wins: 0,
           losses: 0,
           items: [2,5,5],
