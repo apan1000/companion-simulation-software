@@ -133,7 +133,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           return img;
        };
 
-      var otherPlayers = { };
+      var otherPlayers = {};
       var otherPlayersImages = [];
       var otherPlayersUids = [];
 
@@ -146,40 +146,43 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         console.log("INITOTHERS");
         var uid = "";
         var onlineUid = "";
+
         var onlineUsers = ChatService.getOnlineUsers();
         var onlineLength = onlineUsers.length;
-        for (i=0; i < onlineLength; i++){
-          onlineUid = onlineUsers[i].uid;
-          for(j=0; j < arrLength; j++){
-            uid = syncArray[j].uid;
 
-            if(onlineUid === uid){
-              otherPlayers[uid] = {};
-
-              otherPlayers[uid].x_coord = syncArray[j].x_coord;
-              otherPlayers[uid].y_coord = syncArray[j].y_coord;
-              otherPlayers[uid].image = createImage(syncArray[j].pokemon.sprite);
-              otherPlayers[uid].name = syncArray[j].name;
-
-              otherPlayersUids.push(uid);
-            }
-          }
-        console.log("#players",otherPlayersUids.length, otherPlayersUids);
-
-          // var onlineUsers = ChatService.getOnlineUsers();
-          // for (j=0; j < onlineUsers.length; j++){
-          //     if(onlineUsers[j].uid === uid){
-          //       otherPlayers[uid] = {};
-          //       otherPlayers[uid].x_coord = syncArray[i].x_coord;
-          //       otherPlayers[uid].y_coord = syncArray[i].y_coord;
-          //       otherPlayers[uid].image = {};
-          //       otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
-          //       otherPlayersUids.push(uid);
-
-          //     }
-          // }
-          
+        for (i = 0; i < arrLength; i++){
+            uid = syncArray[i].uid;
+            otherPlayers[uid] = {};
+            otherPlayers[uid].x_coord = syncArray[i].x_coord;
+            otherPlayers[uid].y_coord = syncArray[i].y_coord;
+            otherPlayers[uid].image = {};
+            otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
+            otherPlayers[uid].name = {};
+            otherPlayers[uid].name = syncArray[i].name;
+            otherPlayersUids.push(uid);
+            console.log("#players",otherPlayersUids.length, otherPlayersUids)
         }
+        // for (i=0; i < onlineLength; i++){
+        //   onlineUid = onlineUsers[i].uid;
+
+        //   for(j=0; j < arrLength; j++){
+        //     uid = syncArray[j].uid;
+
+        //     if(onlineUid === uid){
+        //       otherPlayers[uid] = {};
+
+        //       otherPlayers[uid].x_coord = syncArray[j].x_coord;
+        //       otherPlayers[uid].y_coord = syncArray[j].y_coord;
+        //       otherPlayers[uid].image = createImage(syncArray[j].pokemon.sprite);
+        //       otherPlayers[uid].name = syncArray[j].name;
+
+        //       otherPlayersUids.push(uid);
+        //     }
+        //   }
+
+        // console.log("#players",otherPlayersUids.length, otherPlayersUids);
+          
+        // }
 
         console.log("OTHERPLAYERS",otherPlayers);
         window.setTimeout(initPlayer, 3000);
