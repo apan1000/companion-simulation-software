@@ -213,7 +213,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
       if (snapshot.val() === null) {
         usersRef.child(authData.uid).set({
           name: getName(authData),
-          pokemon: {name:'egg',sprite:'images/egg_jump.gif'},
+          pokemon: {name:'egg',sprite:'images/egg_jump.gif',lvl:0},
           wins: 0,
           losses: 0,
           items: [2,5,5],
