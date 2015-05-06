@@ -65,7 +65,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   $scope.$on("userChanged", function() {
     console.log("User changed, setting scope.user!");
     $timeout(function() {
-      $scope.user = Companion.getUser();
+      $scope.otherUser = Companion.getUser();
     });
   });
 
