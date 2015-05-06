@@ -1,7 +1,6 @@
 // User controller that we use whenever we want to display detailed
 // information about a user
 companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout) {
-  $scope.user = Companion.getUser();
   $scope.otherUser = Companion.getUser();
 
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
@@ -61,9 +60,9 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     });
   }
 
-  // Attach an asynchronous callback to get user when changed
+  // Attach an asynchronous callback to get otherUser when changed
   $scope.$on("userChanged", function() {
-    console.log("User changed, setting scope.user!");
+    console.log("User changed, setting scope.otherUser!");
     $timeout(function() {
       $scope.otherUser = Companion.getUser();
     });
