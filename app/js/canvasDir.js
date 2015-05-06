@@ -146,16 +146,24 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var uid = "";
         for (i=0; i < arrLength; i++){
           //scope.users[i];
-
           uid = syncArray[i].uid;
-            otherPlayers[uid] = {};
-            otherPlayers[uid].x_coord = syncArray[i].x_coord;
-            otherPlayers[uid].y_coord = syncArray[i].y_coord;
-            otherPlayers[uid].image = {};
-            otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
-            otherPlayers[uid].name = {};
-            otherPlayers[uid].name = syncArray[i].name;
-            otherPlayersUids.push(uid);
+          var onlineUsers = ChatService.getOnlineUsers();
+
+          for(j=0; i < onlineUsers.length; i++){
+            if(onlineUsers[j].uid === uid){
+              otherPlayers[uid] = {};
+              otherPlayers[uid].x_coord = syncArray[i].x_coord;
+              otherPlayers[uid].y_coord = syncArray[i].y_coord;
+              otherPlayers[uid].image = {};
+              otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
+              otherPlayers[uid].name = {};
+              otherPlayers[uid].name = syncArray[i].name;
+              otherPlayersUids.push(uid);
+            }
+          console.log("#players",otherPlayersUids.length);
+          }
+          
+
           // var onlineUsers = ChatService.getOnlineUsers();
           // for (j=0; j < onlineUsers.length; j++){
           //     if(onlineUsers[j].uid === uid){
