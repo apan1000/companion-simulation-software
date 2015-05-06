@@ -145,19 +145,21 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         console.log(arrLength);
         console.log("INITOTHERS");
         var uid = "";
+        var onlineUid = "";
         var onlineUsers = ChatService.getOnlineUsers();
         var onlineLength = onlineUsers.length;
         for (i=0; i < onlineLength; i++){
+          onlineUid = onlineUsers[i].uid;
           for(j=0; j < arrLength; j++){
             uid = syncArray[j].uid;
 
-            if(onlineUsers[i].uid === uid){
+            if(onlineUid === uid){
               otherPlayers[uid] = {};
 
-              otherPlayers[uid].x_coord = syncArray[i].x_coord;
-              otherPlayers[uid].y_coord = syncArray[i].y_coord;
-              otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
-              otherPlayers[uid].name = syncArray[i].name;
+              otherPlayers[uid].x_coord = syncArray[j].x_coord;
+              otherPlayers[uid].y_coord = syncArray[j].y_coord;
+              otherPlayers[uid].image = createImage(syncArray[j].pokemon.sprite);
+              otherPlayers[uid].name = syncArray[j].name;
 
               otherPlayersUids.push(uid);
             }
