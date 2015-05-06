@@ -88,18 +88,19 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
 
         //Settings
-        var movespeed = 200;
+        var movespeed = scope.user.pokemon.speed*3;
+        var updateRate = 100;
 
         //Init Canvas
         var canvas = element[0];
         var ctx = canvas.getContext('2d');
-        var canvasWidth = 1280
-        var canvasHeight = 800
+        var canvasWidth = canvas.width;
+        var canvasHeight = canvas.height;
 
 
         //Init Player
         //var playerImage = new Image();
-        var player = {x:10,y:10}; //{x:scope.playerData.x_coord,y:scope.playerData.y_coord};
+        var player = {x:scope.user.x_coord,y:scope.user.y_coord}; //{x:scope.playerData.x_coord,y:scope.playerData.y_coord};
 
         var initPlayer = function(){
           player["image"] = {};
@@ -153,11 +154,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         for (i = 0; i < arrLength; i++){
             uid = syncArray[i].uid;
             otherPlayers[uid] = {};
-            otherPlayers[uid].x_coord = syncArray[i].x_coord;
-            otherPlayers[uid].y_coord = syncArray[i].y_coord;
-            otherPlayers[uid].image = {};
+            otherPlayers[uid].x_start = syncArray[i].x_coord;
+            otherPlayers[uid].y_start = syncArray[i].y_coord;
+            otherPlayers[uid].x_target = syncArray[i].x_coord;
+            otherPlayers[uid].y_target = syncArray[i].y_coord;
             otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
-            otherPlayers[uid].name = {};
             otherPlayers[uid].name = syncArray[i].name;
             otherPlayersUids.push(uid);
             console.log("#players",otherPlayersUids.length, otherPlayersUids)
@@ -218,6 +219,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var now = 0;
         var delta= 0;
         var then= 0;
+        var data_package_time = 0;
 
         function setDelta(){
             now = Date.now();
@@ -233,6 +235,8 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         }
 
         function dataUpdate(){
+
+          data_package_time = Date.now();
 
             if (scope.playerData.x_coord != player.x || scope.playerData.y_coord != player.y){
               
@@ -251,15 +255,20 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             }
             
             var opLength = otherPlayersUids.length;
-            var currentUid = "";
+            var curUid = "";
             for (i = 0; i < opLength; i++){
 
-                currentUid = otherPlayersUids[i];
+                curUid = otherPlayersUids[i];
 
-                otherPlayers[currentUid].x_coord = syncArray[i].x_coord;
-                otherPlayers[currentUid].y_coord = syncArray[i].y_coord;
+                //Old target point is now start point
+                otherPlayers[curUid].x_start = otherPlayers[curUid].x_target;
+                otherPlayers[curUid].y_start = otherPlayers[curUid].y_target;
+
+                //Get new target point
+                otherPlayers[curUid].x_target = syncArray[i].x_coord;
+                otherPlayers[curUid].y_target = syncArray[i].y_coord;
             }
-            setTimeout(dataUpdate, 1000/10);
+            setTimeout(dataUpdate, updateRate);
         }
         
         function render(){
@@ -278,8 +287,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           var ptrn = ctx.createPattern(grassTile, 'repeat'); // Create a pattern with this image, and set it to "repeat".
           ctx.fillStyle = ptrn;
           ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-          ctx.drawImage(background,0,0);
-          ctx.drawImage(beach,640,0)
+          //ctx.drawImage(background,0,0);
         }
 
         function drawMessages(){
@@ -300,18 +308,28 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           }
         }
 
+        lineLength = function(x, y, x0, y0){
+            return Math.sqrt((x -= x0) * x + (y -= y0) * y);
+        };
+
         function drawOthers(){
           var opLength = otherPlayersUids.length;
+          var elapsedTime = Date.now() - data_package_time;
 
-          var currentUid = "";
+          var curUid = "";
           for (i = 0; i < opLength; i++){
-            currentUid = otherPlayersUids[i];
-            var currentUidX = otherPlayers[currentUid].x_coord;
-            var currentUidY = otherPlayers[currentUid].y_coord;
-            var currentUidName = otherPlayers[currentUid].name;
+            curUid = otherPlayersUids[i];
+
+            var delta_x = (otherPlayers[curUid].x_target-otherPlayers[curUid].x_start) * (elapsedTime/updateRate);
+            var delta_y = (otherPlayers[curUid].y_target-otherPlayers[curUid].y_start) * (elapsedTime/updateRate);
+
+            var currentUidX = delta_x+otherPlayers[curUid].x_start;
+            var currentUidY = delta_y+otherPlayers[curUid].y_start;
+
+            var currentUidName = otherPlayers[curUid].name;
             var yOffset = 0;
             //DRAW SPRITE
-            ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord, 120, 120);
+            ctx.drawImage(otherPlayers[curUid].image, currentUidX, currentUidY, 120, 120);
 
             //DRAW NAMETAG
             ctx.font = 'italic 12pt Calibri';
@@ -320,7 +338,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
             //DRAW MESSAGES
             for (j=0; j < messages.length; j++){
-              if (messages[j].user === currentUid){
+              if (messages[j].user === curUid){
                 ctx.font = '12pt Calibri';
                 ctx.fillStyle = 'white';
                 ctx.fillText(messages[j].text, currentUidX+100, currentUidY+15+yOffset);
@@ -413,16 +431,16 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             amount = movespeed*delta/1000;
             //console.log(amount);
 
-            if (keyLeft === true && player.x > 0) {
+            if (keyLeft === true && player.x > -60) {
                 player.x = Math.round(player.x-amount);
             }
-            if (keyRight === true && player.x < canvasWidth-50) {
+            if (keyRight === true && player.x < canvasWidth-60) {
                 player.x = Math.round(player.x+amount);
             } 
-            if (keyUp === true && player.y > 0) {
+            if (keyUp === true && player.y > -60) {
                 player.y = Math.round(player.y-amount);
             }
-            if (keyDown === true && player.y < canvasHeight-50) {
+            if (keyDown === true && player.y < canvasHeight-60) {
                 player.y = Math.round(player.y+amount);
             }
 
