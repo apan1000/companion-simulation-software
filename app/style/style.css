@@ -823,6 +823,10 @@ input[type=email].success, input[type=password].success {
     vertical-align: middle;
 }
 
+.online-col {
+	width: 35px;
+}
+
 .login-status-dot {
 	display: inline-block;
 	height: 8px;
@@ -838,6 +842,15 @@ input[type=email].success, input[type=password].success {
 
 .offline-dot {
 	background: Crimson;
+}
+
+.list-user {
+	cursor: pointer;
+	color: #197278;
+}
+
+.list-user:hover {
+	color: #59b2b8;
 }
 
 .progress-bar {

@@ -59,5 +59,6 @@
 		</div>
 		<a ng-if="otherUser.uid!=user.uid" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}">Challenge this pokemon (offline)</a>
 		<a ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}">ONLINE BATTLE!</a>
+		<a ng-if="otherUser.online==false && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}" disabled>ONLINE BATTLE!</a>
 	</div>
 </div>

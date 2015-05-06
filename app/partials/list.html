@@ -7,36 +7,43 @@
 	<div class="row">
 		<table class="table table-hover table-fix">
 		  <tr>
+		  	<th class="online-col">
+		  		<a class="orderBy" ng-click="sortType = 'online'; sortReverse = !sortReverse" title="Sort by online status">
+		  			•
+		  			<span ng-show="sortType == 'online' && !sortReverse" class="caret"></span>
+	        		<span ng-show="sortType == 'online' && sortReverse" class="caret-up"></span>
+	        	</a>
+		  	</th>
 		    <th>
-		    	<a class="orderBy" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+		    	<a class="orderBy" ng-click="sortType = 'name'; sortReverse = !sortReverse" title="Sort by user name">
 		    		User
 		    		<span ng-show="sortType == 'name' && !sortReverse" class="caret"></span>
 	        		<span ng-show="sortType == 'name' && sortReverse" class="caret-up"></span>
 				</a>
 			</th>
 		    <th>
-		    	<a class="orderBy" ng-click="sortType = 'pokemon.name'; sortReverse = !sortReverse">
+		    	<a class="orderBy" ng-click="sortType = 'pokemon.name'; sortReverse = !sortReverse" title="Sort by monster name">
 		    		Monster
 		    		<span ng-show="sortType == 'pokemon.name' && !sortReverse" class="caret"></span>
 	        		<span ng-show="sortType == 'pokemon.name' && sortReverse" class="caret-up"></span>
 				</a>
 			</th>
 		    <th>
-		    	<a class="orderBy" ng-click="sortType = 'pokemon.lvl'; sortReverse = !sortReverse">
+		    	<a class="orderBy" ng-click="sortType = 'pokemon.lvl'; sortReverse = !sortReverse" title="Sort by level">
 		    		Level
 		    		<span ng-show="sortType == 'pokemon.lvl' && !sortReverse" class="caret"></span>
 	        		<span ng-show="sortType == 'pokemon.lvl' && sortReverse" class="caret-up"></span>
 				</a>
 			</th>
 		    <th>
-		    	<a class="orderBy" ng-click="sortType = 'wins'; sortReverse = !sortReverse">
+		    	<a class="orderBy" ng-click="sortType = 'wins'; sortReverse = !sortReverse" title="Sort by wins">
 		    		Wins
 		    		<span ng-show="sortType == 'wins' && !sortReverse" class="caret"></span>
 	        		<span ng-show="sortType == 'wins' && sortReverse" class="caret-up"></span>
 				</a>
 			</th>
 			<th>
-		    	<a class="orderBy" ng-click="sortType = 'score'; sortReverse = !sortReverse">
+		    	<a class="orderBy" ng-click="sortType = 'score'; sortReverse = !sortReverse" title="Sort by score">
 		    		Score
 		    		<span ng-show="sortType == 'score' && !sortReverse" class="caret"></span>
 	        		<span ng-show="sortType == 'score' && sortReverse" class="caret-up"></span>
@@ -44,11 +51,11 @@
 			</th>
 		  </tr>
 		  <tr ng-repeat="user in users | orderBy:sortType:sortReverse">
+		  	<td>
+		  		<span ng-class="{'online-dot animated bounceIn':user.online==true, 'offline-dot':user.online==false}" class="login-status-dot" ng-attr-title="{{user.online && 'online' || user.online==false && 'offline'}}"></span>
+		  	</td>
 		    <td>
-		    	<span ng-class="{'online-dot animated bounceIn':user.online==true, 'offline-dot':user.online==false}" class="login-status-dot"></span>
-		    	<a ng-click="getOtherUser(user.uid)">
-					<span>{{user.name}}</span>
-				</a>
+		    	<span class="list-user" ng-click="getOtherUser(user.uid)">{{user.name}}</span>
 			</td>
 		    <td><img width="30" height="30" src="{{user.pokemon.sprite}}" alt="lel">{{user.pokemon.name}}</td> 
 		    <td>{{user.pokemon.lvl}}</td>
