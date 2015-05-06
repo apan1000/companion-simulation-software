@@ -30,7 +30,21 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           }
         );
 
+        var refMess = new Firebase("https://companion-simulation.firebaseio.com");
+        var messages = $firebaseArray(refMess.child("chat"));
 
+        messages.$loaded(
+          function(data) {
+            console.log(data === messages); // true
+            
+            console.log("MESSAGES loaded");
+            console.log(messages);
+
+          },
+          function(error) {
+            console.error("Error:", error);
+          }
+        );
 
         var ref = new Firebase("https://companion-simulation.firebaseio.com");
         var syncArray = $firebaseArray(ref.child("users"));
@@ -52,20 +66,8 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             console.error("Error:", error);
           }
         );
+        
 
-        var messages = $firebaseArray(ref.child("chat"));
-        messages.$loaded(
-          function(data) {
-            console.log(data === messages); // true
-            
-            console.log("MESSAGES loaded");
-            console.log(messages);
-
-          },
-          function(error) {
-            console.error("Error:", error);
-          }
-        );
 
         // var refSnapshot = [];
         // function dbSnapshot(){
@@ -277,7 +279,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             for (i=0;i<messages.length;i++){
               if (messages[i].user === otherPlayersUids[i]){
                 currentUid=otherPlayersUids[i];
-                console.log(messages[i].text);
+                //console.log(messages[i].text);
                 ctx.fillText(messages[i].text, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
                 ytext = ytext+14;
               }
