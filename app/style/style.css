@@ -803,6 +803,29 @@ input[type=email].success, input[type=password].success {
 	background: #FFF;
 }
 
+#table-wrapper {
+  position:relative;
+}
+
+#table-scroll {
+  height:500px;
+  overflow:auto;  
+}
+
+#table-wrapper table {
+  width:100%;
+    
+}
+#table-wrapper table thead th .head{
+	position:absolute;
+  	z-index:2;
+  	top: 0px;
+  	background: #FFF;
+  	height:30px;
+  	width:19%;
+}
+
+
 .orderBy {
 	color:#000;
 }
