@@ -272,9 +272,12 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     var user = self.getUser();
     usersRef.child(user.uid).on("value",function(snapshot) {
       //console.log("userRef user:",snapshot.val());
-      $rootScope.user = snapshot.val();
-      $localStorage.user = snapshot.val();
-      $rootScope.$broadcast('userChanged');
+      var newUser = snapshot.val();
+      if (newUser.online == true && self.getUser()) {
+        $rootScope.user = snapshot.val();
+        $localStorage.user = snapshot.val();
+        $rootScope.$broadcast('userChanged');
+      }
     });
   }
 
