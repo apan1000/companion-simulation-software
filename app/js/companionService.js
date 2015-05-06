@@ -187,6 +187,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   // Logout the user
   this.logout = function() {
     usersRef.child(self.getUser().uid+'/online').set(false);
+    usersRef.child(self.getUser().uid).off("value");
   	ref.unauth();
     this.setUser(null);
   }
@@ -271,13 +272,15 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   if (self.getUser()) {
     var user = self.getUser();
     usersRef.child(user.uid).on("value",function(snapshot) {
-      //console.log("userRef user:",snapshot.val());
-      var newUser = snapshot.val();
-      if (newUser.online == true && self.getUser()) {
-        $rootScope.user = snapshot.val();
-        $localStorage.user = snapshot.val();
-        $rootScope.$broadcast('userChanged');
+      var newUserVal = snapshot.val();
+      if (newUserVal.online == true && self.getUser()) {
+        $rootScope.user = newUserVal;
+        $localStorage.user = newUserVal;
       }
+      else if (newUserVal.online == false && $localStorage.user == null) {
+        self.logout();
+      }
+      $rootScope.$broadcast('userChanged');
     });
   }
 
