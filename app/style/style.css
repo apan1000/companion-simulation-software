@@ -366,7 +366,7 @@ input[type=email].success, input[type=password].success {
 	padding-left: 50px;
 	padding-right: 50px;
 	padding-top: 20px;
-	padding-bottom: 45px;
+	padding-bottom: 20px;
 	border-radius: 5px;
 	background: #fff;
 	box-shadow: 0 0 20px 0 rgba(0,0,0,.5);

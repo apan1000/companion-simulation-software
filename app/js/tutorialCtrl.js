@@ -15,23 +15,35 @@ companionApp.controller('TutorialCtrl', function ($scope,$routeParams,$firebaseO
 		$scope.welcome = true; 
 	}
 
-	$scope.hideWelcome = function() {
+	$scope.showStepOne = function() {
     	$scope.welcome = false; 
     	$scope.stepOne = true;
+      $scope.stepTwo = false;
+      $scope.stepThree = false;
+      $scope.stepFour = false;
   	}
 
-  	$scope.hideStepOne = function() {
-  		$scope.stepOne = false;
-  		$scope.stepTwo = true;
+  	$scope.showStepTwo = function() {
+  		$scope.welcome = false; 
+      $scope.stepOne = false;
+      $scope.stepTwo = true;
+      $scope.stepThree = false;
+      $scope.stepFour = false;
   	}
 
-  	$scope.hideStepTwo = function() {
-  		$scope.stepTwo = false;
-  		$scope.stepThree = true;
+  	$scope.showStepThree = function() {
+  		$scope.welcome = false; 
+      $scope.stepOne = false;
+      $scope.stepTwo = false;
+      $scope.stepThree = true;
+      $scope.stepFour = false;
   	}
 
-  	$scope.hideStepThree = function() {
-  		$scope.stepThree = false;
-  		$scope.stepFour = true;
+  	$scope.showStepFour = function() {
+  		$scope.welcome = false; 
+      $scope.stepOne = false;
+      $scope.stepTwo = false;
+      $scope.stepThree = false;
+      $scope.stepFour = true;
   	}
 });

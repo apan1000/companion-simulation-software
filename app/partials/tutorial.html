@@ -1,10 +1,11 @@
 <div class="tutorial" ng-show="showTutorial">
 	<div class="popup-overlay">
-		<div class="tutorial-div"> 
+		<div class="tutorial-div">
+			<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="showTutorial=false"></span> 
 			<div ng-show="welcome">
 				<h3>Welcome to Egg of Companion, {{user.name}}!</h3>
 				<h5>My name's Steve and I'll be your guide. Since you're new here, want a guided tour?</h5>
-				<button type="button" class="btn btn-success" ng-click="hideWelcome()" ng-keydown="$event.keyCode == 27 && hideWelcome()">Yes please!</button>
+				<button type="button" class="btn btn-success" ng-click="showStepOne()" ng-keydown="$event.keyCode == 27 && hideWelcome()">Yes please!</button>
 				<button type="button" class="btn btn-danger" ng-click="showTutorial=false">No thanks</button>
 			</div>
 			<div ng-show="stepOne">
@@ -14,27 +15,27 @@
 				<img class="tutorialItems" src="../images/pokebell.png" alt="bell">
 				<img class="tutorialItems" src="../images/potion.png" alt="potion">
 				<h5>The items are limited, so use them wisely!</h5>
-				<button type="button" class="btn btn-success" ng-click="hideStepOne()" ng-keydown="$event.keyCode == 27 && hideStepOne()">Next</button>
-				<button type="button" class="btn btn-danger" ng-click="showTutorial=false">Skip tour</button>
+				<button type="button" class="btn btn-success" ng-click="showStepTwo()" ng-keydown="$event.keyCode == 27 && showStepTwo()"><span class="glyphicon glyphicon-arrow-right"></span></button>
 			</div>
 			<div ng-show="stepTwo">
 				<h2>Fighting</h2>
-				<h5>Fight wild monsters at the <span class="keyword">Fields</span> to earn experience and items!</h5>
-				<h5>See who is the current master under <span class="keyword">Ranks</span></h5>
-				<button type="button" class="btn btn-success" ng-click="hideStepTwo()" ng-keydown="$event.keyCode == 27 && hideStepTwo()">Next</button>
-				<button type="button" class="btn btn-danger" ng-click="showTutorial=false">Skip tour</button>
+				<h5>Fight wild monsters at the <span class="keyword glyphicon glyphicon-leaf">Fields</span> to earn experience and items!</h5>
+				<h5>See who is the current master under <span class="keyword glyphicon glyphicon-th-list">Ranks</span></h5>
+				<button type="button" class="btn btn-danger" ng-click="showStepOne()"><span class="glyphicon glyphicon-arrow-left"></span></button>
+				<button type="button" class="btn btn-success" ng-click="showStepThree()" ng-keydown="$event.keyCode == 27 && showStepThree()"><span class="glyphicon glyphicon-arrow-right"></span></button>
 				<h5></h5>
 			</div>
 			<div ng-show="stepThree">
 				<h2>The Bar</h2>
-				<h5>Walk around with your monster and interact with other players at the <span class="keyword">Bar</span>!</h5>
-				<button type="button" class="btn btn-success" ng-click="hideStepThree()" ng-keydown="$event.keyCode == 27 && hideStepThree()">Next</button>
-				<button type="button" class="btn btn-danger" ng-click="showTutorial=false">Skip tour</button>
+				<h5>Walk around with your monster and interact with other players at the <span class="keyword glyphicon glyphicon-glass">Bar</span>!</h5>
+				<button type="button" class="btn btn-danger" ng-click="showStepTwo()"><span class="glyphicon glyphicon-arrow-left"></span></button>
+				<button type="button" class="btn btn-success" ng-click="showStepFour()" ng-keydown="$event.keyCode == 27 && showStepFour()"><span class="glyphicon glyphicon-arrow-right"></span></button>
 			</div>
 			<div ng-show="stepFour">
 				<h2>Your adventure begins now!</h2>
 				<h5>Click the egg to make it hatch!</h5>
-				<button type="button" class="btn btn-success" ng-click="showTutorial=false" ng-keydown="$event.keyCode == 27">Alright!</button>
+				<button type="button" class="btn btn-danger" ng-click="showStepThree()"><span class="glyphicon glyphicon-arrow-left"></span></button>
+				<button type="button" class="btn btn-success" ng-click="showTutorial=false" ng-keydown="$event.keyCode == 27"><span class="glyphicon glyphicon-ok"></span></button>
 			</div>
 			<img src="images/guide2.gif" alt="guide" class="guide">
 		</div>
