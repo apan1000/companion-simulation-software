@@ -1,3 +1,4 @@
+// Service for chat stuff
 companionApp.factory('ChatService', function ($rootScope, Companion) {
   var numOnlineUsers = 0;
   var onlineUsers = [];

@@ -1,4 +1,4 @@
-// Companion model
+// Main service for user
 companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$location) {
   var self = this;
   var loginMsg = "";

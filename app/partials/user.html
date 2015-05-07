@@ -54,8 +54,8 @@
 				</ul>
 			</div>
 		</div>
-		<a ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}"><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)<span></a>
-		<a ng-if="otherUser.online==false && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></a>
+		<button ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-click="challenge()"><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)<span></button>
+		<button ng-if="otherUser.online==false && otherUser.uid!=user.uid" class="btn btn-info" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></button>
 		<a ng-if="otherUser.uid!=user.uid" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}"><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
 	</div>
 </div>

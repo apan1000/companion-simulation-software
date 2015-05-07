@@ -1,5 +1,4 @@
-// User controller that we use whenever we want to display detailed
-// information about a user
+// Arena controller for fights against other monsters
 companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout,$location) {
 
   $scope.combo = 1;
@@ -250,10 +249,10 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   $scope.$on('userChanged', function() {
     var url = $location.url();
-    if(url === "/fields/"+$routeParams.user || url === "/fields/0"){
+    if (url === "/fields/"+$routeParams.user || url === "/fields/0") {
       $scope.user = Companion.getUser();
     }
-    else{
+    else {
       $scope.battle = false;
     }
   });

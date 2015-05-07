@@ -1,6 +1,6 @@
 // User controller that we use whenever we want to display detailed
 // information about a user
-companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout) {
+companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout,$location) {
   $scope.otherUser = Companion.getUser();
 
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
@@ -8,7 +8,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   if ($routeParams.user) {
     var otherUserRef = ref.child('users/'+$routeParams.user);
   } else {
-    var userRef = ref.child('users/'+Companion.getUser().uid);
+    var otherUserRef = null;
   }
 
   // Gives user a new pokémon
@@ -60,6 +60,11 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     });
   }
 
+  $scope.challenge = function() {
+    console.log(otherUserRef.key());
+    otherUserRef.child('challengers/'+$scope.user.uid).set($scope.user);
+  }
+
   // Attach an asynchronous callback to get otherUser when changed
   $scope.$on("userChanged", function() {
     console.log("User changed, setting scope.otherUser!");
@@ -68,11 +73,29 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     });
   });
 
+  // Change otherUserRef when otherUser has changed
+  $scope.$on("otherUserChanged", function() {
+    var uid = $location.path().substring($location.path().lastIndexOf('/')+1);
+
+    if (otherUserRef) {
+      otherUserRef.off("value");
+    }
+
+    console.log("Setting otherUserRef!");
+    otherUserRef = ref.child('users/'+uid);
+    otherUserRef.on("value", function(snapshot) {
+      $timeout(function() {
+        $scope.otherUser = snapshot.val();
+      });
+    });
+
+  });
+
   if ($routeParams.user) {
     otherUserRef.on("value", function(snapshot) {
       $timeout(function() {
         $scope.otherUser = snapshot.val();
-        console.log("otherUser:",$scope.otherUser);
+        // console.log("otherUser:",$scope.otherUser);
       });
     });
   }

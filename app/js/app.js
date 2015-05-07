@@ -34,16 +34,17 @@ companionApp.config(['$routeProvider',
       when('/bar',{
         templateUrl: 'partials/bar.html'
       }).
-      when('/search', {
-        templateUrl: 'partials/search.html',
-        controller: 'SearchCtrl'
-      }).
       when('/rankings/:user', {
-        templateUrl: 'partials/rankings.html'
+        templateUrl: 'partials/rankings.html',
+        controller: 'UserCtrl'
       }).
       when('/user/:user', {
         templateUrl: 'partials/user.html',
         controller: 'UserCtrl'
+      }).
+      when('/dungeon/:battleID', {
+        templateUrl: 'partials/dungeon.html',
+        controller: 'OnlineBattleCtrl'
       }).
       otherwise({
         redirectTo: '/'
@@ -86,7 +87,21 @@ companionApp.directive('focusMe', function($timeout) {
   };
 });
 
-companionApp.run(function($rootScope, $location) {
+companionApp.run(['$route','$rootScope','$location', function($route,$rootScope,$location) {
+	// http://joelsaupe.com/programming/angularjs-change-path-without-reloading/
+	var original = $location.path;
+	$location.path = function (path, reload) {
+		if (reload === false) {
+			var lastRoute = $route.current;
+			var un = $rootScope.$on('$locationChangeSuccess', function () {
+				$route.current = lastRoute;
+				un();
+			});
+		}
+		return original.apply($location, [path]);
+	};
+	//
+
 	$rootScope.$on("$routeChangeStart", function(event, next, current) {
 		if ($rootScope.user == null) {
 			// User not logged in, redirect to login
@@ -111,4 +126,4 @@ companionApp.run(function($rootScope, $location) {
 	  }
 	  $rootScope.navSelected = path;
 	});
-});
+}]);
