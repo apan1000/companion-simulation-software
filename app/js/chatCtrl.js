@@ -10,8 +10,9 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 		chatRef.on("value", function(snapshot) {
 			$scope.status = "";
 		});
+		var latestMessages = chatRef.orderByChild("timestamp").limitToLast(30);
 		//Get messages as an array
-		$scope.messages = $firebaseArray(chatRef);
+		$scope.messages = $firebaseArray(latestMessages);
 
 		//Post message function
 		$scope.postMessage = function(e) {
