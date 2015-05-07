@@ -61,8 +61,12 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   }
 
   $scope.challenge = function() {
-    console.log(otherUserRef.key());
-    otherUserRef.child('challengers/'+$scope.user.uid).set($scope.user);
+    console.log($scope.user.pokemon.sprite);
+    otherUserRef.child('challengers/'+$scope.user.uid).set({
+      'name': $scope.user.name,
+      'sprite' : $scope.user.pokemon.sprite,
+      'lvl': $scope.user.pokemon.lvl
+    });
   }
 
   // Attach an asynchronous callback to get otherUser when changed
