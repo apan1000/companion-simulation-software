@@ -9,7 +9,7 @@ companionApp.controller('TutorialCtrl', function ($scope,$routeParams,$firebaseO
   $scope.endTutorial = function() {
     $timeout(function() {
       $scope.showTutorial = false;
-      $scope.user.beginner = false;
+      $scope.user.beginner = "semitrue";
       Companion.setUser($scope.user);
     });
   }

@@ -12,6 +12,16 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
+  if($scope.user.beginner === "semitrue") {
+    $scope.showFightTutorial = true;
+  }
+
+  $scope.endFightTutorial = function() {
+      $scope.showFightTutorial = false;
+      $scope.user.beginner = false;
+      Companion.setUser($scope.user);
+  }
+
   $scope.getHpPercentage = function() {
     return $scope.user.pokemon.curHp/$scope.user.pokemon.hp*100;
   }
