@@ -65,23 +65,24 @@ which module to associate the app with. In app.js we create the "companionSimula
         <div class="navbar-collapse collapse">
 	        <ul class="nav navbar-nav">
 	        	<li><a ng-href="#/home" ng-class="{'nav-selected': navSelected=='home'}"  type="button"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-						<li><a ng-href="#/fields/0" ng-class="{'nav-selected': navSelected=='fields'}"  type="button"><span class="glyphicon glyphicon-leaf"></span> Fields</a></li>
-						<li><a ng-href="#/rankings/0" ng-class="{'nav-selected': navSelected=='rankings'}"  type="button"><span class="glyphicon glyphicon-th-list"></span> Ranks</a></li>
-						<li><a ng-href="#/bar" ng-class="{'nav-selected': navSelected=='bar'}"  type="button"><span class="glyphicon glyphicon-glass"></span> Bar</a></li>
-						<li>
-							<div class="dropdown">
-								<button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
-									Challengers<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li role="presentation" ng-repeat="user in user.challengers"><a role="menuitem" tabindex="-1" href="#">{{user.name}}</a></li>
-								</ul>
-							</div>
-						</li>
+				<li><a ng-if="user.pokemon.isEgg==false" ng-href="#/fields/0" ng-class="{'nav-selected': navSelected=='fields'}" type="button"><span class="glyphicon glyphicon-leaf"></span> Fields</a></li>
+                <li><a ng-if="user.pokemon.isEgg==true" class="nav-disabled" type="button"><span class="glyphicon glyphicon-leaf"></span> Fields</a></li>
+				<li><a ng-href="#/rankings/0" ng-class="{'nav-selected': navSelected=='rankings'}"  type="button"><span class="glyphicon glyphicon-th-list"></span> Ranks</a></li>
+				<li><a ng-href="#/bar" ng-class="{'nav-selected': navSelected=='bar'}"  type="button"><span class="glyphicon glyphicon-glass"></span> Bar</a></li>
+				<li>
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+							Challengers<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+							<li role="presentation" ng-repeat="user in user.challengers"><a role="menuitem" tabindex="-1" href="#">{{user.name}}</a></li>
+						</ul>
+					</div>
+				</li>
 	        </ul>
 	        <ul class="nav navbar-nav navbar-right">
 	        	<li>
-	        	<p class="navbar-text">Signed in as <a ng-href="#/user/{{user.uid}}" class="navbar-link">{{user.name}}</a></p>
+	        	<p class="navbar-text">Signed in as <a ng-href="#/rankings/{{user.uid}}" class="navbar-link">{{user.name}}</a></p>
 	        	</li>
 						<li>
 	        		<button type="button" id="logout-btn" class="btn btn-default navbar-btn" ng-click="logout()">Logout</button>

@@ -1,6 +1,6 @@
 <div id="monster">
 	<img ng-src="{{user.pokemon.sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-class="monsterAni" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)" ng-mouseenter="status=true" ng-mouseleave="status=false">
-	<div ng-show="status" class="statusBubble">
+	<!-- <div ng-show="status" class="statusBubble">
 		<h3>Name: {{user.pokemon.name}}
 		<br/><small>MonsterID: {{user.pokemon.id}} </small></h3>
 		<div class="row">
@@ -11,7 +11,7 @@
 				<h4>Type: <small ng-repeat="type in user.pokemon.types">{{type}} </small></h4>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div class="reactionImg">
 		<img ng-show="reaction" ng-src="images/{{reactionImage}}" alt=":)"></img>
 	</div>
@@ -19,12 +19,12 @@
 <ng-include class="row" src="'partials/items.html'"></ng-include>
 
 <div class="popup-overlay" ng-show="showNickname">
-	<div class="popup-div" ng-if="user.pokemon.name == 'egg'">
+	<div class="popup-div" ng-if="user.pokemon.isEgg == true">
 		<h1>Your egg is hatching! :O</h1>
 		<img class="monsterImageStatic" ng-src="{{user.pokemon.sprite}}" alt="Egg">
 		<h4>What will come out?!</h4>
 	</div>
-	<div class="popup-div" ng-if="user.pokemon.name != 'egg'">
+	<div class="popup-div" ng-if="user.pokemon.isEgg == false">
 		<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="hideNickname()"></span>
 		<h1>Congratulations!</h1>
 		<img class="monsterImageStatic" ng-src="{{user.pokemon.sprite}}" alt="Awesome companion">

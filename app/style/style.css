@@ -123,6 +123,19 @@ input[type=email].success, input[type=password].success {
 	color: #fff !important;
 }
 
+.nav-disabled {
+	cursor: default;
+	color: #fff !important;
+	background: #555;
+	opacity: 0.5;
+}
+
+.nav-disabled:hover {
+	color: #fff !important;
+	background: #555 !important;
+	opacity: 0.5;
+}
+
 /* Login */
 .login-bg {
 	margin-top: -70px;

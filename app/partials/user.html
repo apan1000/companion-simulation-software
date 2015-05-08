@@ -1,6 +1,6 @@
 <div class="title-head row">
 	<div class="col-sm-12">
-		<h3>{{otherUser.pokemon.name}}<small> child of {{otherUser.name}}</small></h3>
+		<h3>{{otherUser.pokemon.name}}<small> Companion of {{otherUser.name}}</small></h3>
 	</div>
 </div>
 <div class="statusbar row">
@@ -54,8 +54,9 @@
 				</ul>
 			</div>
 		</div>
-		<button ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-click="challenge()"><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)<span></button>
-		<button ng-if="otherUser.online==false && otherUser.uid!=user.uid" class="btn btn-info" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></button>
-		<a ng-if="otherUser.uid!=user.uid" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}"><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
+		<button ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-info" ng-click="challenge()"><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)<span></button>
+		<button ng-if="(otherUser.online==false || (otherUser.pokemon.isEgg==true && user.pokemon.isEgg==true)) && otherUser.uid!=user.uid " class="btn btn-info" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></button>
+		<a ng-if="otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}"><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
+		<a ng-if="otherUser.uid!=user.uid && (otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true)" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
 	</div>
 </div>

@@ -13,7 +13,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
 
   // Gives user a new pokémon
   $scope.hatchEgg = function() {
-    if($scope.user.pokemon.name === 'egg') {
+    if($scope.user.pokemon.isEgg === true) {
       Companion.getNewPokemon();
       $scope.nicknameSuccess = false;
       $scope.showNickname = true;
