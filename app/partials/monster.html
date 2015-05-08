@@ -12,7 +12,9 @@
 			</div>
 		</div>
 	</div>
-	<img ng-show="reaction" id="reactionImg" ng-src="images/{{reactionImage}}" alt=":)"></img>
+	<div class="reactionImg">
+		<img ng-show="reaction" ng-src="images/{{reactionImage}}" alt=":)"></img>
+	</div>
 </div>
 <ng-include class="row" src="'partials/items.html'"></ng-include>
 
