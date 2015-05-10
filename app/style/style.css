@@ -207,6 +207,12 @@ input[type=email].success, input[type=password].success {
 	height: 50px;
 }
 
+.dropdown-object {
+	padding-left: 8px;
+	padding-right: 8px;
+	min-width: 170px !important;
+}
+
 .challenge-alert {
 	background-color: #333;
 	color: #fff;
@@ -813,7 +819,8 @@ input[type=email].success, input[type=password].success {
 	font-size: 15pt;
 	position: relative;
 	background: #fff;
-	width: 60%;
+	max-width: 60%;
+	min-width: 50%;
 	padding: 0px;
 	margin-left: auto;
 	margin-right: auto;
