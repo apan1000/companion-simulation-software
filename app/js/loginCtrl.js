@@ -5,14 +5,12 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
   $scope.loginMsg = "";
   $scope.loading = false;
 
-  if ($scope.user.challengers) {
+  if ($scope.user && $scope.user.challengers) {
     $scope.numChallengers = Object.keys($scope.user.challengers).length;
     console.log('challengers: ', $scope.numChallengers);
   } else {
     $scope.numChallengers = 0;
   }
-
-
 
   // Logout the user
   $scope.logout = function() {
@@ -210,15 +208,15 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
           $location.path("/home");
         });
       }
+      if ($scope.user.challengers) {
+        $scope.numChallengers = Object.keys($scope.user.challengers).length;
+      } else {
+        $scope.numChallengers = 0;
+      }
     } else {
       $timeout(function() {
         $location.path("/");
       });
-    }
-    if ($scope.user.challengers) {
-      $scope.numChallengers = Object.keys($scope.user.challengers).length;
-    } else {
-      $scope.numChallengers = 0;
     }
   });
 
