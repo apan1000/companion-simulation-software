@@ -71,8 +71,11 @@ which module to associate the app with. In app.js we create the "companionSimula
 				<li><a ng-href="#/bar" ng-class="{'nav-selected': navSelected=='bar'}"  type="button"><span class="glyphicon glyphicon-glass"></span> Bar</a></li>
 				<li>
 					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
-							Challengers<span class="caret"></span>
+						<button class="btn btn-default dropdown-toggle challenge-dropdown" type="button" id="menu1" data-toggle="dropdown"><span class="challenge-alert">{{numChallengers}}</span>
+							<span ng-if="numChallengers > 1">challengers!</span>
+                            <span ng-if="numChallengers == 1">challenger!</span> 
+                            <span ng-if="numChallengers == 0">challengers</span>
+                            <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 							<li role="presentation" ng-repeat="user in user.challengers"><a role="menuitem" tabindex="-1" href="#">{{user.name}}</a></li>

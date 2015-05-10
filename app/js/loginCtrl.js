@@ -5,6 +5,15 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
   $scope.loginMsg = "";
   $scope.loading = false;
 
+  if ($scope.user.challengers) {
+    $scope.numChallengers = Object.keys($scope.user.challengers).length;
+    console.log('challengers: ', $scope.numChallengers);
+  } else {
+    $scope.numChallengers = 0;
+  }
+
+
+
   // Logout the user
   $scope.logout = function() {
     console.log("Unauthorizing");
@@ -179,6 +188,10 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
     }
   }
 
+  // $scope.$on('challengersChanged', function() {
+  //   $scope.numChallengers = Companion.getNumChallengers();
+  // });
+
   $scope.$on('loginMsgChange', function() {
     showLoginMsg(Companion.getLoginMsg());
   });
@@ -202,5 +215,11 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
         $location.path("/");
       });
     }
+    if ($scope.user.challengers) {
+      $scope.numChallengers = Object.keys($scope.user.challengers).length;
+    } else {
+      $scope.numChallengers = 0;
+    }
   });
+
 });

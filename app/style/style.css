@@ -136,6 +136,23 @@ input[type=email].success, input[type=password].success {
 	opacity: 0.5;
 }
 
+.challenge-dropdown {
+	color: #fff !important;
+	background: rgba(230,40,80,1) !important;
+	border-width: 0px !important;
+	height: 50px;
+}
+
+.challenge-alert {
+	background-color: #333;
+	color: #fff;
+	font-weight: bold;
+	height: 23px;
+	width: 23px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
 /* Login */
 .login-bg {
 	margin-top: -70px;
@@ -738,7 +755,7 @@ input[type=email].success, input[type=password].success {
 	font-size: 15pt;
 	position: relative;
 	background: #fff;
-	width: 70%;
+	width: 60%;
 	padding: 0px;
 	margin-left: auto;
 	margin-right: auto;
@@ -755,12 +772,14 @@ input[type=email].success, input[type=password].success {
 	margin-left: auto !important;
 	margin-right: auto !important;
 	width: 100%;
+	text-align: center;
 	/*height:90px !important;*/
+	transform: translate(-20px,0);
 }
 
 .itemImage {
-	margin-left: 7%;
-	margin-right: 7%;
+	margin-left: 6%;
+	margin-right: 6%;
 }
 
 .itemLowOpacity {
