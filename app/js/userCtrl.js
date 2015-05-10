@@ -61,30 +61,31 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   }
 
   $scope.challenge = function() {
+    // console.log("otherUser!!!!",$scope.otherUser);
     otherUserRef.child('challengers/'+$scope.user.uid).set({
       'name': $scope.user.name,
       'sprite' : $scope.user.pokemon.sprite,
       'lvl': $scope.user.pokemon.lvl,
-      'isChallenged': true
+      'challengedYou': true
     });
     if (!$scope.user.challengers) {
       $scope.user.challengers = {};
     }
     // If already challenged by other user
     if ($scope.user.challengers[($scope.otherUser.uid)] && 
-      $scope.user.challengers[($scope.otherUser.uid)].isChallenged) {
+      $scope.user.challengers[($scope.otherUser.uid)].challengedYou) {
       // något
     }
     // If you already have challenged the user
     else if ($scope.user.challengers[($scope.otherUser.uid)] && 
-      $scope.user.challengers[($scope.otherUser.uid)].isChallenged == false) {
+      $scope.user.challengers[($scope.otherUser.uid)].challengedYou == false) {
       // något
     } else {
       $scope.user.challengers[($scope.otherUser.uid)] = {
         'name': $scope.otherUser.name,
         'sprite' : $scope.otherUser.pokemon.sprite,
         'lvl': $scope.otherUser.pokemon.lvl,
-        'isChallenged': false
+        'challengedYou': false
       };
       Companion.setUser($scope.user);
     }
@@ -92,10 +93,12 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
 
   // Attach an asynchronous callback to get otherUser when changed
   $scope.$on("userChanged", function() {
-    console.log("User changed, setting scope.otherUser!");
-    $timeout(function() {
-      $scope.otherUser = Companion.getUser();
-    });
+    if (!$routeParams.user) {
+      console.log("User changed, setting scope.otherUser!");
+      $timeout(function() {
+        $scope.otherUser = Companion.getUser();
+      });
+    }
   });
 
   // Change otherUserRef when otherUser has changed
