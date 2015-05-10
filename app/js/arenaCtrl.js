@@ -71,8 +71,19 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       }
   }
 
+  var showOutcome = function(){
+    $scope.outcomeImg = "images/victory.png";
+    $scope.battleEnd = true;
+    $timeout(hideOutcome, 2000);
+  }
+
+  var hideOutcome = function(){
+      $scope.battleEnd = false;
+  }
+
   var battleWon = function(){
 
+    showOutcome();
     $scope.combo = 1;
     $scope.battle = false;
     $scope.ready = false;

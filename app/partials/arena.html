@@ -1,9 +1,10 @@
 <div id="arena">
-	
 	<div class="row">
+		<div class="battleOutcome">
+			<img ng-show="battleEnd" src="{{outcomeImg}}" alt="outcomeImage" class="outcomeImg"></img>
+		</div>
 		<div class="col-md-3 col-md-offset-2">
 			<div class="fightImage">
-				
 				<span class="text-center">
 					<div class="row hpbars">
 						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h1>{{enemyDmg}}</h1></div>
