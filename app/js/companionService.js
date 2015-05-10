@@ -263,10 +263,6 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
         getRefUser(authData);
       }
     }
-    // else if (self.getUser()) {
-    //   console.log("huehue",authData);
-    //   //setUser(null);
-    // }
   });
 
   // Check for changes to user
