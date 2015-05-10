@@ -71,11 +71,13 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
       $scope.user.challengers = {};
     }
     // If already challenged by other user
-    if ($scope.user.challengers[($scope.otherUser.uid)].isChallenged) {
+    if ($scope.user.challengers[($scope.otherUser.uid)] && 
+      $scope.user.challengers[($scope.otherUser.uid)].isChallenged) {
       // något
     }
     // If you already have challenged the user
-    else if ($scope.user.challengers[($scope.otherUser.uid)].isChallenged == false) {
+    else if ($scope.user.challengers[($scope.otherUser.uid)] && 
+      $scope.user.challengers[($scope.otherUser.uid)].isChallenged == false) {
       // något
     } else {
       $scope.user.challengers[($scope.otherUser.uid)] = {

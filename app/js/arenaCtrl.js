@@ -111,7 +111,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   }
 
   var battleLost = function(){
-    $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0};
+    $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
     $scope.user.losses += 1;
     $scope.user.score -= 1;
     $scope.ready = false;
