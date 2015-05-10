@@ -11,16 +11,17 @@
 			<div ng-show="stepOne">
 				<h2>Training</h2>
 				<h5>You will soon recieve your very own monster companion. You can train it by dragging the items to it. The <span class="keyword">Candy</span> raises its level by one, the <span class="keyword">Bell</span> increases happiness and the <span class="keyword">Potion</span> increases HP.</h5>
-				<img class="tutorialItems" src="../images/rarecandy.png" alt="candy">
-				<img class="tutorialItems" src="../images/pokebell.png" alt="bell">
-				<img class="tutorialItems" src="../images/potion.png" alt="potion">
+				<img class="tutorialItems" src="images/rarecandy.png" alt="candy">
+				<img class="tutorialItems" src="images/pokebell.png" alt="bell">
+				<img class="tutorialItems" src="images/potion.png" alt="potion">
 				<h5>The items are limited, so use them wisely!</h5>
 				<button type="button" class="btn btn-success" ng-click="showStepTwo()" ng-keydown="$event.keyCode == 27 && showStepTwo()"><span class="glyphicon glyphicon-arrow-right"></span></button>
 			</div>
 			<div ng-show="stepTwo">
 				<h2>Fighting</h2>
 				<h5>Fight wild monsters at the <span class="keyword glyphicon glyphicon-leaf">Fields</span> to earn experience and items!</h5>
-				<h5>See who is the current master under <span class="keyword glyphicon glyphicon-th-list">Ranks</span>. Challange another user by clicking its name and choose <span class="keyword">Duel (online)</span> or <span class="keyword">Duel (offline)</span>.</h5>
+				<h5>See who is the current master under <span class="keyword glyphicon glyphicon-th-list">Ranks</span>.</h5> 
+				<h5>Challange another user by clicking its name and choose <span class="keyword">Duel (online)</span> or <span class="keyword">Duel (offline)</span>.</h5>
 				<h5>If your monster is defeated, you will get a new one, so be careful!</h5>
 				<button type="button" class="btn btn-danger" ng-click="showStepOne()"><span class="glyphicon glyphicon-arrow-left"></span></button>
 				<button type="button" class="btn btn-success" ng-click="showStepThree()" ng-keydown="$event.keyCode == 27 && showStepThree()"><span class="glyphicon glyphicon-arrow-right"></span></button>
