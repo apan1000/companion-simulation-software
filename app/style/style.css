@@ -1093,7 +1093,7 @@ h3 small {
 }
 
 #table-scroll {
-  height: 500px;
+  max-height: 500px;
   overflow: auto;
   background: #fff;
 }
