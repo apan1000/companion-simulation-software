@@ -79,7 +79,7 @@ which module to associate the app with. In app.js we create the "companionSimula
 						</button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 							<li ng-if="numChallengers > 0" role="presentation" ng-repeat="(uid,user) in user.challengers">
-								<a role="menuitem" tabindex="-1" ng-href="#/rankings/{{uid}}">
+								<a role="menuitem" tabindex="-1" ng-href="#/dungeon/{{user.battleID}}">
 									<img ng-src="{{user.sprite}}" height="50">
 									{{user.name}}
 								</a>
