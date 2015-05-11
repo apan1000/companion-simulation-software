@@ -4,6 +4,7 @@
 			<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="endTutorial()"></span> 
 			<div ng-show="welcome">
 				<h3>Welcome to Egg of Companion, {{user.name}}!</h3>
+				<br>
 				<h5>My name's Bobby Bobson and I'll be your guide. Since you're new here, want a guided tour?</h5>
 				<button type="button" class="btn btn-success start-guide-btn" ng-click="showStepOne()" ng-keydown="$event.keyCode == 27 && hideWelcome()">Yes please!</button>
 				<button type="button" class="btn btn-danger end-guide-btn" ng-click="endTutorial()">No thanks</button>

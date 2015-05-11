@@ -1,14 +1,16 @@
 <div class="container">
 	<ng-include class="col-xs-12" src="'partials/arena.html'" ng-controller="ArenaCtrl"></ng-include>
 
-	<div class="tutorial" ng-show="showFightTutorial">
+	<div class="tutorial" ng-show="showFightTutorial" ng-controller="ArenaCtrl">
 		<div class="popup-overlay">
 			<div class="tutorial-div">
 				<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="endFightTutorial()"></span> 	
 				<h2>Welcome to the Fields!</h2>
+				<br>
 				<h5>Click on the enemy monster to start the battle!</h5>
 				<h5>Click again when the green actionbar hits <span class="keyword">BuildUp</span> to build up your combo. The blue combometer tells you how strong your combo is.</h5>
 				<h5>To release your built up energy, click on the enemy when the actionbar hits <span class="keyword">Unleash</span>!</h5>
+				<br>
 				<button type="button" class="btn btn-success" ng-click="endFightTutorial()" ng-keydown="$event.keyCode == 27"><span class="glyphicon glyphicon-ok"></span></button>
 				<img src="images/guide2.gif" alt="guide" class="guide">
 			</div>

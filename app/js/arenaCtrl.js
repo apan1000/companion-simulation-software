@@ -8,6 +8,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   $scope.turnBased = true;
   $scope.ready = false;
   $scope.newItem = '';
+  $scope.outcomeImg = '';
   var rate = 500;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
@@ -73,7 +74,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   }
 
   var showOutcome = function(){
-    $scope.outcomeImg = "images/victory.png";
     $scope.battleEnd = true;
     $timeout(hideOutcome, 2000);
   }
@@ -83,7 +83,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   }
 
   var battleWon = function(){
-
+    $scope.outcomeImg = "images/victory.png";
     showOutcome();
     $scope.combo = 1;
     $scope.battle = false;
@@ -100,10 +100,13 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       $scope.user.items[rand] += 1;
       if (rand == 0) {
         $scope.newItem = "Rare Candy";
+        $scope.itemImage = "images/rarecandy.png";
       } else if (rand == 1) {
         $scope.newItem = "Poke Bell";
+        $scope.itemImage = "images/pokebell.png";
       } else {
         $scope.newItem = "Potion";
+        $scope.itemImage = "images/potion.png";
       }  
       console.log("ITEM: ", $scope.newItem);
     }
@@ -131,6 +134,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   }
 
   var battleLost = function(){
+    $scope.outcomeImg = "images/youdied.png";
+    $scope.battleEnd = true;
     $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
     $scope.user.losses += 1;
     $scope.user.score -= 1;
