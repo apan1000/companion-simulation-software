@@ -282,13 +282,46 @@ input[type=email].success, input[type=password].success {
 }
 
 .play-btn {
-	margin-left: auto;
-	margin-right: auto;
 	margin-top: 15px;
-	padding-left: 40px;
-	padding-right: 40px;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	-moz-box-shadow:inset 0px 2px 13px 0px #f0d890;
+	-webkit-box-shadow:inset 0px 2px 13px 0px #f0d890;
+	box-shadow:inset 0px 2px 13px 0px #f0d890;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0e59e), color-stop(1, #b59046));
+	background:-moz-linear-gradient(top, #f0e59e 5%, #b59046 100%);
+	background:-webkit-linear-gradient(top, #f0e59e 5%, #b59046 100%);
+	background:-o-linear-gradient(top, #f0e59e 5%, #b59046 100%);
+	background:-ms-linear-gradient(top, #f0e59e 5%, #b59046 100%);
+	background:linear-gradient(to bottom, #f0e59e 5%, #b59046 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0e59e', endColorstr='#b59046',GradientType=0);
+	background-color:#f0e59e;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border:1px solid #cc9846;
+	display:inline-block;
+	cursor:pointer;
+	color:#966e00;
+	font-size:25px;
+	font-family: "Coda";
+	font-weight:bold;
+	text-align: center;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	width: 140px;
+	height: 50px;
+	text-decoration:none;
+	text-shadow:2px 2px #ebda96;
+}
+.play-btn:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b59046), color-stop(1, #faefa5));
+	background:-moz-linear-gradient(top, #b59046 5%, #f0e59e 100%);
+	background:-webkit-linear-gradient(top, #b59046 5%, #f0e59e 100%);
+	background:-o-linear-gradient(top, #b59046 5%, #f0e59e 100%);
+	background:-ms-linear-gradient(top, #b59046 5%, #f0e59e 100%);
+	background:linear-gradient(to bottom, #b59046 5%, #f0e59e 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b59046', endColorstr='#f0e59e',GradientType=0);
+	background-color:#b59046;
+	text-shadow:2px 2px #b59046;
 }
 
 .login-container {
@@ -610,6 +643,10 @@ input[type=email].success, input[type=password].success {
 	white-space: normal;
 }
 
+.companion-name {
+	font-family: "Coda";
+}
+
 .stats-list-item {
 	padding: 5px 15px;
 }
@@ -883,6 +920,7 @@ input[type=email].success, input[type=password].success {
 	padding: 0px;
 	margin-left: auto;
 	margin-right: auto;
+	top: -5px;
 }
 
 .itemsHeader {
@@ -1047,7 +1085,7 @@ h3 small {
     
 }
 #table-wrapper table thead th .head{
-	/*position:absolute;*/
+	position:absolute;
   	z-index:2;
   	top: 0px;
   	background: #FFF;
