@@ -86,14 +86,12 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
         uid: $scope.user.uid,
         battleLog: false,
         timer: 10,
-        charge: false,
         here: false
       };
       var user2 = {
         uid: $scope.otherUser.uid,
         battleLog: false,
         timer: 10,
-        charge: false,
         here: false
       };
       newBattleRef = ref.child('battles').push({

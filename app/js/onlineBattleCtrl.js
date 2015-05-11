@@ -9,6 +9,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   $scope.choice = "";
   $scope.notStarted = true;
   $scope.enemyReady = false;
+  var maxTime = 10;
 
   $scope.challengerUid = "";
 
@@ -22,24 +23,34 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   battleRef.on("value", function(snapshot) {
     $timeout(function() {
   		$scope.battleData = snapshot.val();
+
   		$scope.challengerUid = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user2.uid : $scope.battleData.user1.uid;
   		$scope.challengerBattleData = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user2 : $scope.battleData.user1;
+  		$scope.userBattleData = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user1 : $scope.battleData.user2;
   		$scope.timer = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user1.timer : $scope.battleData.user2.timer;
-  		console.log("challenger",$scope.challengerUid);
+
       console.log("battleData:",$scope.battleData);
       $scope.enemyReady = $scope.challengerBattleData.here;
       console.log("challenger is here", $scope.enemyReady)
 
       if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.here == true){
-      	console.log("LET THE FIGHT BEGIN");
+      	console.log("LET THE GAMES BEGIN");
       	$scope.notStarted = false;
       	reduceTime();
       }
+      
+    	if($scope.notStarted == false && $scope.battleData.user1.timer == maxTime && $scope.battleData.user2.timer == maxTime){
+    		console.log("LET THE NEXT ROUND BEGIN");
+    		reduceTime();
+    	}
 
       //Both have made a descision, fight it out!
       if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
       	if ($scope.battleData.user1.timer == 0 && $scope.battleData.user1.timer == 0){
+      		//If i am user1 in this, im the master and controls the database
+      		if ($scope.battleData.user1.uid == $scope.user.uid){
       		executeMoves();
+      		}
       	}
       }
 
@@ -74,44 +85,63 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $timeout(function() {
         $scope.challenger = snapshot.val();
         console.log("challenger:",$scope.challenger);
-        $scope.temp_monster = $scope.challenger.pokemon;
-        $scope.temp_monster.new_sprite = $scope.challenger.pokemon.sprite;
       });
     });
   }
 
   var executeMoves = function(){
 
-  	console.log($scope.challengerBattleData);
+  	console.log("EXECUTING MOVES")
   	var randomAtk1 = Math.floor((Math.random() * 3) + 3);
     var randomAtk2 = Math.floor((Math.random() * 3) + 3);
 
-  	if($scope.challengerBattleData.battleLog == "buildUp"){
-  		if ($scope.battleData.user1.uid != $scope.user.uid){
-	 			$scope.battleData.user1.charge += 1;
-	 		}
-	 		else{
-	 			$scope.battleData.user2.here += 1;
-	 		}
-      $scope.enemyMonsterAni = "animated rubberBand";
-      $scope.enemyDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.50)/$scope.temp_monster.defense);
-  		console.log("ENEMY BUILD UP")
+    //	MY MOVES -------------
+    if ($scope.userBattleData.battleLog == "buildUp"){
+  		$scope.user.combo +=1;
+      $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.50)/$scope.user.pokemon.defense);
   	}
   	else{
-  		console.log("NOT BUILDUP NOOB")
-  		$scope.enemyDmg = 0;
+  		if ($scope.userBattleData.battleLog == "unleash"){
+  			var defBreaker = 2/$scope.user.combo;
+        $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.user.combo)/($scope.user.pokemon.defense*defBreaker));
+        $scope.user.combo =1;
+  		}
+  		else{
+  			if ($scope.userBattleData.battleLog == "counter"){
+  				$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.challenger.combo)/($scope.user.pokemon.defense));
+  			}
+  		}
+  	}
+
+    //	ENEMY MOVES ------------
+  	if ($scope.challengerBattleData.battleLog == "buildUp"){
+  		$scope.challenger.combo += 1;
+      $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*0.50)/$scope.challenger.pokemon.defense);
+  	}
+  	else{
+  		if ($scope.challengerBattleData.battleLog == "unleash"){
+  			var defBreaker = 2/$scope.challenger.combo;
+        $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.challenger.combo)/($scope.challenger.pokemon.defense*defBreaker));
+        $scope.challenger.combo = 1;
+  		}
+  		else{
+  			if ($scope.challengerBattleData.battleLog == "counter"){
+  				$scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.user.combo)/($scope.challenger.pokemon.defense));
+  			}
+  		}
   	}
 
   	$scope.battleData.user1.battleLog = false;
   	$scope.battleData.user2.battleLog = false;
-  	$scope.battleData.user1.timer = 10;
-  	$scope.battleData.user2.timer = 10;
+  	$scope.battleData.user1.timer = maxTime;
+  	$scope.battleData.user2.timer = maxTime;
 
   	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
+  	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
 
+  	$scope.challengerRef.set($scope.challenger);
   	Companion.setUser($scope.user);
   	battleRef.set($scope.battleData);
-  	$timeout( function(){ reduceTime(); }, rate);
  	}
 
  	$scope.chooseMove = function(move){
@@ -131,8 +161,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   }
 
   $scope.getEnemyHpPercentage = function() {
-    if ($scope.temp_monster) {
-      return $scope.temp_monster.curHp/$scope.temp_monster.hp*100;
+    if ($scope.challenger.pokemon) {
+      return $scope.challenger.pokemon.curHp/$scope.challenger.pokemon.hp*100;
     }
   }
 
@@ -169,7 +199,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     $scope.combo = 1;
     $scope.battle = false;
     $scope.ready = false;
-    $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.5);
+    $scope.user.pokemon.curExp += Math.floor(($scope.challenger.pokemon.exp)*0.5);
     $scope.user.wins += 1;
     $scope.user.score += 2;
     $scope.user.pokemon.happiness += 5;
