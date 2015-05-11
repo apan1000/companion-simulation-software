@@ -37,19 +37,21 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.here == true){
       	console.log("LET THE GAMES BEGIN");
       	$scope.notStarted = false;
-      	reduceTime();
+      	//reduceTime();
       }
       
     	if($scope.notStarted == false && $scope.battleData.timer == maxTime){
     		console.log("LET THE NEXT ROUND BEGIN");
-    		reduceTime();
+    		//reduceTime();
     	}
 
       //Both have made a descision, fight it out!
-      if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
+      if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
+      	if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
       	//if ($scope.battleData.timer == 0 && $scope.battleData.user1.uid == $scope.user.uid){
       		executeMoves();
       	}
+      }
       //}
 
       $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
