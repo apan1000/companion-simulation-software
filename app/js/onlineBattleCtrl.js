@@ -95,17 +95,17 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     //	MY MOVES -------------
     if ($scope.userBattleData.battleLog == "buildUp"){
   		$scope.user.combo +=1;
-      $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.50)/$scope.user.pokemon.defense);
+      $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.50)/$scope.challenger.pokemon.defense);
   	}
   	else{
   		if ($scope.userBattleData.battleLog == "unleash"){
   			var defBreaker = 2/$scope.user.combo;
-        $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.user.combo)/($scope.user.pokemon.defense*defBreaker));
+        $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.user.combo)/($scope.challenger.pokemon.defense*defBreaker));
         $scope.user.combo =1;
   		}
   		else{
   			if ($scope.userBattleData.battleLog == "counter"){
-  				$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.challenger.combo)/($scope.user.pokemon.defense));
+  				$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.challenger.combo)/($scope.challenger.pokemon.defense));
   			}
   			else{
   				$scope.yourDmg = 0;
@@ -117,17 +117,17 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     //	ENEMY MOVES ------------
   	if ($scope.challengerBattleData.battleLog == "buildUp"){
   		$scope.challenger.combo += 1;
-      $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*0.50)/$scope.challenger.pokemon.defense);
+      $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*0.50)/$scope.user.pokemon.defense);
   	}
   	else{
   		if ($scope.challengerBattleData.battleLog == "unleash"){
   			var defBreaker = 2/$scope.challenger.combo;
-        $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.challenger.combo)/($scope.challenger.pokemon.defense*defBreaker));
+        $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.challenger.combo)/($scope.user.pokemon.defense*defBreaker));
         $scope.challenger.combo = 1;
   		}
   		else{
   			if ($scope.challengerBattleData.battleLog == "counter"){
-  				$scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.user.combo)/($scope.challenger.pokemon.defense));
+  				$scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.user.combo)/($scope.user.pokemon.defense));
   			}
   			else{
   				$scope.enemyDmg = 0;

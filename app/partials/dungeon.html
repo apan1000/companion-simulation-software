@@ -46,7 +46,8 @@
 			<button class="btn btn-primary" ng-click="chooseMove('buildUp')">BuildUp</button>
 			<button class="btn btn-primary" ng-click="chooseMove('unleash')">Unleash</button>
 			<button class="btn btn-primary" ng-click="chooseMove('counter')">Counter</button>
-			<span ng-if="$scope.enemyReady==true">ENEMY READY</span>
+			<span ng-if="enemyReady==true">ENEMY READY</span>
+			Enemy Attack: {{challengerBattleData.battleLog}}
 		</div>
 	</div>
 
