@@ -111,6 +111,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
       $scope.user.challengers[($scope.otherUser.uid)] = {
         name: $scope.otherUser.name,
         sprite : $scope.otherUser.pokemon.sprite,
+        battleID: newBattleRefID,
         challengedYou: false
       };
       Companion.setUser($scope.user);
