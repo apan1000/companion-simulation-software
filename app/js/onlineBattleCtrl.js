@@ -45,14 +45,14 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     	}
 
       //Both have made a descision, fight it out!
-      if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
-      	if ($scope.battleData.user1.timer == 0 && $scope.battleData.user1.timer == 0){
+      //if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
+      	if ($scope.battleData.user1.timer == 0 && $scope.battleData.user2.timer == 0){
       		//If i am user1 in this, im the master and controls the database
       		if ($scope.battleData.user1.uid == $scope.user.uid){
       		executeMoves();
       		}
       	}
-      }
+      //}
 
       $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
       fetchChallengerData();
@@ -110,6 +110,10 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   			if ($scope.userBattleData.battleLog == "counter"){
   				$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.challenger.combo)/($scope.user.pokemon.defense));
   			}
+  			else{
+  				$scope.yourDmg = 0;
+  				console.log("You did nothing")
+  			}
   		}
   	}
 
@@ -127,6 +131,10 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   		else{
   			if ($scope.challengerBattleData.battleLog == "counter"){
   				$scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.user.combo)/($scope.challenger.pokemon.defense));
+  			}
+  			else{
+  				$scope.enemyDmg = 0;
+  				console.log("You did nothing")
   			}
   		}
   	}
