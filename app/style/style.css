@@ -179,7 +179,7 @@ input[type=email].success, input[type=password].success {
 	margin-bottom: 0;
 	font-size: 15px;
 	font-style: italic;
-	color: #eee !important;
+	color: #fff !important;
 }
 
 .nav-selected {
