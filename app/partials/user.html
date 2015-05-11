@@ -1,15 +1,15 @@
 <div class="title-head row">
-	<div class="col-sm-12">
+	<div class="col-xs-12">
 		<h3>{{otherUser.pokemon.name}}<br><small> Companion of {{otherUser.name}}</small></h3>
 	</div>
 </div>
 <div class="statusbar row">
-	<div class="col-sm-12">
+	<div class="col-xs-12">
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-xs-6">
 				<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
 			</div>
-			<div class="col-sm-6">
+			<div class="col-xs-6">
 				<div class="circle-image text-center">
 					<span class="fix-inside">{{otherUser.pokemon.lvl}}</span>
 				</div>
@@ -17,7 +17,7 @@
 		</div>
 		<div class="row">
 			<!-- Online fight button -->
-			<div class="col-sm-6">
+			<div class="col-xs-6">
 				<button ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-info" data-tooltip="Challenge this user to participate in an online battle of epic proportions!" ng-click="challenge()"><img src="images/swords.png" height="25"> Challenge</button>
 				<div ng-if="(otherUser.online==false || otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true) && otherUser.uid!=user.uid" 
 				ng-attr-data-tooltip="{{
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<!-- Offline fight button -->
-			<div class="col-sm-6">
+			<div class="col-xs-6">
 				<a ng-if="otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-danger" data-tooltip="Practice against this user's companion in an offline battle." ng-href="#/fields/{{otherUser.uid}}"><img src="images/sword2.png" height="25"> Practice</a>
 				<div ng-if="otherUser.uid!=user.uid && (otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true)" 
 				ng-attr-data-tooltip="{{
@@ -44,7 +44,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-xs-12">
 				<div class="hpbar">
 					<h4>HP</h4>
 					<div class="bar">
@@ -62,7 +62,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-xs-12">
 				<h4>Stats</h4>
 				<ul class="list-group">
 				 	<li class="list-group-item list-group-item-danger stats-list-item">
