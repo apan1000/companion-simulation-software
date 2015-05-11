@@ -67,6 +67,9 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
     // If user's pokémon is dead
     if ($scope.user.pokemon.curHp<=0){
+        $scope.outcomeImg = "images/youdied.png";
+        $scope.battleEnd = true;
+        console.log("YOU DED");
         $scope.myMonsterAni = "animated fadeOutUp";
         $scope.battle = false;
         $timeout( function(){ battleLost(); }, 2000);
@@ -133,9 +136,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     getRandomPokemon();
   }
 
-  var battleLost = function(){
-    $scope.outcomeImg = "images/youdied.png";
-    $scope.battleEnd = true;
+  var battleLost = function() {
     $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
     $scope.user.losses += 1;
     $scope.user.score -= 1;
@@ -206,6 +207,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
         // If user's pokémon is dead
         if ($scope.user.pokemon.curHp<=0){
+          $scope.outcomeImg = "images/youdied.png";
+          $scope.battleEnd = true;
           $scope.myMonsterAni = "animated fadeOutUp";
           $scope.battle = false;
           $timeout( function(){ battleLost(); }, 2000);
