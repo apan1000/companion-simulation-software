@@ -7,6 +7,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   $scope.timer = 0;
   $scope.turnBased = true;
   $scope.ready = false;
+  $scope.newItem = '';
   var rate = 500;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
@@ -97,6 +98,14 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
       var rand = Math.round(Math.random()*2);
       $scope.user.items[rand] += 1;
+      if (rand == 0) {
+        $scope.newItem = "Rare Candy";
+      } else if (rand == 1) {
+        $scope.newItem = "Poke Bell";
+      } else {
+        $scope.newItem = "Potion";
+      }  
+      console.log("ITEM: ", $scope.newItem);
     }
 
     if ($scope.user.pokemon.curExp>=$scope.user.pokemon.exp){

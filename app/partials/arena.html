@@ -2,6 +2,9 @@
 	<div class="row">
 		<div class="battleOutcome">
 			<img ng-show="battleEnd" src="{{outcomeImg}}" alt="outcomeImage" class="outcomeImg"></img>
+			<div ng-show="battleEnd" ng-if="outcomeImg == 'images/victory.png' && newItem != ''" class="itemEarned">
+				Item earned: {{newItem}}
+			</div>
 		</div>
 		<div class="col-xs-3 col-xs-offset-2">
 			<div class="fightImage">

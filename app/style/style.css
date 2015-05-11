@@ -702,6 +702,10 @@ input[type=email].success, input[type=password].success {
 	background-repeat: repeat-x;
 }
 
+.itemEarned {
+	font-size: 14pt;
+}
+
 #dungeon {
 	height: 560px;
 	background-image: url("../images/monsterBackgroundDusk.png");
