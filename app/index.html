@@ -78,11 +78,10 @@ which module to associate the app with. In app.js we create the "companionSimula
               <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-							<li ng-if="numChallengers > 0" role="presentation" ng-repeat="(uid,user) in user.challengers">
-								<a role="menuitem" tabindex="-1" ng-href="#/dungeon/{{user.battleID}}">
-									<span ng-class="{'online-dot animated bounceIn':user.online==true, 'offline-dot':user.online==false}" class="login-status-dot" ng-attr-title="{{user.online && 'online' || user.online==false && 'offline'}}"></span>
-									<img ng-src="{{user.sprite}}" height="50">
-									{{user.name}}
+							<li ng-if="numChallengers > 0" role="presentation" ng-repeat="(uid,challenger) in user.challengers">
+								<a role="menuitem" tabindex="-1" ng-href="#/dungeon/{{challenger.battleID}}">
+									<img ng-src="{{challenger.sprite}}" height="50">
+									{{challenger.name}}
 								</a>
 							</li>
               <li ng-if="numChallengers == 0" role="presentation" class="dropdown-object">
