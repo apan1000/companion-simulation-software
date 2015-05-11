@@ -1072,30 +1072,44 @@ h3 small {
 }
 
 #table-wrapper {
-  position:relative;
+  position: relative;
 }
 
 #table-scroll {
-  height:500px;
-  overflow:auto;  
+  height: 500px;
+  overflow: auto;
+  background: #fff;
 }
 
 #table-wrapper table {
-  width:100%;
+  width: 100%;
     
 }
+
 #table-wrapper table thead th .head{
-	position:absolute;
-  	z-index:2;
+	position: absolute;
+  	z-index: 2;
   	top: 0px;
-  	background: #FFF;
-  	height:30px;
-  	width:19%;
+  	margin-left: -8px;
+  	padding-left: 8px;
+  	background: #fff;
+  	height: 30px;
+  	width: 18.9%;
+  	border-bottom: 1px solid #ccc;
 }
 
+#table-wrapper table tbody tr:first-child td {
+	padding-top: 20px;
+}
 
 .orderBy {
 	color:#000;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .orderBy:hover {
