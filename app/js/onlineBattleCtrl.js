@@ -135,10 +135,15 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   		}
   	}
 
+  	$scope.showMessage = true;
+
+    $timeout(function() {
+      $scope.showMessage = false;
+    }, 1000);
+
   	$scope.battleData.user1.battleLog = false;
   	$scope.battleData.user2.battleLog = false;
-  	$scope.battleData.user1.timer = maxTime;
-  	$scope.battleData.user2.timer = maxTime;
+  	$scope.battleData.timer = maxTime;
 
   	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
   	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
