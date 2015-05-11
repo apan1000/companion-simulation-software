@@ -82,16 +82,15 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
       // något
     } else {
       // Put both users' uids in a child to battles in Firebase
+      var timer = 10;
       var user1 = {
         uid: $scope.user.uid,
         battleLog: false,
-        timer: 10,
         here: false
       };
       var user2 = {
         uid: $scope.otherUser.uid,
         battleLog: false,
-        timer: 10,
         here: false
       };
       newBattleRef = ref.child('battles').push({

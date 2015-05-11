@@ -27,7 +27,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   		$scope.challengerUid = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user2.uid : $scope.battleData.user1.uid;
   		$scope.challengerBattleData = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user2 : $scope.battleData.user1;
   		$scope.userBattleData = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user1 : $scope.battleData.user2;
-  		$scope.timer = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user1.timer : $scope.battleData.user2.timer;
+  		$scope.timer = $scope.battleData.timer;
 
       console.log("battleData:",$scope.battleData);
       $scope.enemyReady = $scope.challengerBattleData.here;
@@ -39,18 +39,15 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       	reduceTime();
       }
       
-    	if($scope.notStarted == false && $scope.battleData.user1.timer == maxTime && $scope.battleData.user2.timer == maxTime){
+    	if($scope.notStarted == false && $scope.battleData.timer == maxTime){
     		console.log("LET THE NEXT ROUND BEGIN");
     		reduceTime();
     	}
 
       //Both have made a descision, fight it out!
       //if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
-      	if ($scope.battleData.user1.timer == 0 && $scope.battleData.user2.timer == 0){
-      		//If i am user1 in this, im the master and controls the database
-      		if ($scope.battleData.user1.uid == $scope.user.uid){
+      	if ($scope.battleData.timer == 0 && $scope.battleData.user1.uid == $scope.user.uid){
       		executeMoves();
-      		}
       	}
       //}
 
@@ -68,7 +65,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
  			$scope.battleData.user2.here = true;
  		}
  		console.log("READY FOR BATTLE")
-
  		battleRef.set($scope.battleData);
  	}
 
@@ -175,20 +171,16 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   }
 
   function reduceTime() {
-    if ($scope.timer > 0){
-      $scope.timer -=1;
-      $timeout( function(){ reduceTime(); }, rate);
-    }
-    else
-    {
-      if ($scope.battleData.user1.uid == $scope.user.uid){
- 				$scope.battleData.user1.timer = 0;
- 			}
- 			else{
- 				$scope.battleData.user2.timer = 0;
- 			}
- 			battleRef.set($scope.battleData);
-    }
+  	if ($scope.battleData.user1.uid == $scope.user.uid){
+	    if ($scope.battleData.timer > 0){
+	      $scope.battleData.timer -=1;
+	      $timeout( function(){ reduceTime(); }, rate);
+	    }
+	    else
+	    {
+	 			battleRef.set($scope.battleData);
+	    }
+	  }
   }
 
   var showOutcome = function(){
