@@ -108,7 +108,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           //playerImage.onload = function() {
           //    return;
           //}
-
         }
 
         //Init Background
@@ -151,17 +150,24 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var onlineLength = onlineUsers.length;
 
         for (i = 0; i < arrLength; i++){
+
             uid = syncArray[i].uid;
             otherPlayers[uid] = {};
+
             otherPlayers[uid].x_coord = syncArray[i].x_coord;
             otherPlayers[uid].y_coord = syncArray[i].y_coord;
-            otherPlayers[uid].image = {};
+  
+            otherPlayers[uid].x_target = syncArray[i].x_coord;
+            otherPlayers[uid].y_target = syncArray[i].y_coord;
+
             otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
-            otherPlayers[uid].name = {};
             otherPlayers[uid].name = syncArray[i].name;
+
             otherPlayersUids.push(uid);
-            console.log("#players",otherPlayersUids.length, otherPlayersUids)
+
+            
         }
+        console.log(otherPlayers);
         // for (i=0; i < onlineLength; i++){
         //   onlineUid = onlineUsers[i].uid;
 
@@ -229,6 +235,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         function update(){
             setDelta();
             movePlayer();
+            moveOthers();
             setTimeout( update, 1000 / 60 );//multifaster
         }
 
@@ -256,8 +263,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
                 currentUid = otherPlayersUids[i];
 
-                otherPlayers[currentUid].x_coord = syncArray[i].x_coord;
-                otherPlayers[currentUid].y_coord = syncArray[i].y_coord;
+                otherPlayers[currentUid].x_target = syncArray[i].x_coord;
+                otherPlayers[currentUid].y_target = syncArray[i].y_coord;
+
             }
             setTimeout(dataUpdate, 1000/10);
         }
@@ -274,27 +282,111 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         function drawBackground(){
 
-          
           var ptrn = ctx.createPattern(grassTile, 'repeat'); // Create a pattern with this image, and set it to "repeat".
           ctx.fillStyle = ptrn;
           ctx.fillRect(0, 0, canvasWidth, canvasHeight);
           ctx.drawImage(background,0,0);
           ctx.drawImage(beach,640,0)
+
         }
+
+        function roundRect(x, y, width, height, radius) {
+
+          ctx.beginPath();
+          ctx.moveTo(x + radius, y);
+
+          ctx.lineTo(x + width - radius, y);
+          ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+          ctx.lineTo(x + width, y + height - radius);
+          ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+          ctx.lineTo(x + radius, y + height);
+          ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+          ctx.lineTo(x, y + radius);
+          ctx.quadraticCurveTo(x, y, x + radius, y);
+          ctx.closePath();
+          ctx.fillStyle = '#CCCCCC';
+          ctx.fill();
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+
+        }
+
+        function wrapText(text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+        var completed = [];
+        var part = [];
+
+
+        //console.log(words.length);
+        for(var n = 0; n < words.length; n++) {
+
+          var testLine = line + words[n] + ' ';
+          var testWidth = ctx.measureText(testLine).width;
+          //console.log("helloo");
+          if (testWidth > maxWidth && n > 0) {
+            //ctx.fillText(line, x, y);
+
+            part[0] = line;
+            part[1] = x;
+            part[2] = y;
+            completed.push(part);
+            part = [];
+
+            line = words[n] + ' ';
+            y += lineHeight;
+         
+            //lineNo++;
+          }
+
+          else {
+            line = testLine;
+          }
+        }
+        part[0] = line;
+        part[1] = x;
+        part[2] = y;
+        completed.push(part);
+        part = [];
+        //roundRect(x-10, y-10, 150, y+10, 5);
+
+        return completed
+      }
+      
 
         function drawMessages(){
           ctx.font = 'italic 12pt Calibri';
-          ctx.fillStyle = 'blue';
+          ctx.fillStyle = 'white';
           var currentUid = "";
-          for (i=0;i<otherPlayersUids.length;i++){
-            var ytext = 0
+          var minTime = Date.now()-2000; //10 seconds back in time
+          var opLength = otherPlayersUids.length;
+          
+          for (i = 0; i < opLength; i++){
+            var yOffset = 0
+            currentUid=otherPlayersUids[i];
+            for (j=0; j<messages.length; j++){
+              if (messages[j].user === currentUid && messages[j].timestamp > minTime){
 
-            for (j=0;j<messages.length;j++){
-              if (messages[j].user === otherPlayersUids[j]){
-                currentUid=otherPlayersUids[j];
+                //console.log(messages[j].timestamp);
                 //console.log(messages[i].text);
-                ctx.fillText(messages[j].text, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord);
-                ytext = ytext+14;
+                var x_temp = otherPlayers[currentUid].x_coord;
+                var y_temp = otherPlayers[currentUid].y_coord;
+                var approx = Math.ceil((ctx.measureText(messages[j].text).width/160)*14);
+
+                if(approx < 20){approx = 20};
+
+                //roundRect(x_temp+90, y_temp, 150, approx, 5);
+
+                var wrappedText = wrapText(messages[j].text, x_temp+100, y_temp+15, 150, 14);
+                roundRect(x_temp,y_temp, 160, (wrappedText.length*14), 5);
+                ctx.fillStyle = '#FFFFFF';
+                for (k = 0; k < wrappedText.length; k++){
+                  ctx.fillText(wrappedText[k][0],wrappedText[k][1],wrappedText[k][2]);
+                }
+
+                //ctx.fillText(messages[j].text, otherPlayers[currentUid].x_coord+100, otherPlayers[currentUid].y_coord+15+yOffset);
+                //yOffset = yOffset+14;
               }
             }
           }
@@ -319,15 +411,15 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             ctx.fillText(currentUidName, currentUidX-20, currentUidY);
 
             //DRAW MESSAGES
-            for (j=0; j < messages.length; j++){
-              if (messages[j].user === currentUid){
-                ctx.font = '12pt Calibri';
-                ctx.fillStyle = 'white';
-                ctx.fillText(messages[j].text, currentUidX+100, currentUidY+15+yOffset);
-                yOffset = yOffset+14;
+            // for (j=0; j < messages.length; j++){
+            //   if (messages[j].user === currentUid){
+            //     ctx.font = '12pt Calibri';
+            //     ctx.fillStyle = 'white';
+            //     
+            //     yOffset = yOffset+14;
 
-              }
-            }
+            //  }
+            //}
           }
         //  var i = 0;
         //  angular.forEach(otherPlayers, function(user, key) {
@@ -346,16 +438,16 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             ctx.font = 'italic 12pt Calibri';
             ctx.fillStyle = 'white';
             ctx.fillText(syncObject.name, player.x-20, player.y);
-            var yOffset = 0;
-            for (i=0; i < messages.length; i++){
-              if (messages[i].user === playerUser.uid){
-                ctx.font = '12pt Calibri';
-                ctx.fillStyle = 'white';
-                ctx.fillText(messages[i].text, player.x+100, player.y+30+yOffset);
-                yOffset = yOffset+14;
+            // var yOffset = 0;
+            // for (i=0; i < messages.length; i++){
+            //   if (messages[i].user === playerUser.uid){
+            //     ctx.font = '12pt Calibri';
+            //     ctx.fillStyle = 'white';
+            //     ctx.fillText(messages[i].text, player.x+100, player.y+30+yOffset);
+            //     yOffset = yOffset+14;
 
-              }
-            }
+            //   }
+            // }
         }
 
 
@@ -409,8 +501,34 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             }
         });
 
+        function moveOthers(){
+
+            var amount = movespeed*delta/1000;
+            var opLength = otherPlayersUids.length;
+            var currentUid = "";
+            var delta_x;
+            var delta_y;
+            var sum;
+
+            for (i = 0; i < opLength; i++){
+
+                currentUid = otherPlayersUids[i];
+
+                delta_x = otherPlayers[currentUid].x_target-otherPlayers[currentUid].x_coord;
+                delta_y = otherPlayers[currentUid].y_target-otherPlayers[currentUid].y_coord;
+
+                if (Math.abs(delta_x)+Math.abs(delta_y)>2){
+
+                  sum = Math.sqrt(Math.abs(Math.pow(delta_x,2)+Math.pow(delta_y,2)));
+                  otherPlayers[currentUid].x_coord = otherPlayers[currentUid].x_coord+(amount*delta_x/sum);
+                  otherPlayers[currentUid].y_coord = otherPlayers[currentUid].y_coord+(amount*delta_y/sum);
+
+                }
+            }
+        }
+
         function movePlayer(){
-            amount = movespeed*delta/1000;
+            var amount = movespeed*delta/1000;
             //console.log(amount);
 
             if (keyLeft === true && player.x > 0) {
@@ -434,6 +552,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
 
         }
+
+
+
 
 
 
