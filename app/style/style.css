@@ -1103,7 +1103,7 @@ h3 small {
     
 }
 
-#table-wrapper table thead th .head{
+#table-wrapper table thead th .head {
 	position: absolute;
   	z-index: 2;
   	top: 0px;
@@ -1111,8 +1111,12 @@ h3 small {
   	padding-left: 8px;
   	background: #fff;
   	height: 30px;
-  	width: 18.9%;
+  	width: 20%;
   	border-bottom: 1px solid #ccc;
+}
+
+#table-wrapper table thead th:nth-child(6) .head {
+	width: 19%;
 }
 
 #table-wrapper table tbody tr:first-child td {
