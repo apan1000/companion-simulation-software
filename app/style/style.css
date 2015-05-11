@@ -605,6 +605,12 @@ input[type=email].success, input[type=password].success {
 	background-repeat: repeat-x;
 }
 
+.clickMe {
+	position: relative;
+	text-align: center;
+	top: -250px;
+}
+
 .statusBubble {
 	position: relative;
 	background-color: #fff;
