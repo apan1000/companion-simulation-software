@@ -12,6 +12,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   var maxTime = 10;
 
   $scope.challengerUid = "";
+  $scope.user.combo = 1; //Reset if you reload
 
   var rate = 500;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
@@ -141,6 +142,26 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.showMessage = false;
     }, 1000);
 
+  	if ($scope.user.pokemon.curHp<=0){
+        $scope.myMonsterAni = "animated fadeOutUp";
+        battleWon($scope.challenger);
+        battleLost($scope.user);
+        $timeout( function(){ 
+        	$scope.challengerRef.set($scope.challenger);
+        	Companion.setUser($scope.user); 
+        }, 100);
+    }
+
+    if ($scope.challenger.pokemon.curHp<=0){
+        $scope.myMonsterAni = "animated fadeOutUp";
+        battleWon($scope.user);
+        battleLost($scope.challenger);
+        $timeout( function(){ 
+        	$scope.challengerRef.set($scope.challenger);
+        	Companion.setUser($scope.user); 
+        }, 100);
+    }
+
   	$scope.battleData.user1.battleLog = false;
   	$scope.battleData.user2.battleLog = false;
   	$scope.battleData.timer = maxTime;
@@ -170,7 +191,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   }
 
   $scope.getEnemyHpPercentage = function() {
-    if ($scope.challenger.pokemon) {
+    if ($scope.challenger) {
       return $scope.challenger.pokemon.curHp/$scope.challenger.pokemon.hp*100;
     }
   }
@@ -198,35 +219,34 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.battleEnd = false;
   }
 
-  var battleWon = function(){
+  var battleWon = function(person){
 
-    showOutcome();
-    $scope.combo = 1;
-    $scope.battle = false;
-    $scope.ready = false;
-    $scope.user.pokemon.curExp += Math.floor(($scope.challenger.pokemon.exp)*0.5);
-    $scope.user.wins += 1;
-    $scope.user.score += 2;
-    $scope.user.pokemon.happiness += 5;
+    //showOutcome();
+    person.combo = 1;
+    person.pokemon.curExp += Math.floor(($scope.challenger.pokemon.exp)*0.5);
+    person.wins += 1;
+    person.score += 2;
+    person.pokemon.happiness += 5;
+    person.challengers = [];
 
     if (Math.random()*5>1){
       console.log("ITEM DROP");
 
       var rand = Math.round(Math.random()*2);
-      $scope.user.items[rand] += 1;
+      person.items[rand] += 1;
     }
 
-    if ($scope.user.pokemon.curExp>=$scope.user.pokemon.exp){
+    if (person.pokemon.curExp>=person.pokemon.exp){
       $scope.myMonsterAni = "animated flip";
-      $scope.user.pokemon.curExp -= $scope.user.pokemon.exp;
-      $scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
+      person.pokemon.curExp -= person.pokemon.exp;
+      person.pokemon.exp += Math.floor(person.pokemon.exp*0.1)+1;
       //Cant gain more than one lvl, fix later
-      $scope.user.pokemon.curExp = Math.min($scope.user.pokemon.exp-10,$scope.user.pokemon.curExp);
-      $scope.user.pokemon.lvl += 1;
-      $scope.user.pokemon.hp += Math.floor(Math.random()*10);
-      $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-      $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
-      $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
+      person.pokemon.curExp = Math.min(person.pokemon.exp-10,person.pokemon.curExp);
+      person.pokemon.lvl += 1;
+      person.pokemon.hp += Math.floor(Math.random()*10);
+      person.pokemon.curHp = person.pokemon.hp;
+      person.pokemon.attack += Math.floor(Math.random()*5)+1;
+      person.pokemon.defense += Math.floor(Math.random()*5)+1;
       console.log("LEVELED UP!");
     }
     else{
@@ -234,17 +254,17 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     }
 
     // Update user
-    Companion.setUser($scope.user);
+    //Companion.setUser($scope.user);
   }
 
-  var battleLost = function(){
-    $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
-    $scope.user.losses += 1;
-    $scope.user.score -= 1;
-    $scope.ready = false;
+  var battleLost = function(person){
+    person.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
+    person.losses += 1;
+    person.challengers = [];
+    person.score -= 1;
     // Update user
-    Companion.setUser($scope.user);
-    $location.path('#/home');
+    //Companion.setUser(person);
+    //$location.path('#/home');
   }
     
   $scope.$on('userChanged', function() {

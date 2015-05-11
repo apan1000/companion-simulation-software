@@ -1,4 +1,4 @@
-<div id="dungeon" class="container">
+<div id="arena" class="container">
 	
 	<div class="row">
 		<div class="col-md-3 col-md-offset-2">
@@ -7,7 +7,7 @@
 				<span class="text-center">
 					<div class="row hpbars">
 						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h1>{{enemyDmg}}</h1></div>
-						<h3>{{user.pokemon.name}}</h3>
+						<h3>{{user.pokemon.name}} Combo: {{user.combo}}</h3>
 						<!--progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress-->
 						<div class="bar">
 							<span>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</span>
@@ -49,28 +49,6 @@
 			<span ng-if="$scope.enemyReady==true">ENEMY READY</span>
 		</div>
 	</div>
-	<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<table class="table-progress">
-				    <thead>
-				        <tr>
-				        	<th></th><th>-</th>
-				        	<th>BuildUp</th>
-				        	<th>Unleash</th>
-				        	<th>-</th>
-				        </tr>
-				    </thead>
-				    <tbody class="table-body"> 
-				        <tr>
-				        	<td><div class="progress-bar progress-t" ng-style="{left : (timer)+'%'}"></div>Action</td><td></td><td></td><td></td><td></td>
-				        </tr>
-				        <tr>
-				            <td><div class="progress-bar progress-c" ng-style="{left : ((combo*10 - 100)+'%')}"></div>Combo</td><td></td><td></td><td></td><td></td>
-				        </tr>
-				    </tbody>
-				</table>
-			</div>
-		</div>
 
 	<div class="row">
 		<div class="col-md-4">
