@@ -4,9 +4,11 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   $scope.combo = 1;
   $scope.maxTimer = 100;
   $scope.battle = false;
-  $scope.timer = 0;
+  $scope.timer = 10;
   $scope.ready = false;
   $scope.choice = "";
+  $scope.notStarted = true;
+  $scope.enemyReady = false;
 
   $scope.challengerUid = "";
 
@@ -22,18 +24,41 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   		$scope.battleData = snapshot.val();
   		$scope.challengerUid = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user2.uid : $scope.battleData.user1.uid;
   		$scope.challengerBattleData = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user2 : $scope.battleData.user1;
+  		$scope.timer = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user1.timer : $scope.battleData.user2.timer;
   		console.log("challenger",$scope.challengerUid);
       console.log("battleData:",$scope.battleData);
+      $scope.enemyReady = $scope.challengerBattleData.here;
+
+      if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.battleLog == true){
+      	console.log("LET THE FIGHT BEGIN");
+      	$scope.notStarted = false;
+      	reduceTime();
+      }
 
       //Both have made a descision, fight it out!
       if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
-      	executeMoves();
+      	if ($scope.battleData.user1.timer == 0 && $scope.battleData.user1.timer == 0){
+      		executeMoves();
+      	}
       }
 
       $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
       fetchChallengerData();
     });
  	});
+
+ 	$scope.imReady = function(){
+
+ 		if ($scope.battleData.user1.uid == $scope.user.uid){
+ 			$scope.battleData.user1.here = true;
+ 		}
+ 		else{
+ 			$scope.battleData.user2.here = true;
+ 		}
+ 		console.log("READY FOR BATTLE")
+
+ 		battleRef.set($scope.battleData);
+ 	}
 
  	var fetchBattleData = function(){
  		battleRef.once("value", function(snapshot) {
@@ -65,8 +90,11 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
   	$scope.battleData.user1.battleLog = false;
   	$scope.battleData.user2.battleLog = false;
+  	$scope.battleData.user1.timer = 10;
+  	$scope.battleData.user2.timer = 10;
 
   	battleRef.set($scope.battleData);
+  	$timeout( function(){ reduceTime(); }, rate);
  	}
 
  	$scope.chooseMove = function(move){
@@ -92,18 +120,19 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   }
 
   function reduceTime() {
-    if ($scope.timer < $scope.maxTimer){
-      $scope.timer = $scope.timer + 20;
+    if ($scope.timer > 0){
+      $scope.timer -=1;
+      $timeout( function(){ reduceTime(); }, rate);
     }
     else
     {
-      rate = 500;
-      takeDmg();
-      $scope.timer = 0;
-    }
-
-    if($scope.battle){
-      $timeout( function(){ reduceTime(); }, rate);
+      if ($scope.battleData.user1.uid == $scope.user.uid){
+ 				$scope.battleData.user1.timer = 0;
+ 			}
+ 			else{
+ 				$scope.battleData.user2.timer = 0;
+ 			}
+ 			battleRef.set($scope.battleData);
     }
   }
 
