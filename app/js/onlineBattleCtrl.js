@@ -9,6 +9,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   $scope.choice = "";
   $scope.notStarted = true;
   $scope.enemyReady = false;
+  $scope.user.animation = "";
   var maxTime = 10;
 
   $scope.challengerUid = "";
@@ -83,6 +84,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   	$scope.challengerRef.once("value", function(snapshot) {
       $timeout(function() {
         $scope.challenger = snapshot.val();
+        $scope.challenger.animation = "";
         console.log("challenger:",$scope.challenger);
       });
     });
@@ -91,8 +93,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   var executeMoves = function(){
 
   	console.log("EXECUTING MOVES")
-  	var randomAtk1 = Math.floor((Math.random() * 3) + 3);
-    var randomAtk2 = Math.floor((Math.random() * 3) + 3);
+  	var randomAtk1 = Math.round((Math.random() * 2) + 2);
+    var randomAtk2 = Math.round((Math.random() * 2) + 2);
 
     //	MY MOVES -------------
     if ($scope.userBattleData.battleLog == "buildUp"){
@@ -229,7 +231,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     person.combo = 1;
     person.pokemon.curExp += Math.floor(($scope.challenger.pokemon.exp)*0.5);
     person.wins += 1;
-    person.score += 2;
+    person.score += 5;
     person.pokemon.happiness += 5;
     person.challengers = [];
 
@@ -241,7 +243,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     }
 
     if (person.pokemon.curExp>=person.pokemon.exp){
-      $scope.myMonsterAni = "animated flip";
+     	person.animation = "animated flip";
       person.pokemon.curExp -= person.pokemon.exp;
       person.pokemon.exp += Math.floor(person.pokemon.exp*0.1)+1;
       //Cant gain more than one lvl, fix later
@@ -254,21 +256,17 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       console.log("LEVELED UP!");
     }
     else{
-      $scope.myMonsterAni = "animated bounce";
+     person.animation = "animated bounce";
     }
-
-    // Update user
-    //Companion.setUser($scope.user);
   }
 
   var battleLost = function(person){
+  	person.combo = 1;
+  	person.animation = "animated fadeOutUp";
     person.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
     person.losses += 1;
     person.challengers = [];
-    person.score -= 1;
-    // Update user
-    //Companion.setUser(person);
-    //$location.path('#/home');
+    person.score -= 2;
   }
     
   $scope.$on('userChanged', function() {
