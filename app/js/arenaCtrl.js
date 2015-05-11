@@ -1,5 +1,4 @@
-// User controller that we use whenever we want to display detailed
-// information about a user
+// Arena controller for fights against other monsters
 companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout,$location) {
 
   $scope.combo = 1;
@@ -11,6 +10,16 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   var rate = 500;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
+
+  if($scope.user.beginner === "semitrue") {
+    $scope.showFightTutorial = true;
+  }
+
+  $scope.endFightTutorial = function() {
+      $scope.showFightTutorial = false;
+      $scope.user.beginner = false;
+      Companion.setUser($scope.user);
+  }
 
   $scope.getHpPercentage = function() {
     return $scope.user.pokemon.curHp/$scope.user.pokemon.hp*100;
@@ -62,8 +71,19 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       }
   }
 
+  var showOutcome = function(){
+    $scope.outcomeImg = "images/victory.png";
+    $scope.battleEnd = true;
+    $timeout(hideOutcome, 2000);
+  }
+
+  var hideOutcome = function(){
+      $scope.battleEnd = false;
+  }
+
   var battleWon = function(){
 
+    showOutcome();
     $scope.combo = 1;
     $scope.battle = false;
     $scope.ready = false;
@@ -102,7 +122,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   }
 
   var battleLost = function(){
-    $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0};
+    $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
     $scope.user.losses += 1;
     $scope.user.score -= 1;
     $scope.ready = false;
@@ -240,10 +260,10 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   $scope.$on('userChanged', function() {
     var url = $location.url();
-    if(url === "/fields/"+$routeParams.user || url === "/fields/0"){
+    if (url === "/fields/"+$routeParams.user || url === "/fields/0") {
       $scope.user = Companion.getUser();
     }
-    else{
+    else {
       $scope.battle = false;
     }
   });

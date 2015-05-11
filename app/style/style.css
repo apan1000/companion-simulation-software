@@ -1,5 +1,5 @@
 body {
-	padding-top: 70px;
+	padding-top: 40px;
 	position: absolute;
 	z-index: -1;
 	right: 0;
@@ -72,6 +72,70 @@ input[type=email].success, input[type=password].success {
     display: block !important;
 }
 
+/* Tooltip */
+[data-tooltip] {
+	position: relative;
+	z-index: 2;
+	white-space: normal;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+	visibility: hidden;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 120%;
+	left: 50%;
+	margin-bottom: 5px;
+	margin-left: -80px;
+	padding: 7px;
+	width: 270px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius:    3px;
+	border-radius:         3px;
+	background-color: #000;
+	background-color: hsla(0, 0%, 20%, 0.95);
+	color: #fff;
+	text-align: center;
+	font-size: 14px;
+	line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+	position: absolute;
+	bottom: 120%;
+	left: 50%;
+	margin-left: -5px;
+	width: 0;
+	border-top: 5px solid #000;
+	border-top: 5px solid hsla(0, 0%, 20%, 0.95);
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+	content: " ";
+	font-size: 0;
+	line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+	visibility: visible;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	opacity: 1;
+}
+/* */
+
 /* Navbar layout */
 .navbar {
 	z-index: 100;
@@ -121,6 +185,42 @@ input[type=email].success, input[type=password].success {
 .nav-selected {
 	background: #333 !important;
 	color: #fff !important;
+}
+
+.nav-disabled {
+	cursor: default;
+	color: #fff !important;
+	background: #555;
+	opacity: 0.5;
+}
+
+.nav-disabled:hover {
+	color: #fff !important;
+	background: #555 !important;
+	opacity: 0.5;
+}
+
+.challenge-dropdown {
+	color: #fff !important;
+	background: rgba(230,40,80,1) !important;
+	border-width: 0px !important;
+	height: 50px;
+}
+
+.dropdown-object {
+	padding-left: 8px;
+	padding-right: 8px;
+	min-width: 170px !important;
+}
+
+.challenge-alert {
+	background-color: #333;
+	color: #fff;
+	font-weight: bold;
+	height: 23px;
+	min-width: 23px;
+	border-radius: 50%;
+	display: inline-block;
 }
 
 /* Login */
@@ -477,11 +577,12 @@ input[type=email].success, input[type=password].success {
 	background: #FFF;
 }
 
-.title-head{
-	background: rgba(230,40,80,1);
+.statusbar button, .statusbar a {
+	white-space: normal;
 }
 
-#status-bar h2 {
+.title-head{
+	background: rgba(230,40,80,1);
 }
 
 #attack {
@@ -489,13 +590,6 @@ input[type=email].success, input[type=password].success {
 	height:50px;
 	background: #FFA500;
 	text-align: center;
-}
-
-#to-the-gym-btn {
-	margin-top:15px;
-	/*background-color:red;*/
-	width:100%;
-	height:50px;
 }
 
 #monster {
@@ -525,7 +619,7 @@ input[type=email].success, input[type=password].success {
 }
 
 #arena {
-	height: 600px;
+	height: 560px;
 	background-image: url("../images/monsterBackground_grass.png");
 	background-size: 800px 600px;
 	background-repeat: repeat-x;
@@ -556,11 +650,18 @@ input[type=email].success, input[type=password].success {
 
 }
 
-#reactionImg {
+.reactionImg {
 	position: relative;
+	top: -300px;
+	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
-	top: -300px;
+}
+
+.reactionImg img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .monsterImage.drag-enter {
@@ -663,9 +764,10 @@ input[type=email].success, input[type=password].success {
 
 .bubble {
 	width: 100%;
-	padding: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 10px;
 	margin: 10px;
-
 	margin-left: auto;
 	margin-right: auto;
 	left: 0;
@@ -712,15 +814,49 @@ input[type=email].success, input[type=password].success {
 	position:absolute;
 }
 
-#items {
+.battleOutcome {
+	width: 100%;
+	position: absolute;
+	top: 60px;
+	text-align: center;
+}
+
+.outcomeImg {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.items {
 	font-family: "Coda";
 	font-size: 15pt;
 	position: relative;
+	background: #fff;
+	max-width: 60%;
+	min-width: 50%;
+	padding: 0px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-#itemImage {
-	height:90px;
-	padding-left: 60px;
+.itemsHeader {
+	color: #333;
+	background: rgba(230,40,80,1);
+	padding-left: 20px;
+}
+
+.itemImages {
+	padding: 4px;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	width: 100%;
+	text-align: center;
+	/*height:90px !important;*/
+	transform: translate(-20px,0);
+}
+
+.itemImage {
+	margin-left: 6%;
+	margin-right: 6%;
 }
 
 .itemLowOpacity {
@@ -733,6 +869,7 @@ input[type=email].success, input[type=password].success {
 
 .badge {
 	position: absolute !important;
+	margin-left: -10px;
 	background-color: rgba(230,40,80,.90) !important;
 	font-size: 15px !important;
 	min-width: 25px !important;
@@ -798,10 +935,79 @@ input[type=email].success, input[type=password].success {
 
 /* BOOTSTRAP CHANGES */
 
+h3 small {
+	color:white;
+}
+
+.fix-inside{
+	margin-left: auto;
+	margin-right: auto;
+	top: 30%;
+	position: relative;
+	transform: translate(0,50%);
+	-ms-transform: translate(0,50%);
+    -webkit-transform: translate(0,50%);
+
+    color:white;
+    font: 24px Arial;
+
+}
+
+.circle-image{
+	margin-left: auto;
+	margin-right: auto;
+    width:72px;
+    height:72px;
+    background-image:url("/images/shield2.png");
+    background-size: 100%;
+    display:block;
+    background-position: center center;
+    transform: translate(0,50%);
+	-ms-transform: translate(0,50%);
+    -webkit-transform: translate(0,50%);
+}
+
+.numberCircle {
+    border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    padding: 8px;
+
+    background: #fff;
+    border: 2px solid #666;
+    color: #666;
+    text-align: center;
+
+    font: 32px Arial, sans-serif;
+}
+
 .table-fix{
 	table-layout: fixed;
 	background: #FFF;
 }
+
+#table-wrapper {
+  position:relative;
+}
+
+#table-scroll {
+  height:500px;
+  overflow:auto;  
+}
+
+#table-wrapper table {
+  width:100%;
+    
+}
+#table-wrapper table thead th .head{
+	/*position:absolute;*/
+  	z-index:2;
+  	top: 0px;
+  	background: #FFF;
+  	height:30px;
+  	width:19%;
+}
+
 
 .orderBy {
 	color:#000;
@@ -823,6 +1029,10 @@ input[type=email].success, input[type=password].success {
     vertical-align: middle;
 }
 
+.online-col {
+	width: 35px;
+}
+
 .login-status-dot {
 	display: inline-block;
 	height: 8px;
@@ -838,6 +1048,15 @@ input[type=email].success, input[type=password].success {
 
 .offline-dot {
 	background: Crimson;
+}
+
+.list-user {
+	cursor: pointer;
+	color: #197278;
+}
+
+.list-user:hover {
+	color: #59b2b8;
 }
 
 .progress-bar {

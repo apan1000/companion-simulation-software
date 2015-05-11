@@ -1,21 +1,48 @@
 <div class="title-head row">
 	<div class="col-sm-12">
-		<h3>{{otherUser.pokemon.name}}<small> child of {{otherUser.name}}</small></h3>
+		<h3>{{otherUser.pokemon.name}}<small> Companion of {{otherUser.name}}</small></h3>
 	</div>
 </div>
 <div class="statusbar row">
 	<div class="col-sm-12">
-		<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
-		<div class="row text-center">
+		<div class="row">
 			<div class="col-sm-6">
-				<h4>Level: {{otherUser.pokemon.lvl}}</h4>
-				<h4>Type: <small ng-repeat="type in otherUser.pokemon.types">{{type}} </small></h4>
+				<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
 			</div>
 			<div class="col-sm-6">
-				<h4>Wins: {{otherUser.wins}}</h4>
-				<h4>Score: {{otherUser.score}}</h4>
+				<div class="circle-image text-center">
+					<span class="fix-inside">{{otherUser.pokemon.lvl}}</span>
+				</div>
 			</div>
 		</div>
+		<div class="row">
+			<!-- Online fight button -->
+			<div class="col-sm-6">
+				<button ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-info" data-tooltip="Challenge this user to participate in an online battle of epic proportions!" ng-click="challenge()"><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></button>
+				<div ng-if="(otherUser.online==false || otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true) && otherUser.uid!=user.uid" 
+				ng-attr-data-tooltip="{{
+				((otherUser.pokemon.isEgg==true && user.pokemon.isEgg==true) && 'Egg vs egg, that would be exciting, huh?') || 
+				(otherUser.pokemon.isEgg==true && 'Cannot fight an egg, that is not fair.') || 
+				(user.pokemon.isEgg==true && 'You have an egg; it cannot fight, silly.') || 
+				(otherUser.online==false && 'Cannot challenge someone who is offline, that is not fair.')
+				}}">
+					<button class="btn btn-info" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></button>
+				</div>
+			</div>
+			<!-- Offline fight button -->
+			<div class="col-sm-6">
+				<a ng-if="otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-danger" data-tooltip="Practice against this user's companion in an offline battle." ng-href="#/fields/{{otherUser.uid}}"><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
+				<div ng-if="otherUser.uid!=user.uid && (otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true)" 
+				ng-attr-data-tooltip="{{
+				((otherUser.pokemon.isEgg==true && user.pokemon.isEgg==true) && 'Egg vs egg, that would be exciting, huh?') || 
+				(otherUser.pokemon.isEgg==true && 'Cannot fight an egg, that is not fair.') || 
+				(user.pokemon.isEgg==true && 'You have an egg; it cannot fight, silly.')
+				}}">
+					<a class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
+				</div>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="hpbar">
@@ -57,7 +84,5 @@
 				</ul>
 			</div>
 		</div>
-		<a ng-if="otherUser.uid!=user.uid" class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}">Challenge this pokemon (offline)</a>
-		<a ng-if="otherUser.online==true && otherUser.uid!=user.uid" class="btn btn-info" ng-href="#/fields/{{otherUser.uid}}">ONLINE BATTLE!</a>
 	</div>
 </div>

@@ -1,4 +1,4 @@
-// Companion model
+// Main service for user
 companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$location) {
   var self = this;
   var loginMsg = "";
@@ -66,6 +66,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           name:data.name,
           id:pokeID,
           lvl:1,
+          isEgg:false,
           sp_atk:data.sp_atk,
           sp_def:data.sp_def,
           speed:data.speed,
@@ -145,7 +146,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
         console.log(userData);
         usersRef.child(userData.uid).set({
           name: emailVal.replace(/@.*/, ''),
-          pokemon: {name:'egg',sprite:'images/egg_jump.gif',lvl:0},
+          pokemon: {name:'Egg',sprite:'images/egg_jump.gif',lvl:0, isEgg: true},
           wins: 0,
           losses: 0,
           items: [2,5,5],
@@ -214,7 +215,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
       if (snapshot.val() === null) {
         usersRef.child(authData.uid).set({
           name: getName(authData),
-          pokemon: {name:'egg',sprite:'images/egg_jump.gif',lvl:0},
+          pokemon: {name:'egg',sprite:'images/egg_jump.gif',lvl:0, isEgg: true},
           wins: 0,
           losses: 0,
           items: [2,5,5],
@@ -262,10 +263,6 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
         getRefUser(authData);
       }
     }
-    // else if (self.getUser()) {
-    //   console.log("huehue",authData);
-    //   //setUser(null);
-    // }
   });
 
   // Check for changes to user

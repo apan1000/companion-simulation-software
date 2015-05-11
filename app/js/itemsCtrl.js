@@ -19,68 +19,58 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 	$scope.onDropComplete = function(data,evt) {
 		console.log("drop success, data:", data);
 
-		// Add level if dropped item is Rare candy
-		if (data.name === "Rare candy") {
-			if ($scope.user.items[0]>0){
-				$scope.reactionImage = "levelup.png";
-				showReaction();
+		if ($scope.user.pokemon.isEgg === false) {
+			// Add level if dropped item is Rare candy
+			if (data.name === "Rare candy") {
+				if ($scope.user.items[0]>0){
+					$scope.reactionImage = "levelup.png";
+					showReaction();
 
-				$scope.user.items[0] -= 1;
-				$scope.user.pokemon.curExp = 0;
-				$scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
-		        $scope.user.pokemon.lvl += 1;
-		        $scope.user.pokemon.hp += Math.floor(Math.random()*10);
-		        $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-		        $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
-		        $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
-		        console.log("LEVELED UP!");
+					$scope.user.items[0] -= 1;
+					$scope.user.pokemon.curExp = 0;
+					$scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
+			        $scope.user.pokemon.lvl += 1;
+			        $scope.user.pokemon.hp += Math.floor(Math.random()*10);
+			        $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+			        $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
+			        $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
+			        console.log("LEVELED UP!");
 
-		        $scope.monsterAni = "animated tada";
-				Companion.setUser($scope.user);
-	    	} 
-		}
+			        $scope.monsterAni = "animated tada";
+					Companion.setUser($scope.user);
+		    	} 
+			}
 
-		// Add happiness if dropped items is Poke bell
-		if (data.name === "Poke bell") {
-			if ($scope.user.items[1]>0){
-				$scope.reactionImage = "prettyspeech.png";
-				showReaction();
-				$scope.user.items[1] -= 1;
-				$scope.reactionImage = "prettyspeech.png";
-				$scope.user.pokemon.happiness += 20;
-				$scope.monsterAni = "animated bounce";
+			// Add happiness if dropped items is Poke bell
+			if (data.name === "Poke bell") {
+				if ($scope.user.items[1]>0){
+					$scope.reactionImage = "prettyspeech.png";
+					showReaction();
+					$scope.user.items[1] -= 1;
+					$scope.reactionImage = "prettyspeech.png";
+					$scope.user.pokemon.happiness += 20;
+					$scope.monsterAni = "animated bounce";
 
-				Companion.setUser($scope.user);
-	        }	
-		}
+					Companion.setUser($scope.user);
+		        }	
+			}
 
-		// Add health if dropped item is Potion
-		if (data.name === "Potion") {
-			if ($scope.user.items[2]>0){
-				//showReaction();
-				
-				$scope.user.items[2] -= 1;
-				console.log("Current hp; ", $scope.user.pokemon.curHp);
-				$scope.user.pokemon.curHp += 20;
-				$scope.monsterAni = "animated bounce";
-				if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
-					$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-				}
-				Companion.setUser($scope.user);
-	    	}
+			// Add health if dropped item is Potion
+			if (data.name === "Potion") {
+				if ($scope.user.items[2]>0){
+					//showReaction();
+					
+					$scope.user.items[2] -= 1;
+					console.log("Current hp; ", $scope.user.pokemon.curHp);
+					$scope.user.pokemon.curHp += 20;
+					$scope.monsterAni = "animated bounce";
+					if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
+						$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+					}
+					Companion.setUser($scope.user);
+		    	}
+			}
 		}
 	}
-
-	/*$scope.onDragSuccess = function(data,evt) {
-	  	console.log("drag success, data:", data);
-
-	  	if (data.name === "Rare Candy") {
-			
-		}
-
-		if (data.name === "Poke bell") {
-			
-		}
-	}*/
 });
 

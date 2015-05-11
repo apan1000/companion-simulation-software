@@ -5,6 +5,13 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
   $scope.loginMsg = "";
   $scope.loading = false;
 
+  if ($scope.user && $scope.user.challengers) {
+    $scope.numChallengers = Object.keys($scope.user.challengers).length;
+    console.log('challengers: ', $scope.numChallengers);
+  } else {
+    $scope.numChallengers = 0;
+  }
+
   // Logout the user
   $scope.logout = function() {
     console.log("Unauthorizing");
@@ -179,6 +186,10 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
     }
   }
 
+  // $scope.$on('challengersChanged', function() {
+  //   $scope.numChallengers = Companion.getNumChallengers();
+  // });
+
   $scope.$on('loginMsgChange', function() {
     showLoginMsg(Companion.getLoginMsg());
   });
@@ -189,6 +200,7 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
 
   // When changes to user has been made redirect if necessary
   $scope.$on('userChanged', function() {
+    console.log("User changed, setting scope.user!");
     $scope.user = Companion.getUser();
     if ($scope.user) {
       if ($location.path() === "/") {
@@ -196,10 +208,16 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
           $location.path("/home");
         });
       }
+      if ($scope.user.challengers) {
+        $scope.numChallengers = Object.keys($scope.user.challengers).length;
+      } else {
+        $scope.numChallengers = 0;
+      }
     } else {
       $timeout(function() {
         $location.path("/");
       });
     }
-  })
+  });
+
 });

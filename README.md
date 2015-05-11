@@ -3,21 +3,20 @@
 Group 11: Samuel Wahlstedt, Marcus Ahlström, Fredrik Berglund and Ellinor Jutterström
 
 ###Brief summary:
-- Login (with google+?) or create an account
+- Login or create an account (with email, Facebook, Twitter or Google+)
 - Receive an egg
-- Click the egg until it hatches
+- Click the egg to hatch it
 - Recieve a random monster (generated from the api: http://pokeapi.co/)
-- Dress your monster in fancy clothes
-- Pet your monster for happiness
+- Give stuff to your monster for happiness
+- Give candy to your monster for levels
 - Fight other monsters
-- Give candy to your monster
-- Search for any monster to compare with your own
-- Toplist with the most powerful user’s monsters
+- Toplist with the most powerful users' monsters (and the weak ones)
+- Compare other users' monsters with your own
 
 ###Important stuff:
-- Each user and the user’s monster (you can only have one) is saved in our database, with levels and other stats.
-- Dressing, petting and feeding is done by drag and drop
-- Different views like Stat-view, ShowCharacter-view, Item-view etc. are all tied to the main-model.
+- Each user and the user's monster (you can only have one) is saved in our database, with levels and other stats.
+- Drag and drop to give monster stuff
+- Different views for battles, viewing monsters, toplist etc. are all tied to the main-model.
 
 ###Possible additional features:
 - Using  HTML5 canvas to create a small screen where other users' monsters™ roam around, conveying messages/updates from the users.

@@ -12,7 +12,7 @@ which module to associate the app with. In app.js we create the "companionSimula
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Coda|Marck+Script|Noto+Sans">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Coda|Marck+Script|Noto+Sans|Leckerli+One">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style/style.css">
     
@@ -36,6 +36,7 @@ which module to associate the app with. In app.js we create the "companionSimula
     <!-- The application JavaScript code -->
     <script src="js/app.js"></script>
     <script src="js/canvasDir.js"></script>
+    <script src="js/challengerService.js"></script>v
     <script src="js/companionService.js"></script>
     <script src="js/chatService.js"></script>
     <script src="js/userCtrl.js"></script>
@@ -45,6 +46,7 @@ which module to associate the app with. In app.js we create the "companionSimula
     <script src="js/itemsCtrl.js"></script>
     <script src="js/canvasCtrl.js"></script>
     <script src="js/listCtrl.js"></script>
+    <script src="js/onlineBattleCtrl.js"></script>
     <script src="js/tutorialCtrl.js"></script>
 
   </head>
@@ -63,13 +65,31 @@ which module to associate the app with. In app.js we create the "companionSimula
         <div class="navbar-collapse collapse">
 	        <ul class="nav navbar-nav">
 	        	<li><a ng-href="#/home" ng-class="{'nav-selected': navSelected=='home'}"  type="button"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-						<li><a ng-href="#/fields/0" ng-class="{'nav-selected': navSelected=='fields'}"  type="button"><span class="glyphicon glyphicon-leaf"></span> Fields</a></li>
-						<li><a ng-href="#/rankings/0" ng-class="{'nav-selected': navSelected=='rankings'}"  type="button"><span class="glyphicon glyphicon-th-list"></span> Ranks</a></li>
-						<li><a ng-href="#/bar" ng-class="{'nav-selected': navSelected=='bar'}"  type="button"><span class="glyphicon glyphicon-glass"></span> Bar</a></li>
+				<li><a ng-if="user.pokemon.isEgg==false" ng-href="#/fields/0" ng-class="{'nav-selected': navSelected=='fields'}" type="button"><span class="glyphicon glyphicon-leaf"></span> Fields</a></li>
+                <li><a ng-if="user.pokemon.isEgg==true" class="nav-disabled" type="button"><span class="glyphicon glyphicon-leaf"></span> Fields</a></li>
+				<li><a ng-href="#/rankings/0" ng-class="{'nav-selected': navSelected=='rankings'}"  type="button"><span class="glyphicon glyphicon-th-list"></span> Ranks</a></li>
+				<li><a ng-href="#/bar" ng-class="{'nav-selected': navSelected=='bar'}"  type="button"><span class="glyphicon glyphicon-glass"></span> Bar</a></li>
+				<li>
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle challenge-dropdown" type="button" id="menu1" data-toggle="dropdown"><span class="challenge-alert">{{numChallengers}}</span>
+							<span ng-if="numChallengers > 1">challengers!</span>
+                            <span ng-if="numChallengers == 1">challenger!</span> 
+                            <span ng-if="numChallengers == 0">challengers</span>
+                            <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+							<li ng-if="numChallengers > 0" role="presentation" ng-repeat="(uid,user) in user.challengers"><a role="menuitem" tabindex="-1" ng-href="#/rankings/{{uid}}">{{user.name}}
+                            </a></li>
+                            <li ng-if="numChallengers == 0" role="presentation" class="dropdown-object">
+                                <span role="menuitem">You have no challenges</span>
+                            </li>
+						</ul>
+					</div>
+				</li>
 	        </ul>
 	        <ul class="nav navbar-nav navbar-right">
 	        	<li>
-	        	<p class="navbar-text">Signed in as <a ng-href="#/user/{{user.uid}}" class="navbar-link">{{user.name}}</a></p>
+	        	<p class="navbar-text">Signed in as <a ng-href="#/rankings/{{user.uid}}" class="navbar-link">{{user.name}}</a></p>
 	        	</li>
 						<li>
 	        		<button type="button" id="logout-btn" class="btn btn-default navbar-btn" ng-click="logout()">Logout</button>

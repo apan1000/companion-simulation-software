@@ -1,8 +1,12 @@
-<div class="col-sm-12" id="items">
-	<div>Items</div>
-	<span class="col-md-3" ng-repeat="item in items">
-		<img id="{{item.id}}" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="true" ng-class="{'itemLowOpacity': user.items[$index]==0, 'itemHighOpacity': user.items[$index]>0}" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="item.allowClone !== false && user.items[$index]>0"></img>
-		<img id="{{item.id}}" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="false" ng-class="{'itemLowOpacity': user.items[$index]==0, 'itemHighOpacity': user.items[$index]>0}" ng-drag-data="item" ng-if="item.allowClone !== false && user.items[$index]==0"></img>
-		<span class="badge">{{user.items[$index]}}</span>
-	</span>
+<div class="col-sm-12">
+	<div class="items">
+		<div class="itemsHeader">Items</div>
+		<div class="itemImages">
+			<span ng-repeat="item in items" class="itemImage">
+				<img id="{{item.id}}" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="true" ng-class="{'itemLowOpacity': user.items[$index]==0, 'itemHighOpacity': user.items[$index]>0}" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" data-allow-transform="true" ng-if="item.allowClone !== false && user.items[$index]>0" height="70"></img>
+				<img id="{{item.id}}" ng-src="images/{{item.image}}" alt="{{item.name}}" ng-drag="false" ng-class="{'itemLowOpacity': user.items[$index]==0, 'itemHighOpacity': user.items[$index]>0}" ng-drag-data="item" ng-if="item.allowClone !== false && user.items[$index]==0" height="70"></img>
+				<span class="badge">{{user.items[$index]}}</span>
+			</span>
+		</div>
+	</div>
 </div>

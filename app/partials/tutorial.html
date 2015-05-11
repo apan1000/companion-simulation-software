@@ -1,26 +1,28 @@
 <div class="tutorial" ng-show="showTutorial">
 	<div class="popup-overlay">
 		<div class="tutorial-div">
-			<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="showTutorial=false"></span> 
+			<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="endTutorial()"></span> 
 			<div ng-show="welcome">
 				<h3>Welcome to Egg of Companion, {{user.name}}!</h3>
 				<h5>My name's Steve and I'll be your guide. Since you're new here, want a guided tour?</h5>
 				<button type="button" class="btn btn-success" ng-click="showStepOne()" ng-keydown="$event.keyCode == 27 && hideWelcome()">Yes please!</button>
-				<button type="button" class="btn btn-danger" ng-click="showTutorial=false">No thanks</button>
+				<button type="button" class="btn btn-danger" ng-click="endTutorial()">No thanks</button>
 			</div>
 			<div ng-show="stepOne">
 				<h2>Training</h2>
 				<h5>You will soon recieve your very own monster companion. You can train it by dragging the items to it. The <span class="keyword">Candy</span> raises its level by one, the <span class="keyword">Bell</span> increases happiness and the <span class="keyword">Potion</span> increases HP.</h5>
-				<img class="tutorialItems" src="../images/rarecandy.png" alt="candy">
-				<img class="tutorialItems" src="../images/pokebell.png" alt="bell">
-				<img class="tutorialItems" src="../images/potion.png" alt="potion">
+				<img class="tutorialItems" src="images/rarecandy.png" alt="candy">
+				<img class="tutorialItems" src="images/pokebell.png" alt="bell">
+				<img class="tutorialItems" src="images/potion.png" alt="potion">
 				<h5>The items are limited, so use them wisely!</h5>
 				<button type="button" class="btn btn-success" ng-click="showStepTwo()" ng-keydown="$event.keyCode == 27 && showStepTwo()"><span class="glyphicon glyphicon-arrow-right"></span></button>
 			</div>
 			<div ng-show="stepTwo">
 				<h2>Fighting</h2>
 				<h5>Fight wild monsters at the <span class="keyword glyphicon glyphicon-leaf">Fields</span> to earn experience and items!</h5>
-				<h5>See who is the current master under <span class="keyword glyphicon glyphicon-th-list">Ranks</span></h5>
+				<h5>See who is the current master under <span class="keyword glyphicon glyphicon-th-list">Ranks</span>.</h5> 
+				<h5>Challange another user by clicking its name and choose <span class="keyword">Duel (online)</span> or <span class="keyword">Duel (offline)</span>.</h5>
+				<h5>If your monster is defeated, you will get a new one, so be careful!</h5>
 				<button type="button" class="btn btn-danger" ng-click="showStepOne()"><span class="glyphicon glyphicon-arrow-left"></span></button>
 				<button type="button" class="btn btn-success" ng-click="showStepThree()" ng-keydown="$event.keyCode == 27 && showStepThree()"><span class="glyphicon glyphicon-arrow-right"></span></button>
 				<h5></h5>
@@ -35,12 +37,9 @@
 				<h2>Your adventure begins now!</h2>
 				<h5>Click the egg to make it hatch!</h5>
 				<button type="button" class="btn btn-danger" ng-click="showStepThree()"><span class="glyphicon glyphicon-arrow-left"></span></button>
-				<button type="button" class="btn btn-success" ng-click="showTutorial=false" ng-keydown="$event.keyCode == 27"><span class="glyphicon glyphicon-ok"></span></button>
+				<button type="button" class="btn btn-success" ng-click="endTutorial()" ng-keydown="$event.keyCode == 27"><span class="glyphicon glyphicon-ok"></span></button>
 			</div>
 			<img src="images/guide2.gif" alt="guide" class="guide">
 		</div>
 	</div>
-</div>  
-
-
-	
+</div>
