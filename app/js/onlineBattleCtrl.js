@@ -28,8 +28,9 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   		console.log("challenger",$scope.challengerUid);
       console.log("battleData:",$scope.battleData);
       $scope.enemyReady = $scope.challengerBattleData.here;
+      console.log("challenger is here", $scope.enemyReady)
 
-      if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.battleLog == true){
+      if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.here == true){
       	console.log("LET THE FIGHT BEGIN");
       	$scope.notStarted = false;
       	reduceTime();
@@ -75,7 +76,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
         console.log("challenger:",$scope.challenger);
         $scope.temp_monster = $scope.challenger.pokemon;
         $scope.temp_monster.new_sprite = $scope.challenger.pokemon.sprite;
-        $scope.temp_monster.curHp = $scope.temp_monster.hp;
       });
     });
   }
@@ -83,9 +83,23 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   var executeMoves = function(){
 
   	console.log($scope.challengerBattleData);
+  	var randomAtk1 = Math.floor((Math.random() * 3) + 3);
+    var randomAtk2 = Math.floor((Math.random() * 3) + 3);
 
   	if($scope.challengerBattleData.battleLog == "buildUp"){
+  		if ($scope.battleData.user1.uid != $scope.user.uid){
+	 			$scope.battleData.user1.charge += 1;
+	 		}
+	 		else{
+	 			$scope.battleData.user2.here += 1;
+	 		}
+      $scope.enemyMonsterAni = "animated rubberBand";
+      $scope.enemyDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.50)/$scope.temp_monster.defense);
   		console.log("ENEMY BUILD UP")
+  	}
+  	else{
+  		console.log("NOT BUILDUP NOOB")
+  		$scope.enemyDmg = 0;
   	}
 
   	$scope.battleData.user1.battleLog = false;
@@ -93,6 +107,9 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   	$scope.battleData.user1.timer = 10;
   	$scope.battleData.user2.timer = 10;
 
+  	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
+
+  	Companion.setUser($scope.user);
   	battleRef.set($scope.battleData);
   	$timeout( function(){ reduceTime(); }, rate);
  	}
