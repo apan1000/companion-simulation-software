@@ -483,6 +483,10 @@ input[type=email].success, input[type=password].success {
 }
 
 .bg-logo {
+	background-image: url("../images/logo.png");
+	display: inline-block;
+	height: 255px;
+	width: 472px;
 	position: fixed;
 	opacity: .65;
 	z-index: -1;

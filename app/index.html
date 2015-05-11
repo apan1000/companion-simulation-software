@@ -106,6 +106,6 @@ which module to associate the app with. In app.js we create the "companionSimula
     <!-- ng-view Angular directive is where the partials will be loaded. app.js configures the $routingProvider
     where you specify which partial should be loaded when. -->
     <div ng-view></div>
-		<img ng-if="user" src="images/logo.png" alt="EoC" class="bg-logo">
+		<span ng-if="user" class="bg-logo"></span>
   </body>
 </html>
