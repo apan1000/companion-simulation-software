@@ -138,36 +138,38 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
   	$scope.showMessage = true;
 
+  	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
+  	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
+
     $timeout(function() {
       $scope.showMessage = false;
     }, 1000);
 
   	if ($scope.user.pokemon.curHp<=0){
+  			console.log("I DIED")
         $scope.myMonsterAni = "animated fadeOutUp";
         battleWon($scope.challenger);
         battleLost($scope.user);
-        $timeout( function(){ 
-        	$scope.challengerRef.set($scope.challenger);
-        	Companion.setUser($scope.user); 
-        }, 100);
+        $scope.battleData.user1.here = false;
+        $scope.battleData.user2.here = false;
     }
 
     if ($scope.challenger.pokemon.curHp<=0){
+    		console.log("ENEMY DIED")
         $scope.myMonsterAni = "animated fadeOutUp";
         battleWon($scope.user);
         battleLost($scope.challenger);
-        $timeout( function(){ 
+        $scope.battleData.user1.here = false;
+        $scope.battleData.user2.here = false;
+        /*$timeout( function(){ 
         	$scope.challengerRef.set($scope.challenger);
         	Companion.setUser($scope.user); 
-        }, 100);
+        }, 100);*/
     }
 
   	$scope.battleData.user1.battleLog = false;
   	$scope.battleData.user2.battleLog = false;
   	$scope.battleData.timer = maxTime;
-
-  	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
-  	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
 
   	$scope.challengerRef.set($scope.challenger);
   	Companion.setUser($scope.user);
