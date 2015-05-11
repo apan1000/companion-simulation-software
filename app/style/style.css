@@ -665,6 +665,13 @@ input[type=email].success, input[type=password].success {
 	background-repeat: repeat-x;
 }
 
+#dungeon {
+	height: 560px;
+	background-image: url("../images/monsterBackgroundDusk.png");
+	background-size: 800px 600px;
+	background-repeat: repeat-x;
+}
+
 .monsterImageStatic {
 	height: 120px;
 	display: block;
