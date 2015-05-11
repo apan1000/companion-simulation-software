@@ -444,13 +444,20 @@ input[type=email].success, input[type=password].success {
 	stroke: none;
 }
 
-.game-by {
-
-}
-
 .group-name {
 	font-size: 30pt;
 	letter-spacing: -2px;
+}
+
+.bg-logo {
+	position: fixed;
+	opacity: .65;
+	z-index: -1;
+	bottom: 5px;
+	right: 5px;
+	-ms-transform: rotate(-10deg);
+    -webkit-transform: rotate(-10deg);
+    transform: rotate(-10deg);
 }
 
 /* Tutorial */
@@ -463,6 +470,7 @@ input[type=email].success, input[type=password].success {
 	width: 40%;
 	min-width: 400px;
 	max-width: 500px;
+	min-height: 295px;
 	padding-left: 50px;
 	padding-right: 50px;
 	padding-top: 20px;
@@ -473,6 +481,34 @@ input[type=email].success, input[type=password].success {
 	opacity: 1;
 	text-align: center;
     font-size: 12pt;
+}
+
+.tutorial-logo {
+	height: 80px;
+}
+
+.tutorial-div .start-guide-btn {
+	position: absolute;
+	bottom: 45px;
+	right: 25%;
+}
+
+.tutorial-div .end-guide-btn {
+	position: absolute;
+	bottom: 45px;
+	left: 25%;
+}
+
+.tutorial-div .next-btn {
+	position: absolute;
+	bottom: 20px;
+	right: 30%;
+}
+
+.tutorial-div .back-btn {
+	position: absolute;
+	bottom: 20px;
+	left: 30%;
 }
 
 .guide {
@@ -494,7 +530,7 @@ input[type=email].success, input[type=password].success {
 }
 
 .tutorialItems {
-	padding: 20px;
+	height: 35px;
 }
 
 /* Chat */
