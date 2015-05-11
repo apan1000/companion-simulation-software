@@ -581,6 +581,10 @@ input[type=email].success, input[type=password].success {
 	white-space: normal;
 }
 
+.stats-list-item {
+	padding: 5px 15px;
+}
+
 .title-head{
 	background: rgba(230,40,80,1);
 }
