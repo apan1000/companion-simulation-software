@@ -14,7 +14,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
   
         //scope.playerData = syncObject;
         syncObject.$bindTo(scope, "playerData");
-
         syncObject.$loaded(
           function(data) {
             console.log(data === syncObject); // true
@@ -30,9 +29,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           }
         );
 
+
         var refMess = new Firebase("https://companion-simulation.firebaseio.com");
         var messages = $firebaseArray(refMess.child("chat"));
-
         messages.$loaded(
           function(data) {
             console.log(data === messages); // true
@@ -46,9 +45,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           }
         );
 
+
         var ref = new Firebase("https://companion-simulation.firebaseio.com");
         var syncArray = $firebaseArray(ref.child("users"));
-
         syncArray.$loaded(
           function(data) {
             console.log(data === syncArray); // true
@@ -89,21 +88,24 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         //Settings
         var movespeed = 200;
+        //var updateRate = 100;
 
         //Init Canvas
         var canvas = element[0];
         var ctx = canvas.getContext('2d');
-        var canvasWidth = 1280
-        var canvasHeight = 800
+        var canvasWidth = canvas.width;
+        var canvasHeight = canvas.height;
 
 
         //Init Player
         //var playerImage = new Image();
-        var player = {x:10,y:10}; //{x:scope.playerData.x_coord,y:scope.playerData.y_coord};
+        var player = {x:10,y:10}; //{x:scope.user.x_coord,y:scope.user.y_coord}; //
 
         var initPlayer = function(){
           player["image"] = {};
           player.image = createImage(scope.playerData.pokemon.sprite);
+          player.x = scope.playerData.x_coord;
+          player.y = scope.playerData.x_coord;
           //playerImage.src = scope.playerData.pokemon.sprite;
           //playerImage.onload = function() {
           //    return;
@@ -136,13 +138,14 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
       var otherPlayersImages = [];
       var otherPlayersUids = [];
 
+
       var initOthers = function(){
-        
         var i = 0;
         var arrLength = syncArray.length;
 
         console.log(arrLength);
         console.log("INITOTHERS");
+
         var uid = "";
         var onlineUid = "";
 
@@ -224,6 +227,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var now = 0;
         var delta= 0;
         var then= 0;
+        var data_package_time = 0;
 
         function setDelta(){
             now = Date.now();
@@ -260,14 +264,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             var opLength = otherPlayersUids.length;
             var currentUid = "";
             for (i = 0; i < opLength; i++){
-
                 currentUid = otherPlayersUids[i];
-
                 otherPlayers[currentUid].x_target = syncArray[i].x_coord;
                 otherPlayers[currentUid].y_target = syncArray[i].y_coord;
-
             }
-            setTimeout(dataUpdate, 1000/10);
+            setTimeout(dataUpdate, 1000 / 10);
         }
         
         function render(){
@@ -285,9 +286,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           var ptrn = ctx.createPattern(grassTile, 'repeat'); // Create a pattern with this image, and set it to "repeat".
           ctx.fillStyle = ptrn;
           ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-          ctx.drawImage(background,0,0);
-          ctx.drawImage(beach,640,0)
 
+          //ctx.drawImage(background,0,0);
+          //ctx.drawImage(beach,640,0)
         }
 
         function roundRect(x, y, width, height, radius) {
@@ -317,29 +318,22 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var line = '';
         var completed = [];
         var part = [];
-
-
         //console.log(words.length);
         for(var n = 0; n < words.length; n++) {
-
           var testLine = line + words[n] + ' ';
           var testWidth = ctx.measureText(testLine).width;
           //console.log("helloo");
           if (testWidth > maxWidth && n > 0) {
             //ctx.fillText(line, x, y);
-
             part[0] = line;
             part[1] = x;
             part[2] = y;
             completed.push(part);
             part = [];
-
             line = words[n] + ' ';
-            y += lineHeight;
-         
+            y += lineHeight;       
             //lineNo++;
           }
-
           else {
             line = testLine;
           }
@@ -350,7 +344,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         completed.push(part);
         part = [];
         //roundRect(x-10, y-10, 150, y+10, 5);
-
         return completed
       }
       
@@ -359,7 +352,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           ctx.font = 'italic 12pt Calibri';
           ctx.fillStyle = 'white';
           var currentUid = "";
-          var minTime = Date.now()-2000; //10 seconds back in time
+          var minTime = Date.now()-100000; //10 seconds back in time
           var opLength = otherPlayersUids.length;
           
           for (i = 0; i < opLength; i++){
@@ -379,7 +372,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
                 //roundRect(x_temp+90, y_temp, 150, approx, 5);
 
                 var wrappedText = wrapText(messages[j].text, x_temp+100, y_temp+15, 150, 14);
-                roundRect(x_temp,y_temp, 160, (wrappedText.length*14), 5);
+                roundRect(x_temp+90, y_temp+3, 160, (wrappedText.length*14), 5);
                 ctx.fillStyle = '#FFFFFF';
                 for (k = 0; k < wrappedText.length; k++){
                   ctx.fillText(wrappedText[k][0],wrappedText[k][1],wrappedText[k][2]);
@@ -394,12 +387,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         function drawOthers(){
           var opLength = otherPlayersUids.length;
-
           var currentUid = "";
+
           for (i = 0; i < opLength; i++){
             currentUid = otherPlayersUids[i];
-            var currentUidX = otherPlayers[currentUid].x_coord;
-            var currentUidY = otherPlayers[currentUid].y_coord;
+
             var currentUidName = otherPlayers[currentUid].name;
             var yOffset = 0;
             //DRAW SPRITE
@@ -408,7 +400,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             //DRAW NAMETAG
             ctx.font = 'italic 12pt Calibri';
             ctx.fillStyle = 'white';
-            ctx.fillText(currentUidName, currentUidX-20, currentUidY);
+            ctx.fillText(currentUidName, currentUid.x_coord-20,currentUid.y_coord);
 
             //DRAW MESSAGES
             // for (j=0; j < messages.length; j++){
@@ -531,16 +523,16 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             var amount = movespeed*delta/1000;
             //console.log(amount);
 
-            if (keyLeft === true && player.x > 0) {
+            if (keyLeft === true && player.x > -60) {
                 player.x = Math.round(player.x-amount);
             }
-            if (keyRight === true && player.x < canvasWidth-50) {
+            if (keyRight === true && player.x < canvasWidth-60) {
                 player.x = Math.round(player.x+amount);
             } 
-            if (keyUp === true && player.y > 0) {
+            if (keyUp === true && player.y > -60) {
                 player.y = Math.round(player.y-amount);
             }
-            if (keyDown === true && player.y < canvasHeight-50) {
+            if (keyDown === true && player.y < canvasHeight-60) {
                 player.y = Math.round(player.y+amount);
             }
 
