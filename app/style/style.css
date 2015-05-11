@@ -647,6 +647,15 @@ input[type=email].success, input[type=password].success {
 	white-space: normal;
 }
 
+.statusbar h5 {
+	margin-top: 8px;
+	margin-bottom: 0px;
+}
+
+.statusbar .row:nth-child(4) {
+	margin-top: 10px;
+}
+
 .companion-name {
 	font-family: "Coda";
 }
