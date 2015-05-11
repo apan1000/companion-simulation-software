@@ -1,15 +1,15 @@
 <div class="title-head row">
-	<div class="col-sm-12">
-		<h3>{{otherUser.pokemon.name}}<small> Companion of {{otherUser.name}}</small></h3>
+	<div class="col-xs-12">
+		<h3>{{otherUser.pokemon.name}}<br><small> Companion of {{otherUser.name}}</small></h3>
 	</div>
 </div>
 <div class="statusbar row">
-	<div class="col-sm-12">
+	<div class="col-xs-12">
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-xs-6">
 				<img ng-src="{{otherUser.pokemon.sprite}}" class="monsterImageStatic" alt="{{otherUser.pokemon.name}}">
 			</div>
-			<div class="col-sm-6">
+			<div class="col-xs-6">
 				<div class="circle-image text-center">
 					<span class="fix-inside">{{otherUser.pokemon.lvl}}</span>
 				</div>
@@ -17,8 +17,8 @@
 		</div>
 		<div class="row">
 			<!-- Online fight button -->
-			<div class="col-sm-6">
-				<button ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-info" data-tooltip="Challenge this user to participate in an online battle of epic proportions!" ng-click="challenge()"><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></button>
+			<div class="col-xs-6">
+				<button ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-info" data-tooltip="Challenge this user to participate in an online battle of epic proportions!" ng-click="challenge()"><img src="images/swords.png" height="25"> Challenge</button>
 				<div ng-if="(otherUser.online==false || otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true) && otherUser.uid!=user.uid" 
 				ng-attr-data-tooltip="{{
 				((otherUser.pokemon.isEgg==true && user.pokemon.isEgg==true) && 'Egg vs egg, that would be exciting, huh?') || 
@@ -26,25 +26,25 @@
 				(user.pokemon.isEgg==true && 'You have an egg; it cannot fight, silly.') || 
 				(otherUser.online==false && 'Cannot challenge someone who is offline, that is not fair.')
 				}}">
-					<button class="btn btn-info" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (online)</span></button>
+					<button class="btn btn-info" disabled><img src="images/swords.png" height="25"> Challenge</button>
 				</div>
 			</div>
 			<!-- Offline fight button -->
-			<div class="col-sm-6">
-				<a ng-if="otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-danger" data-tooltip="Practice against this user's companion in an offline battle." ng-href="#/fields/{{otherUser.uid}}"><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
+			<div class="col-xs-6">
+				<a ng-if="otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-danger" data-tooltip="Practice against this user's companion in an offline battle." ng-href="#/fields/{{otherUser.uid}}"><img src="images/sword2.png" height="25"> Practice</a>
 				<div ng-if="otherUser.uid!=user.uid && (otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true)" 
 				ng-attr-data-tooltip="{{
 				((otherUser.pokemon.isEgg==true && user.pokemon.isEgg==true) && 'Egg vs egg, that would be exciting, huh?') || 
 				(otherUser.pokemon.isEgg==true && 'Cannot fight an egg, that is not fair.') || 
 				(user.pokemon.isEgg==true && 'You have an egg; it cannot fight, silly.')
 				}}">
-					<a class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}" disabled><span class="glyphicon glyphicon-exclamation-sign"> Duel (offline)</span></a>
+					<a class="btn btn-danger" ng-href="#/fields/{{otherUser.uid}}" disabled><img src="images/sword2.png" height="25"> Practice</a>
 				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-xs-12">
 				<div class="hpbar">
 					<h4>HP</h4>
 					<div class="bar">
@@ -62,22 +62,22 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-xs-12">
 				<h4>Stats</h4>
 				<ul class="list-group">
-				 	<li class="list-group-item list-group-item-danger">
+				 	<li class="list-group-item list-group-item-danger stats-list-item">
 				  		<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
 						Attack: <strong>{{otherUser.pokemon.attack}}</strong>
 					</li>
-				  	<li class="list-group-item list-group-item-info">
+				  	<li class="list-group-item list-group-item-info stats-list-item">
 				  		<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
 					 	Defense: <strong>{{otherUser.pokemon.defense}}</strong>
 					</li>
-					<li class="list-group-item list-group-item-warning">
+					<li class="list-group-item list-group-item-warning stats-list-item">
 				  		<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 					  	Speed: <strong>{{otherUser.pokemon.speed}}</strong>
 					</li>
-					<li class="list-group-item list-group-item-success">
+					<li class="list-group-item list-group-item-success stats-list-item">
 				  		<span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>
 					  	Happiness: <strong>{{otherUser.pokemon.happiness}}</strong>
 					</li>

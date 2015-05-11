@@ -6,8 +6,8 @@ which module to associate the app with. In app.js we create the "companionSimula
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
-    <title>Companion Simulation Software</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/eggico.png">
+    <title>Egg of Companion</title>
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -78,8 +78,12 @@ which module to associate the app with. In app.js we create the "companionSimula
                             <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-							<li ng-if="numChallengers > 0" role="presentation" ng-repeat="(uid,user) in user.challengers"><a role="menuitem" tabindex="-1" ng-href="#/rankings/{{uid}}">{{user.name}}
-                            </a></li>
+							<li ng-if="numChallengers > 0" role="presentation" ng-repeat="(uid,user) in user.challengers">
+								<a role="menuitem" tabindex="-1" ng-href="#/rankings/{{uid}}">
+									<img ng-src="{{user.sprite}}" height="50">
+									{{user.name}}
+								</a>
+							</li>
                             <li ng-if="numChallengers == 0" role="presentation" class="dropdown-object">
                                 <span role="menuitem">You have no challenges</span>
                             </li>
@@ -101,6 +105,6 @@ which module to associate the app with. In app.js we create the "companionSimula
     <!-- ng-view Angular directive is where the partials will be loaded. app.js configures the $routingProvider
     where you specify which partial should be loaded when. -->
     <div ng-view></div>
-
+		<img ng-if="user" src="images/logo.png" alt="EoC" class="bg-logo">
   </body>
 </html>

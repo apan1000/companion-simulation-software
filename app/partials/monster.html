@@ -1,5 +1,8 @@
 <div id="monster">
 	<img ng-src="{{user.pokemon.sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-class="monsterAni" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)" ng-mouseenter="status=true" ng-mouseleave="status=false">
+	<div ng-if="user.pokemon.isEgg == true" ng-show="status" class="clickMe">
+		<img src="images/clickme.png" alt="clickMe">
+	</div>
 	<!-- <div ng-show="status" class="statusBubble">
 		<h3>Name: {{user.pokemon.name}}
 		<br/><small>MonsterID: {{user.pokemon.id}} </small></h3>
@@ -20,7 +23,7 @@
 
 <div class="popup-overlay" ng-show="showNickname">
 	<div class="popup-div" ng-if="user.pokemon.isEgg == true">
-		<h1>Your egg is hatching! :O</h1>
+		<h1>Your egg is hatching!</h1>
 		<img class="monsterImageStatic" ng-src="{{user.pokemon.sprite}}" alt="Egg">
 		<h4>What will come out?!</h4>
 	</div>

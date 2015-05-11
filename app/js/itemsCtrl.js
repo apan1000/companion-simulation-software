@@ -9,7 +9,7 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 	var showReaction = function(){
   		$scope.reaction = true;
   		$scope.status = false;
-  		$timeout(hideReaction, 1000);
+  		$timeout(hideReaction, 2500);
 	}
 
 	var hideReaction = function(){
@@ -44,10 +44,9 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 			// Add happiness if dropped items is Poke bell
 			if (data.name === "Poke bell") {
 				if ($scope.user.items[1]>0){
-					$scope.reactionImage = "prettyspeech.png";
+					$scope.reactionImage = "whistle.gif";
 					showReaction();
 					$scope.user.items[1] -= 1;
-					$scope.reactionImage = "prettyspeech.png";
 					$scope.user.pokemon.happiness += 20;
 					$scope.monsterAni = "animated bounce";
 
@@ -58,8 +57,8 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 			// Add health if dropped item is Potion
 			if (data.name === "Potion") {
 				if ($scope.user.items[2]>0){
-					//showReaction();
-					
+					$scope.reactionImage = "heartbubble.png";
+					showReaction();
 					$scope.user.items[2] -= 1;
 					console.log("Current hp; ", $scope.user.pokemon.curHp);
 					$scope.user.pokemon.curHp += 20;
