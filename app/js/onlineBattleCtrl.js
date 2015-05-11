@@ -45,8 +45,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     	}
 
       //Both have made a descision, fight it out!
-      //if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
-      	if ($scope.battleData.timer == 0 && $scope.battleData.user1.uid == $scope.user.uid){
+      if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
+      	//if ($scope.battleData.timer == 0 && $scope.battleData.user1.uid == $scope.user.uid){
       		executeMoves();
       	}
       //}
