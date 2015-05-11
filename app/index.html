@@ -73,20 +73,21 @@ which module to associate the app with. In app.js we create the "companionSimula
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle challenge-dropdown" type="button" id="menu1" data-toggle="dropdown"><span class="challenge-alert">{{numChallengers}}</span>
 							<span ng-if="numChallengers > 1">challengers!</span>
-                            <span ng-if="numChallengers == 1">challenger!</span> 
-                            <span ng-if="numChallengers == 0">challengers</span>
-                            <span class="caret"></span>
+              <span ng-if="numChallengers == 1">challenger!</span> 
+              <span ng-if="numChallengers == 0">challengers</span>
+              <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 							<li ng-if="numChallengers > 0" role="presentation" ng-repeat="(uid,user) in user.challengers">
 								<a role="menuitem" tabindex="-1" ng-href="#/dungeon/{{user.battleID}}">
+									<span ng-class="{'online-dot animated bounceIn':user.online==true, 'offline-dot':user.online==false}" class="login-status-dot" ng-attr-title="{{user.online && 'online' || user.online==false && 'offline'}}"></span>
 									<img ng-src="{{user.sprite}}" height="50">
 									{{user.name}}
 								</a>
 							</li>
-                            <li ng-if="numChallengers == 0" role="presentation" class="dropdown-object">
-                                <span role="menuitem">You have no challenges</span>
-                            </li>
+              <li ng-if="numChallengers == 0" role="presentation" class="dropdown-object">
+                  <span role="menuitem">You have no challenges</span>
+              </li>
 						</ul>
 					</div>
 				</li>

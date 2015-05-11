@@ -42,9 +42,11 @@
 	</div>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
+			<button class="btn btn-danger" ng-click="imReady()">imReady</button>
 			<button class="btn btn-primary" ng-click="chooseMove('buildUp')">BuildUp</button>
 			<button class="btn btn-primary" ng-click="chooseMove('unleash')">Unleash</button>
 			<button class="btn btn-primary" ng-click="chooseMove('counter')">Counter</button>
+			<span ng-if="$scope.enemyReady==true">ENEMY READY</span>
 		</div>
 	</div>
 	<div class="row">
