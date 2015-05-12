@@ -91,10 +91,10 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     $scope.combo = 1;
     $scope.battle = false;
     $scope.ready = false;
-    $scope.user.pokemon.curExp += Math.floor(($scope.temp_monster.exp)*0.5);
+    $scope.user.pokemon.curExp += $scope.temp_monster.exp;
     $scope.user.wins += 1;
     $scope.user.score += 2;
-    $scope.user.pokemon.happiness += 5;
+    $scope.user.pokemon.happiness += 1;
 
     if (Math.random()*5>1){
       console.log("ITEM DROP");
