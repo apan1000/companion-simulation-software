@@ -44,6 +44,7 @@
 								<div class="bar-cur" ng-class="{'health-bar-high': getEnemyHpPercentage() > 30, 'health-bar-low': getEnemyHpPercentage() <= 30}" ng-style="{'width': getEnemyHpPercentage()+'%'}"></div>
 							</div>
 							<div class="exp-bar-container">
+								<span>{{temp_monster.exp}}</span>
 								<div class="bar-cur exp-bar" ng-style="{'width':'100%'}"></div>
 							</div>
 						</div>
