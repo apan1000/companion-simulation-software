@@ -55,14 +55,15 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     		enemyState = "glow"
     	}
 
-      //Both have made a descision, fight it out!
-      if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
-      	if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
-      	//if ($scope.battleData.timer == 0 && $scope.battleData.user1.uid == $scope.user.uid){
+    	//Both have made a descision, fight it out!
+    	if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
+    		$scope.myState = "";
+      	$scope.enemyState = "";
+      
+      	if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
       		executeMoves();
       	}
       }
-      //}
 
       $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
       fetchChallengerData();

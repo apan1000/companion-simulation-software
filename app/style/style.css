@@ -728,11 +728,25 @@ input[type=email].success, input[type=password].success {
 	font-size: 14pt;
 }
 
+.onHover {
+	opacity: 0.1;
+}
+
+.onHover:hover {
+	opacity: 1;
+}
+
 #dungeon {
 	height: 560px;
 	background-image: url("../images/monsterBackgroundDusk.png");
 	background-size: 800px 600px;
 	background-repeat: repeat-x;
+}
+
+.bg-fix {
+	background-color: white;
+	border-style: solid;
+	border-radius: 10px;
 }
 
 .monsterImageStatic {
@@ -1218,6 +1232,13 @@ h3 small {
 .progress-c {
 	width: 100%;
     background: #99CCFF;    
+    transition:left 0.1s;
+}
+
+.progress-combo {
+	height: 40px !important;
+	width: 100%;
+    background: yellow;    
     transition:left 0.1s;
 }
 

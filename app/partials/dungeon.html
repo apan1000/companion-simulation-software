@@ -7,7 +7,7 @@
 				<span class="text-center">
 					<div class="row hpbars">
 						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h1>{{enemyDmg}}</h1></div>
-						<h3>{{user.pokemon.name}} Combo: {{user.combo}}</h3>
+						<h3>{{user.pokemon.name}}</h3>
 						<!--progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress-->
 						<div class="bar">
 							<span>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</span>
@@ -26,7 +26,7 @@
 				<span class="text-center">
 					<div class="row hpbars">
 						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h1>{{yourDmg}}</h1></div>
-						<h3>{{challenger.pokemon.name}} Combo: {{challenger.combo}}</h3>
+						<h3>{{challenger.pokemon.name}}</h3>
 						<div class="bar">
 							<span>{{challenger.pokemon.curHp}}/{{challenger.pokemon.hp}}</span>
 							<div class="bar-cur" ng-class="{'health-bar-high': getEnemyHpPercentage() > 30, 'health-bar-low': getEnemyHpPercentage() <= 30}" ng-style="{'width': getEnemyHpPercentage()+'%'}"></div>
@@ -54,18 +54,15 @@
 				<p><span class="glyphicon glyphicon-star"> Lvl: {{user.pokemon.lvl}}</span></p>
 				<table class="table-progress">
 				    <tbody class="table-body"> 
-				    	<tr>
-				            <td><div class="progress-bar progress-hp" ng-style="{left : ((user.pokemon.curHp/user.pokemon.hp)*100)-100+'%'}"></div> Health</td><td>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</td><td></td><td></td><td></td>
-				        </tr>
 				        <tr>
-				        	<td><div class="progress-bar progress-c" ng-style="{left : ((user.pokemon.curExp/user.pokemon.exp)*100)-100+'%'}"></div>Exp</td><td>{{user.pokemon.curExp}}/{{user.pokemon.exp}}</td><td></td><td></td><td></td>
+				            <td><div class="progress-bar progress-combo" ng-style="{left : ((user.combo*10 - 100)+'%')}"></div>BuildUp</td><td>{{user.combo}}</td><td></td><td></td><td></td>
 				        </tr>
-				        <tr><td>Stats</td></tr>
+				        <tr><td>.</td></tr>
 				        <tr>
 				            <td><div class="progress-bar progress-h" ng-style="{left : ((user.pokemon.attack*0.5 - 100)+'%')}"></div>Attack</td><td>{{user.pokemon.attack}}</td><td></td><td></td><td></td>
 				        </tr>
 				        <tr>
-				            <td><div class="progress-bar progress-h" ng-style="{left : ((user.pokemon.defense*0.5 - 100)+'%')}"></div>Defense</td><td>{{user.pokemon.defense}}</td><td></td><td></td><td></td>
+				            <td><div class="progress-bar progress-c" ng-style="{left : ((user.pokemon.defense*0.5 - 100)+'%')}"></div>Defense</td><td>{{user.pokemon.defense}}</td><td></td><td></td><td></td>
 				        </tr>
 				    </tbody>
 				</table>
@@ -75,19 +72,16 @@
 			<div class="bubble">
 				<p><span class="glyphicon glyphicon-star"> Lvl: {{challenger.pokemon.lvl}}</span></p>
 				<table class="table-progress">
-				    <tbody class="table-body"> 
-				    	<tr>
-				            <td><div class="progress-bar progress-hp" ng-style="{left : ((challenger.pokemon.curHp/challenger.pokemon.hp)*100)-100+'%'}"></div> Health</td><td>{{challenger.pokemon.curHp}}/{{challenger.pokemon.hp}}</td><td></td><td></td><td></td>
-				        </tr>
+				    <tbody class="table-body">
 				        <tr>
-				        	<td><div class="progress-bar progress-c" ng-style="{left : ((challenger.pokemon.curExp/challenger.pokemon.exp)*100)-100+'%'}"></div>Exp</td><td>{{challenger.pokemon.exp*0.5}}</td><td></td><td></td><td></td>
+				            <td><div class="progress-bar progress-combo" ng-style="{left : ((challenger.combo*10 - 100)+'%')}"></div>BuildUp</td><td>{{challenger.combo}}</td><td></td><td></td><td></td>
 				        </tr>
-				        <tr><td>Stats</td></tr>
+				        <tr><td>-</td></tr>
 				        <tr>
 				            <td><div class="progress-bar progress-h" ng-style="{left : ((challenger.pokemon.attack*0.5 - 100)+'%')}"></div>Attack</td><td>{{challenger.pokemon.attack}}</td><td></td><td></td><td></td>
 				        </tr>
 				        <tr>
-				            <td><div class="progress-bar progress-h" ng-style="{left : ((challenger.pokemon.defense*0.5 - 100)+'%')}"></div>Defense</td><td>{{challenger.pokemon.defense}}</td><td></td><td></td><td></td>
+				            <td><div class="progress-bar progress-c" ng-style="{left : ((challenger.pokemon.defense*0.5 - 100)+'%')}"></div>Defense</td><td>{{challenger.pokemon.defense}}</td><td></td><td></td><td></td>
 				        </tr>
 				    </tbody>
 				</table>

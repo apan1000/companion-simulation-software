@@ -80,51 +80,40 @@
 		</div>
 
 	<div class="row">
-		<div class="col-xs-4">
-			<div class="bubble">
-				<p><span class="glyphicon glyphicon-star"> Lvl: {{user.pokemon.lvl}}</span></p>
-				<table class="table-progress">
-				    <tbody class="table-body"> 
-				    	<tr>
-				            <td><div class="progress-bar progress-hp" ng-style="{left : ((user.pokemon.curHp/user.pokemon.hp)*100)-100+'%'}"></div> Health</td><td>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</td><td></td><td></td><td></td>
-				        </tr>
-				        <tr>
-				        	<td><div class="progress-bar progress-c" ng-style="{left : ((user.pokemon.curExp/user.pokemon.exp)*100)-100+'%'}"></div>Exp</td><td>{{user.pokemon.curExp}}/{{user.pokemon.exp}}</td><td></td><td></td><td></td>
-				        </tr>
-				        <tr><td>Stats</td></tr>
-				        <tr>
-				            <td><div class="progress-bar progress-h" ng-style="{left : ((user.pokemon.attack*0.5 - 100)+'%')}"></div>Attack</td><td>{{user.pokemon.attack}}</td><td></td><td></td><td></td>
-				        </tr>
-				        <tr>
-				            <td><div class="progress-bar progress-h" ng-style="{left : ((user.pokemon.defense*0.5 - 100)+'%')}"></div>Defense</td><td>{{user.pokemon.defense}}</td><td></td><td></td><td></td>
-				        </tr>
-				    </tbody>
-				</table>
+		<div class="col-xs-3">
+			<div class="col-xs-8">
+				  		<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						Level: <strong>{{user.pokemon.lvl}}</strong>
+					</li>
+				 	<li class="list-group-item list-group-item-danger stats-list-item">
+				  		<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+						Attack: <strong>{{user.pokemon.attack}}</strong>
+					</li>
+				  	<li class="list-group-item list-group-item-info stats-list-item">
+				  		<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+					 	Defense: <strong>{{user.pokemon.defense}}</strong>
+					</li>
+					<li class="list-group-item list-group-item-warning stats-list-item">
+				  		<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+					  	Speed: <strong>{{user.pokemon.speed}}</strong>
+					</li>
+				</ul>
+			</div>
 		</div>
-		</div>
-		<div class="col-xs-4 col-xs-offset-4">
-			<div class="bubble">
-				<p><span class="glyphicon glyphicon-star"> Lvl: {{temp_monster.lvl}}</span></p>
-				<table class="table-progress">
-				    <tbody class="table-body"> 
-				    	<tr>
-				            <td><div class="progress-bar progress-hp" ng-style="{left : ((temp_monster.curHp/temp_monster.hp)*100)-100+'%'}"></div> Health</td><td>{{temp_monster.curHp}}/{{temp_monster.hp}}</td><td></td><td></td><td></td>
-				        </tr>
-				        <tr>
-				        	<td><div class="progress-bar progress-c" ng-style="{left : ((temp_monster.curExp/temp_monster.exp)*100)-100+'%'}"></div>Exp</td><td>{{temp_monster.exp*0.5}}</td><td></td><td></td><td></td>
-				        </tr>
-				        <tr><td>Stats</td></tr>
-				        <tr>
-				            <td><div class="progress-bar progress-h" ng-style="{left : ((temp_monster.attack*0.5 - 100)+'%')}"></div>Attack</td><td>{{temp_monster.attack}}</td><td></td><td></td><td></td>
-				        </tr>
-				        <tr>
-				            <td><div class="progress-bar progress-h" ng-style="{left : ((temp_monster.defense*0.5 - 100)+'%')}"></div>Defense</td><td>{{temp_monster.defense}}</td><td></td><td></td><td></td>
-				        </tr>
-				    </tbody>
-				</table>
-		    	<!--p><span class="glyphicon glyphicon-flash"> Atk: {{temp_monster.attack}}</span></p>
-		    	<p><span class="glyphicon glyphicon-unchecked"> Def: {{temp_monster.defense}}</span></p-->
-
+		<div class="col-xs-3 col-xs-offset-6">
+			<div class="col-xs-8 col-xs-offset-4">
+				  		<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+					</li>
+				 	<li class="list-group-item list-group-item-danger stats-list-item">
+				  		<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+					</li>
+				  	<li class="list-group-item list-group-item-info stats-list-item">
+				  		<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+					</li>
+					<li class="list-group-item list-group-item-warning stats-list-item">
+				  		<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
