@@ -82,6 +82,8 @@
 	<div class="row">
 		<div class="col-xs-3">
 			<div class="col-xs-8">
+				<ul class="list-group onHover">
+					<li class="list-group-item list-group-item-success stats-list-item">
 				  		<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 						Level: <strong>{{user.pokemon.lvl}}</strong>
 					</li>
@@ -102,16 +104,22 @@
 		</div>
 		<div class="col-xs-3 col-xs-offset-6">
 			<div class="col-xs-8 col-xs-offset-4">
+				<ul class="list-group onHover">
+					<li class="list-group-item list-group-item-success stats-list-item">
 				  		<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+						Level: <strong>{{temp_monster.lvl}}</strong>
 					</li>
 				 	<li class="list-group-item list-group-item-danger stats-list-item">
 				  		<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+						Attack: <strong>{{temp_monster.attack}}</strong>
 					</li>
 				  	<li class="list-group-item list-group-item-info stats-list-item">
 				  		<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+					 	Defense: <strong>{{temp_monster.defense}}</strong>
 					</li>
 					<li class="list-group-item list-group-item-warning stats-list-item">
 				  		<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+					  	Speed: <strong>{{temp_monster.speed}}</strong>
 					</li>
 				</ul>
 			</div>
