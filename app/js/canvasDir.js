@@ -527,7 +527,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           var x = otherPlayers[playerUser.uid].y_coord
           var a = 250;
           var b = 500;
-          var c = 0.3;
+          var c = 0.5;
           var d = 1.8;
           var multiplier = ((x-a)*((d-c)/(b-a)))+c;
           amount = amount*multiplier;
