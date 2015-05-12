@@ -18,7 +18,8 @@
 		<div class="row">
 			<!-- Online fight button -->
 			<div class="col-xs-6">
-				<a ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false && user.challengers.hasOwnProperty(otherUser.uid);" class="btn btn-success" data-tooltip="Go to battle!" ng-href="#/dungeon/{{user.challengers[otherUser.uid].battleID}}"><img src="images/swords.png" height="25"> To Battle!</a>
+
+				<a ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false && user.challengers.hasOwnProperty(otherUser.uid);" class="btn btn-success" data-tooltip="Go to battle!" ng-href="#/dungeon/{{user.challengers[otherUser.uid].battleID}}"><img src="images/swords.png" height="25"> Battlefield!</a>
 				<button ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false && !user.challengers.hasOwnProperty(otherUser.uid);" class="btn btn-info" data-tooltip="Challenge this user to participate in an online battle of epic proportions!" ng-click="challenge()"><img src="images/swords.png" height="25"> Challenge</button>
 				<div ng-if="(otherUser.online==false || otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true) && otherUser.uid!=user.uid" 
 				ng-attr-data-tooltip="{{

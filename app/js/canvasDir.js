@@ -85,7 +85,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         //Init Background
         var background = new Image();
-        background.src = "../images/background.png";
+        background.src = "../images/bgGrass.png";
 
         //var grassTile = createImage("../images/grassTile1.png");
 
@@ -139,6 +139,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
               otherPlayers[uid].y_target = syncArray[i].y_coord;
               otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
               otherPlayers[uid].name = syncArray[i].name;
+              otherPlayers[uid].pokeName = syncArray[i].pokemon.name
 
               otherPlayersUids.push(uid)
             }
@@ -257,11 +258,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         function drawBackground(){
 
-          var ptrn = ctx.createPattern(grassTile, 'repeat'); // Create a pattern with this image, and set it to "repeat".
-          ctx.fillStyle = ptrn;
-          ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+          // var ptrn = ctx.createPattern(grassTile, 'repeat'); // Create a pattern with this image, and set it to "repeat".
+          // ctx.fillStyle = ptrn;
+          // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-          //ctx.drawImage(background,0,0);
+          ctx.drawImage(background,0,0);
           //ctx.drawImage(beach,640,0)
         }
 
@@ -371,6 +372,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         function drawOthers(){
           var opLength = otherPlayersUids.length;
           var currentUid = "";
+          var size;// = 120;
 
           for (i = 0; i < opLength; i++){
             currentUid = otherPlayersUids[i];
@@ -378,14 +380,29 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
               var currentUidName = otherPlayers[currentUid].name;
               var yOffset = 0;
               //DRAW SPRITE
-              ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord, 120, 120);
+              //y=(x-a)((d-c)/(b-a)+c) a250 b500 c10 d150 
+              var x = otherPlayers[currentUid].y_coord
+              var a = 250;
+              var b = 500;
+              var c = 70;
+              var d = 250;
+              size = ((x-a)*((d-c)/(b-a)))+c
+              ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord, size, size);
 
               //DRAW NAMETAG
-              ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+              ctx.fillStyle = 'rgba(230, 40, 80, 1)'
+              ctx.font = 'it 10pt Arial';
               roundRect(otherPlayers[currentUid].x_coord-3, otherPlayers[currentUid].y_coord-14, ctx.measureText(currentUidName).width+6, 20, 5);
-              ctx.font = 'italic 12pt Calibri';
+              roundRect(otherPlayers[currentUid].x_coord-3, otherPlayers[currentUid].y_coord-37, ctx.measureText(otherPlayers[currentUid].pokeName).width+6,20,5)
               ctx.fillStyle = 'white';
+
+              ctx.font = 'it 10pt Arial';
               ctx.fillText(currentUidName,otherPlayers[currentUid].x_coord,otherPlayers[currentUid].y_coord);
+
+              ctx.fillStyle = '#333333';
+              //ctx.font = 'bold 12pt Arial';
+              ctx.fillText(otherPlayers[currentUid].pokeName,otherPlayers[currentUid].x_coord,otherPlayers[currentUid].y_coord-23);
+              ctx.font = 'it 10pt Arial';
             }
             else{console.log("UNDEFINED IN DRAWOTHERS")}
             //DRAW MESSAGES
@@ -505,119 +522,22 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         }
 
         function movePlayer(){
-            var amount = movespeed*delta/1000;
-            //console.log(amount);
+          var amount = movespeed*delta/1000;
+          //console.log(amount);
 
-            if (keyLeft === true && player.x > -60) {
-                otherPlayers[playerUser.uid].x_coord = Math.round(otherPlayers[playerUser.uid].x_coord-amount);
-            }
-            if (keyRight === true && otherPlayers[playerUser.uid].x_coord < canvasWidth-60) {
-                otherPlayers[playerUser.uid].x_coord = Math.round(otherPlayers[playerUser.uid].x_coord+amount);
-            } 
-            if (keyUp === true && otherPlayers[playerUser.uid].y_coord > -60) {
-                otherPlayers[playerUser.uid].y_coord = Math.round(otherPlayers[playerUser.uid].y_coord-amount);
-            }
-            if (keyDown === true && otherPlayers[playerUser.uid].y_coord < canvasHeight-60) {
-                otherPlayers[playerUser.uid].y_coord = Math.round(otherPlayers[playerUser.uid].y_coord+amount);
-            }
-
-            
-
-            // usersRef.child(scope.user.uid).child("x_coord").update(player.x);
-            // usersRef.child(scope.user.uid).child("y_coord").update(player.y);
-
-
-
+          if (keyLeft === true && otherPlayers[playerUser.uid].x_coord > -60) {
+              otherPlayers[playerUser.uid].x_coord = Math.round(otherPlayers[playerUser.uid].x_coord-amount);
+          }
+          if (keyRight === true && otherPlayers[playerUser.uid].x_coord < canvasWidth-100) {
+              otherPlayers[playerUser.uid].x_coord = Math.round(otherPlayers[playerUser.uid].x_coord+amount);
+          } 
+          if (keyUp === true && otherPlayers[playerUser.uid].y_coord > 220) {
+              otherPlayers[playerUser.uid].y_coord = Math.round(otherPlayers[playerUser.uid].y_coord-amount);
+          }
+          if (keyDown === true && otherPlayers[playerUser.uid].y_coord < canvasHeight-100) {
+              otherPlayers[playerUser.uid].y_coord = Math.round(otherPlayers[playerUser.uid].y_coord+amount);
+          }
         }
-
-
-
-
-
-
-
-
-      // variable that decides if something should be drawn on mousemove
-        //var drawing = false;
-
-      // the last coordinates before the current move
-       // var lastX;
-       // var lastY;
-
-       //  getSprite = function(sprites){
-       //    var other
-       //  	for (i in sprites){
-       //      	var other = {x:10,y:10};
-       //        createImage(scope.user.pokemon.sprite)
-       //      	otherPlayers.push(player);
-       //      	otherPlayersImages.push(createImage(scope.user.pokemon.sprite));
-       //  	}
-       // }
-
-
-        
-
-   //      var sprites = [];
-
-   //      usersRef.once("value", function(snapshot) {
-   //          var array = snapshot.val();
-   //        	angular.forEach(array, function(user, key) {
-			//   this.push(user.pokemon.sprite);
-			// }, sprites);
-			// getSprite(sprites);
-   //          }, function (errorObject) {
-   //          console.log("The read failed: " + errorObject.code);
-   //      });
-
-
-
-        //player.x * wallDim + wallDim ,player.y * wallDim + wallDim ,50,50);
-
-      // element.bind('mousedown', function(event){
-      //   if(event.offsetX!==undefined){
-      //     lastX = event.offsetX;
-      //     lastY = event.offsetY;
-      //   } else { // Firefox compatibility
-      //     lastX = event.layerX - event.currentTarget.offsetLeft;
-      //     lastY = event.layerY - event.currentTarget.offsetTop;
-      //   }
-
-      //   // begins new line
-      //   ctx.beginPath();
-
-      //   drawing = true;
-      // });
-      // element.bind('mousemove', function(event){
-      //   if(drawing){
-      //     // get current mouse position
-      //     if(event.offsetX!==undefined){
-      //       currentX = event.offsetX;
-      //       currentY = event.offsetY;
-      //     } else {
-      //       currentX = event.layerX - event.currentTarget.offsetLeft;
-      //       currentY = event.layerY - event.currentTarget.offsetTop;
-      //     }
-
-      //     draw(lastX, lastY, currentX, currentY);
-
-      //     // set current coordinates to last one
-      //     lastX = currentX;
-      //     lastY = currentY;
-      //   }
-
-      // });
-      // element.bind('mouseup', function(event){
-      //   // stop drawing
-      //   drawing = false;
-      // });
-
-      // // canvas reset
-      // function reset(){
-      //  element[0].width = element[0].width; 
-      // }
-
-
-    
   }
 }
 });
