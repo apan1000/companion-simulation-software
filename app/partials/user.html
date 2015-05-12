@@ -17,8 +17,10 @@
 		</div>
 		<div class="row">
 			<!-- Online fight button -->
-			<div class="col-xs-6">
-				<button ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false" class="btn btn-info" data-tooltip="Challenge this user to participate in an online battle of epic proportions!" ng-click="challenge()"><img src="images/swords.png" height="25"> Challenge</button>
+			<div class="col-xs-6" ng-repeat="(challengerUid,challenger) in user.challengers">
+				<button ng-if="otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false && otherUser.uid==challengerUid" class="btn btn-success" data-tooltip="Fight in an online battle!" ng-click="challenge()">Go to battlefield!</button>
+
+				<button ng-if="(otherUser.online==true && otherUser.uid!=user.uid && otherUser.pokemon.isEgg==false && user.pokemon.isEgg==false && otherUser.uid!=challengerUid)" class="btn btn-info" data-tooltip="Challenge this user to participate in an online battle of epic proportions!" ng-click="challenge()"><img src="images/swords.png" height="25"> Challenge</button>
 				<div ng-if="(otherUser.online==false || otherUser.pokemon.isEgg==true || user.pokemon.isEgg==true) && otherUser.uid!=user.uid" 
 				ng-attr-data-tooltip="{{
 				((otherUser.pokemon.isEgg==true && user.pokemon.isEgg==true) && 'Egg vs egg, that would be exciting, huh?') || 
