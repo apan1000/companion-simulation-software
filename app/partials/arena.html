@@ -39,8 +39,13 @@
 						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h1>{{yourDmg}}</h1></div>
 						<h3>{{temp_monster.name}}</h3>
 						<div class="bar">
-							<span>{{temp_monster.curHp}}/{{temp_monster.hp}}</span>
-							<div class="bar-cur" ng-class="{'health-bar-high': getEnemyHpPercentage() > 30, 'health-bar-low': getEnemyHpPercentage() <= 30}" ng-style="{'width': getEnemyHpPercentage()+'%'}"></div>
+							<div>
+								<span>{{temp_monster.curHp}}/{{temp_monster.hp}}</span>
+								<div class="bar-cur" ng-class="{'health-bar-high': getEnemyHpPercentage() > 30, 'health-bar-low': getEnemyHpPercentage() <= 30}" ng-style="{'width': getEnemyHpPercentage()+'%'}"></div>
+							</div>
+							<div class="exp-bar-container">
+								<div class="bar-cur exp-bar" ng-style="{'width':'100%'}"></div>
+							</div>
 						</div>
 					</div>
 					<div class="row">
