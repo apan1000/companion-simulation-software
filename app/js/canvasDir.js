@@ -4,9 +4,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
     restrict: "A",
     link: function(scope, element, attrs){
         var playerUser = scope.user;
-        console.log("user: ", playerUser);
-
-
+        console.log("user: ", playerUser.uid);
 
         //var syncArray = ChatService.onlineUsers; //Får bara ut de som är online
         var refSyncObject = new Firebase("https://companion-simulation.firebaseio.com/users/"+playerUser.uid);
@@ -28,7 +26,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             console.error("Error:", error);
           }
         );
-
 
         var refMess = new Firebase("https://companion-simulation.firebaseio.com");
         var messages = $firebaseArray(refMess.child("chat"));
@@ -56,7 +53,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             console.log(syncArray);
 
               initOthers();
-
+              initPlayer();
               update();
               render();
               dataUpdate();
@@ -65,26 +62,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             console.error("Error:", error);
           }
         );
-
-
-
-        // var refSnapshot = [];
-        // function dbSnapshot(){
-        //   ref.once("value", function(dataSnapshot) {
-        //     refSnapshot = dataSnapshot.child("users").val());
-        //     console.log("SUCCESS SNAPSHOT");
-        //    console.log(refSnapshot, dataSnapshot.child("users").val().length);
-
-        //   });
-          
-        
-        
-        // var users = {};
-        // scope.users = users;
-
-
-
-
 
         //Settings
         var movespeed = 200;
@@ -104,12 +81,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var initPlayer = function(){
           player["image"] = {};
           player.image = createImage(scope.playerData.pokemon.sprite);
-          //player.x = scope.playerData.x_coord;
-          //player.y = scope.playerData.x_coord;
-          //playerImage.src = scope.playerData.pokemon.sprite;
-          //playerImage.onload = function() {
-          //    return;
-          //}
         }
 
         //Init Background
@@ -140,67 +111,64 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
 
       var initOthers = function(){
-        var i = 0;
+        //var i = 0;
         var arrLength = syncArray.length;
-
-        console.log(arrLength);
-        console.log("INITOTHERS");
 
         var uid = "";
         var onlineUid = "";
 
         var onlineUsers = ChatService.getOnlineUsers();
         var onlineLength = onlineUsers.length;
-
-        for (i = 0; i < arrLength; i++){
-
+        //ADDING PLAYERS
+        var userOnline;
+          for (i=0; i < arrLength; i++){
             uid = syncArray[i].uid;
-            otherPlayers[uid] = {};
+            userOnline = false;
+            for (j=0; j < onlineLength; j++){ 
+              onlineUid = onlineUsers[j].uid;
+              if (onlineUid === uid && otherPlayers[onlineUid] === undefined) {userOnline = true}
+            }
+            //if(onlineUid == uid && otherPlayers[onlineUid] == undefined){ //if online user is found and not in the list, add to everywhere
+            if(userOnline){
+              console.log("ADDING "+uid)
 
-            otherPlayers[uid].x_coord = syncArray[i].x_coord;
-            otherPlayers[uid].y_coord = syncArray[i].y_coord;
-  
-            otherPlayers[uid].x_target = syncArray[i].x_coord;
-            otherPlayers[uid].y_target = syncArray[i].y_coord;
+              otherPlayers[uid] = {};
+              otherPlayers[uid].x_coord = syncArray[i].x_coord;
+              otherPlayers[uid].y_coord = syncArray[i].y_coord;
+              otherPlayers[uid].x_target = syncArray[i].x_coord;
+              otherPlayers[uid].y_target = syncArray[i].y_coord;
+              otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
+              otherPlayers[uid].name = syncArray[i].name;
 
-            otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
-            otherPlayers[uid].name = syncArray[i].name;
+              otherPlayersUids.push(uid)
+            }
 
-            otherPlayersUids.push(uid);
+            //} //else if (onlineUid != uid && otherPlayers[onlineUid] != undefined){ //if user is offline but its in the list, remove from everywhere
+          }
+       // 
+        //REMOVING PLAYERS
+        for (m=0;m<otherPlayersUids.length;m++){
+          var listPlayerUid = otherPlayersUids[m];
+          var listPlayer = otherPlayers[listPlayerUid];
+          var playerOnline = false;
+          //Is player still online?
+          for (n=0;n<onlineLength;n++){
+            if (onlineUsers[n].uid == listPlayerUid){playerOnline = true};
+          }
 
-            
+          if (playerOnline == false){
+            console.log("REMOVING "+listPlayer.name)
+            for (k=0; k<otherPlayersUids.length;k++){ //find in player in array and remove
+              if (otherPlayersUids[k] == listPlayerUid){
+                delete otherPlayersUids[k];
+                otherPlayersUids.splice(k,1);
+              }
+            }
+            delete otherPlayers[listPlayerUid]; //delete player object
+          }
         }
-        console.log(otherPlayers);
-        // for (i=0; i < onlineLength; i++){
-        //   onlineUid = onlineUsers[i].uid;
-
-        //   for(j=0; j < arrLength; j++){
-        //     uid = syncArray[j].uid;
-
-        //     if(onlineUid === uid){
-        //       otherPlayers[uid] = {};
-
-        //       otherPlayers[uid].x_coord = syncArray[j].x_coord;
-        //       otherPlayers[uid].y_coord = syncArray[j].y_coord;
-        //       otherPlayers[uid].image = createImage(syncArray[j].pokemon.sprite);
-        //       otherPlayers[uid].name = syncArray[j].name;
-
-        //       otherPlayersUids.push(uid);
-        //     }
-        //   }
-
-        // console.log("#players",otherPlayersUids.length, otherPlayersUids);
-          
-        // }
-
-        console.log("OTHERPLAYERS",otherPlayers);
-        window.setTimeout(initPlayer, 3000);
-          // player.x = scope.user[i].x_coord;
-          // player.y = scope.user[i].y_coord;
-          // var uid = scope.user[i].uid;
-
-          // otherPlayers.push(scope.user[i]);
-          // otherPlayerImages.push(createImage(scope.user[i].pokemon.sprite));
+        //window.setTimeout(initPlayer, 3000);  //????
+        setTimeout(initOthers, 2000);
       }
 
 
@@ -245,13 +213,13 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         function dataUpdate(){
 
-            if (scope.playerData.x_coord != player.x || scope.playerData.y_coord != player.y){
+            if (scope.playerData.x_coord != otherPlayers[playerUser.uid].x_coord || scope.playerData.y_coord != otherPlayers[playerUser.uid].y_coord){
               
-              scope.playerData.x_coord = player.x;
-              scope.playerData.y_coord = player.y;
+              scope.playerData.x_coord = otherPlayers[playerUser.uid].x_coord;
+              scope.playerData.y_coord = otherPlayers[playerUser.uid].y_coord;
 
-              syncObject.x_coord = player.x;
-              syncObject.y_coord = player.y;
+              syncObject.x_coord = otherPlayers[playerUser.uid].x_coord;
+              syncObject.y_coord = otherPlayers[playerUser.uid].y_coord;
 
               syncObject.$save();
 
@@ -265,16 +233,22 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             var currentUid = "";
             for (i = 0; i < opLength; i++){
                 currentUid = otherPlayersUids[i];
-                otherPlayers[currentUid].x_target = syncArray[i].x_coord;
-                otherPlayers[currentUid].y_target = syncArray[i].y_coord;
+                if(currentUid){
+                  for(j = 0; j < syncArray.length; j++){
+                    if (syncArray[j].uid === currentUid){
+                      otherPlayers[currentUid].x_target = syncArray[j].x_coord;
+                      otherPlayers[currentUid].y_target = syncArray[j].y_coord;
+                   }
+                  }
+                }
             }
-            setTimeout(dataUpdate, 1000 / 5);
+            setTimeout(dataUpdate, 1000 / 20);
         }
         
         function render(){
             ctx.clearRect(0, 0, canvas.width, canvas.height);;
             drawBackground();
-            drawPlayer();
+            //drawPlayer();
             drawOthers();
             drawMessages();
             setTimeout( render, 1000 / 60 );
@@ -303,7 +277,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           ctx.lineTo(x, y + radius);
           ctx.quadraticCurveTo(x, y, x + radius, y);
           ctx.closePath();
-          ctx.fillStyle = '#FFFFFF';
           ctx.fill();
           ctx.lineWidth = 1;
           ctx.stroke();
@@ -345,12 +318,13 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           ctx.font = 'italic 12pt Calibri';
           ctx.fillStyle = 'white';
           var currentUid = "";
-          var minTime = Date.now()-100000; //10 seconds back in time
+          var minTime = Date.now()-10000; //10 seconds back in time
           var opLength = otherPlayersUids.length;
           //For every user
           for (i = 0; i < opLength; i++){
             var yOffset = 0;
             currentUid=otherPlayersUids[i];
+            if(currentUid){
             var messageList = [];
             var messageExists = false;
             var totalHeight = 0;
@@ -376,7 +350,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
             if (messageExists){
               //Draw messagebox:
-              
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; //Rectangle background-color
               roundRect(x_temp+90, y_temp, 160, (totalHeight*14)+6, 5); //Draw messagebox-bg (x, y, width, hight, corner radius)
               ctx.fillStyle = '#000000';
               //Draw messages:
@@ -390,6 +364,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
                 }
               }
             }
+            }
           }
         }
 
@@ -399,17 +374,20 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
           for (i = 0; i < opLength; i++){
             currentUid = otherPlayersUids[i];
+            if(currentUid){
+              var currentUidName = otherPlayers[currentUid].name;
+              var yOffset = 0;
+              //DRAW SPRITE
+              ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord, 120, 120);
 
-            var currentUidName = otherPlayers[currentUid].name;
-            var yOffset = 0;
-            //DRAW SPRITE
-            ctx.drawImage(otherPlayers[currentUid].image, otherPlayers[currentUid].x_coord, otherPlayers[currentUid].y_coord, 120, 120);
-
-            //DRAW NAMETAG
-            ctx.font = 'italic 12pt Calibri';
-            ctx.fillStyle = 'white';
-            ctx.fillText(currentUidName, currentUid.x_coord-20,currentUid.y_coord);
-
+              //DRAW NAMETAG
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+              roundRect(otherPlayers[currentUid].x_coord-3, otherPlayers[currentUid].y_coord-14, ctx.measureText(currentUidName).width+6, 20, 5);
+              ctx.font = 'italic 12pt Calibri';
+              ctx.fillStyle = 'white';
+              ctx.fillText(currentUidName,otherPlayers[currentUid].x_coord,otherPlayers[currentUid].y_coord);
+            }
+            else{console.log("UNDEFINED IN DRAWOTHERS")}
             //DRAW MESSAGES
             // for (j=0; j < messages.length; j++){
             //   if (messages[j].user === currentUid){
@@ -503,28 +481,27 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         function moveOthers(){
 
-            var amount = movespeed*delta/1000;
-            var opLength = otherPlayersUids.length;
-            var currentUid = "";
-            var delta_x;
-            var delta_y;
-            var sum;
+          var amount = movespeed*delta/1000;
+          var opLength = otherPlayersUids.length;
+          var currentUid = "";
+          var delta_x;
+          var delta_y;
+          var sum;
 
-            for (i = 0; i < opLength; i++){
+          for (i = 0; i < opLength; i++){
 
-                currentUid = otherPlayersUids[i];
+            currentUid = otherPlayersUids[i];
+            if(currentUid && currentUid != playerUser.uid){
+              delta_x = otherPlayers[currentUid].x_target-otherPlayers[currentUid].x_coord;
+              delta_y = otherPlayers[currentUid].y_target-otherPlayers[currentUid].y_coord;
 
-                delta_x = otherPlayers[currentUid].x_target-otherPlayers[currentUid].x_coord;
-                delta_y = otherPlayers[currentUid].y_target-otherPlayers[currentUid].y_coord;
-
-                if (Math.abs(delta_x)+Math.abs(delta_y)>3){
-
-                  sum = Math.sqrt(Math.abs(Math.pow(delta_x,2)+Math.pow(delta_y,2)));
-                  otherPlayers[currentUid].x_coord = otherPlayers[currentUid].x_coord+(amount*delta_x/sum);
-                  otherPlayers[currentUid].y_coord = otherPlayers[currentUid].y_coord+(amount*delta_y/sum);
-
-                }
+              if (Math.abs(delta_x)+Math.abs(delta_y)>3){
+                sum = Math.sqrt(Math.abs(Math.pow(delta_x,2)+Math.pow(delta_y,2)));
+                otherPlayers[currentUid].x_coord = otherPlayers[currentUid].x_coord+(amount*delta_x/sum);
+                otherPlayers[currentUid].y_coord = otherPlayers[currentUid].y_coord+(amount*delta_y/sum);
+              }
             }
+          }
         }
 
         function movePlayer(){
@@ -532,16 +509,16 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             //console.log(amount);
 
             if (keyLeft === true && player.x > -60) {
-                player.x = Math.round(player.x-amount);
+                otherPlayers[playerUser.uid].x_coord = Math.round(otherPlayers[playerUser.uid].x_coord-amount);
             }
-            if (keyRight === true && player.x < canvasWidth-60) {
-                player.x = Math.round(player.x+amount);
+            if (keyRight === true && otherPlayers[playerUser.uid].x_coord < canvasWidth-60) {
+                otherPlayers[playerUser.uid].x_coord = Math.round(otherPlayers[playerUser.uid].x_coord+amount);
             } 
-            if (keyUp === true && player.y > -60) {
-                player.y = Math.round(player.y-amount);
+            if (keyUp === true && otherPlayers[playerUser.uid].y_coord > -60) {
+                otherPlayers[playerUser.uid].y_coord = Math.round(otherPlayers[playerUser.uid].y_coord-amount);
             }
-            if (keyDown === true && player.y < canvasHeight-60) {
-                player.y = Math.round(player.y+amount);
+            if (keyDown === true && otherPlayers[playerUser.uid].y_coord < canvasHeight-60) {
+                otherPlayers[playerUser.uid].y_coord = Math.round(otherPlayers[playerUser.uid].y_coord+amount);
             }
 
             
