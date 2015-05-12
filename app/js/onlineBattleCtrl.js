@@ -5,11 +5,15 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   $scope.maxTimer = 100;
   $scope.battle = false;
   $scope.timer = 10;
-  $scope.ready = false;
+  var ready = false;
   $scope.choice = "";
   $scope.notStarted = true;
   $scope.enemyReady = false;
   $scope.user.animation = "";
+  $scope.myMonsterAni  = "";
+  $scope.enemyMonsterAni  = "";
+  $scope.myState  = "half_opacity";
+  $scope.enemyState  = "half_opacity";
   var maxTime = 10;
 
   $scope.challengerUid = "";
@@ -21,7 +25,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
   console.log("ME:",$scope.user)
 
-  // Fetches all the time;
+
+  // Fetches at all the changes;
   battleRef.on("value", function(snapshot) {
     $timeout(function() {
   		$scope.battleData = snapshot.val();
@@ -37,13 +42,17 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
       if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.here == true){
       	console.log("LET THE GAMES BEGIN");
+      	$scope.enemyState  = "";
       	$scope.notStarted = false;
-      	//reduceTime();
       }
-      
-    	if($scope.notStarted == false && $scope.battleData.timer == maxTime){
-    		console.log("LET THE NEXT ROUND BEGIN");
-    		//reduceTime();
+
+      if(ready == false){
+      	imReady();
+      	ready = true;
+      }
+
+    	if($scope.challengerBattleData.battleLog != false){
+    		enemyState = "glow"
     	}
 
       //Both have made a descision, fight it out!
@@ -60,31 +69,27 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     });
  	});
 
- 	$scope.imReady = function(){
+ 	var imReady = function(){
 
- 		if ($scope.battleData.user1.uid == $scope.user.uid){
- 			$scope.battleData.user1.here = true;
+ 		if ($scope.myState == "half_opacity"){
+	 		if ($scope.battleData.user1.uid == $scope.user.uid){
+	 			$scope.battleData.user1.here = true;
+	 		}
+	 		else{
+	 			$scope.battleData.user2.here = true;
+	 		}
+	 		console.log("READY FOR BATTLE")
+	 		$scope.myState  = "";
+	 		battleRef.set($scope.battleData);
  		}
- 		else{
- 			$scope.battleData.user2.here = true;
- 		}
- 		console.log("READY FOR BATTLE")
- 		battleRef.set($scope.battleData);
  	}
 
- 	var fetchBattleData = function(){
- 		battleRef.once("value", function(snapshot) {
-    	$timeout(function(){
-    		$scope.battleData = snapshot.val();
-    	});
- 		});
- 	}
+
 
   var fetchChallengerData = function(){
   	$scope.challengerRef.once("value", function(snapshot) {
       $timeout(function() {
         $scope.challenger = snapshot.val();
-        $scope.challenger.animation = "";
         console.log("challenger:",$scope.challenger);
       });
     });
@@ -151,7 +156,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
   	if ($scope.user.pokemon.curHp<=0){
   			console.log("I DIED")
-        $scope.myMonsterAni = "animated fadeOutUp";
+        $scope.myMonsterAni = "animated wooble";
+        $scope.enemyMonsterAni  = "animated bounce";
         battleWon($scope.challenger);
         battleLost($scope.user);
         $scope.battleData.user1.here = false;
@@ -160,7 +166,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
     if ($scope.challenger.pokemon.curHp<=0){
     		console.log("ENEMY DIED")
-        $scope.myMonsterAni = "animated fadeOutUp";
+        $scope.myMonsterAni = "animated bounce";
+        $scope.enemyMonsterAni  = "animated wooble";
         battleWon($scope.user);
         battleLost($scope.challenger);
         $scope.battleData.user1.here = false;
@@ -189,6 +196,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
  			$scope.battleData.user2.battleLog = move;
  		}
 
+ 		$scope.myState = "glow";
  		battleRef.set($scope.battleData);
  	}
 
@@ -243,7 +251,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     }
 
     if (person.pokemon.curExp>=person.pokemon.exp){
-     	person.animation = "animated flip";
       person.pokemon.curExp -= person.pokemon.exp;
       person.pokemon.exp += Math.floor(person.pokemon.exp*0.1)+1;
       //Cant gain more than one lvl, fix later
@@ -262,7 +269,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
   var battleLost = function(person){
   	person.combo = 1;
-  	person.animation = "animated fadeOutUp";
     person.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
     person.losses += 1;
     person.challengers = [];

@@ -15,7 +15,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<img ng-class="myMonsterAni" class="my-monster fight-monster-image" ng-src="{{user.pokemon.sprite}}" alt="*">
+						<img ng-class="[myMonsterAni, myState]" class="my-monster fight-monster-image" ng-src="{{user.pokemon.sprite}}" alt="*">
 					</div>
 				</span>
 			</div>
@@ -33,7 +33,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<img ng-class="enemyMonsterAni" class="fight-monster-image other-monster" ng-src="{{challenger.pokemon.sprite}}" ng-click="attackEnemy()" alt="">
+						<img ng-class="[enemyMonsterAni,enemyState]" class="fight-monster-image other-monster" ng-src="{{challenger.pokemon.sprite}}" ng-click="attackEnemy()" alt="">
 					</div>
 				</span>
 			</div>
@@ -41,16 +41,10 @@
 		
 	</div>
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<button class="btn btn-danger" ng-click="imReady()">imReady</button>
+		<div class="col-md-6 col-md-offset-3 text-center">
 			<button class="btn btn-primary" ng-click="chooseMove('buildUp')">BuildUp</button>
-			<button class="btn btn-primary" ng-click="chooseMove('unleash')">Unleash</button>
-			<button class="btn btn-primary" ng-click="chooseMove('counter')">Counter</button>
-			<span ng-if="enemyReady==true">ENEMY READY</span>
-		</div>
-		<div class="col-md-2">
-			<p>user1: {{battleData.user1.battleLog}}</p>
-			<p>user2: {{battleData.user2.battleLog}}</p>
+			<button class="btn btn-danger" ng-click="chooseMove('unleash')">Unleash</button>
+			<button class="btn btn-warning" ng-click="chooseMove('counter')">Counter</button>
 		</div>
 	</div>
 

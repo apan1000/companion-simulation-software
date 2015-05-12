@@ -708,6 +708,15 @@ input[type=email].success, input[type=password].success {
 	margin-top: 0px !important;
 }
 
+.half_opacity {
+	opacity: 0.5;
+}
+
+.glow {
+	filter: invert(25%);
+	-webkit-filter: invert(25%);
+}
+
 #arena {
 	height: 560px;
 	background-image: url("../images/monsterBackground_grass.png");
