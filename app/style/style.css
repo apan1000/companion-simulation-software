@@ -810,7 +810,7 @@ input[type=email].success, input[type=password].success {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	height: 30px;
+	/*height: 30px;*/
 	padding: 5px;
 	color: #fff;
 	background: #555;
@@ -822,12 +822,22 @@ input[type=email].success, input[type=password].success {
 	margin-right: auto;
 }
 
+.exp-bar-container {
+	margin-top: 5px;
+	height: 10px;
+}
+
 .bar span {
 	z-index: 10;
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
 	font-size: 12pt;
+}
+
+.exp-bar-container span {
+	font-size: 8pt;
+	margin-top: -2px;
 }
 
 .bar-cur {
@@ -840,6 +850,10 @@ input[type=email].success, input[type=password].success {
     -moz-transition: width .1s linear;
     -o-transition: width .1s linear;
 	transition: width .1s linear;
+}
+
+.exp-bar-container .bar-cur {
+	height: 10px;
 }
 
 .health-bar-high {

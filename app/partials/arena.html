@@ -15,8 +15,14 @@
 						<h3>{{user.pokemon.name}}</h3>
 						<!--progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress-->
 						<div class="bar">
-							<span>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</span>
-							<div class="bar-cur" ng-class="{'health-bar-high': getHpPercentage() > 30, 'health-bar-low': getHpPercentage() <= 30}" ng-style="{'width':getHpPercentage()+'%'}"></div>
+							<div>
+								<span>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</span>
+								<div class="bar-cur" ng-class="{'health-bar-high': getHpPercentage() > 30, 'health-bar-low': getHpPercentage() <= 30}" ng-style="{'width':getHpPercentage()+'%'}"></div>
+							</div>
+							<div class="exp-bar-container">
+								<span>{{user.pokemon.curExp}}/{{user.pokemon.exp}}</span>
+								<div class="bar-cur exp-bar" ng-style="{'width':user.pokemon.curExp/user.pokemon.exp*100+'%'}"></div>
+							</div>
 						</div>
 					</div>
 					<div class="row">
