@@ -506,9 +506,18 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           var sum;
 
           for (i = 0; i < opLength; i++){
-
+            var amount = movespeed*delta/1000;
             currentUid = otherPlayersUids[i];
             if(currentUid && currentUid != playerUser.uid){
+
+              var x = otherPlayers[currentUid].y_coord
+              var a = 250;
+              var b = 500;
+              var c = 0.5;
+              var d = 1.8;
+              var multiplier = ((x-a)*((d-c)/(b-a)))+c;
+              amount = amount*multiplier;
+
               delta_x = otherPlayers[currentUid].x_target-otherPlayers[currentUid].x_coord;
               delta_y = otherPlayers[currentUid].y_target-otherPlayers[currentUid].y_coord;
 
