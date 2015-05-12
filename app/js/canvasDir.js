@@ -524,6 +524,13 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         function movePlayer(){
           var amount = movespeed*delta/1000;
           //console.log(amount);
+          var x = otherPlayers[playerUser.uid].y_coord
+          var a = 250;
+          var b = 500;
+          var c = 0.3;
+          var d = 1.8;
+          var multiplier = ((x-a)*((d-c)/(b-a)))+c;
+          amount = amount*multiplier;
 
           if (keyLeft === true && otherPlayers[playerUser.uid].x_coord > -60) {
               otherPlayers[playerUser.uid].x_coord = Math.round(otherPlayers[playerUser.uid].x_coord-amount);
