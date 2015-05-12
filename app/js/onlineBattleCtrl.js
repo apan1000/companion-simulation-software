@@ -52,7 +52,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       }
 
     	if($scope.challengerBattleData.battleLog != false){
-    		enemyState = "glow"
+    		$scope.enemyState = "glow";
     	}
 
     	//Both have made a descision, fight it out!
