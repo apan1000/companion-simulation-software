@@ -226,6 +226,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         $scope.temp_monster = data;
         getSprite($scope.temp_monster);
         $scope.temp_monster.curHp = $scope.temp_monster.hp;
+        $scope.temp_monster.exp = Math.max($scope.temp_monster.exp,50);
         $scope.temp_monster.lvl = 1;
         console.log("Temp monster:",$scope.temp_monster);
         $scope.timer = 0;

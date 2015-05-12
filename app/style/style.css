@@ -713,8 +713,8 @@ input[type=email].success, input[type=password].success {
 }
 
 .glow {
-	filter: invert(25%);
-	-webkit-filter: invert(25%);
+	filter: invert(70%);
+	-webkit-filter: invert(70%);
 }
 
 #arena {
