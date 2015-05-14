@@ -253,6 +253,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   // Get a pokémon with the specified monster_id from database
   var getSpecificPokemon = function(monster_id) {
+    var num = Math.floor(Math.random()*6)+1;
+    $scope.temp_monster = {new_sprite: 'images/egg_load'+num+'.gif'};
     Companion.pokemon.get({id:monster_id}, function(data) {
       $scope.temp_monster = data;
       getSprite($scope.temp_monster);
