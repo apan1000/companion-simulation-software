@@ -11,28 +11,31 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   $scope.outcomeImg = '';
   var rate = 500;
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
-  var userRef = new Firebase("https://companion-simulation.firebaseio.com/users/"+$rootScope.user.uid);
 
   if($scope.user.beginner === "semitrue") {
     $scope.showFightTutorial = true;
   }
 
+  // End tutorial and set user.beginner to false
   $scope.endFightTutorial = function() {
       $scope.showFightTutorial = false;
       $scope.user.beginner = false;
       Companion.setUser($scope.user);
   }
 
+  // Get the hp percentage of user's pokémon
   $scope.getHpPercentage = function() {
     return $scope.user.pokemon.curHp/$scope.user.pokemon.hp*100;
   }
 
+  // Get hp percentage of temp_monster
   $scope.getEnemyHpPercentage = function() {
     if ($scope.temp_monster) {
       return $scope.temp_monster.curHp/$scope.temp_monster.hp*100;
     }
   }
 
+  // 
   function reduceTime() {
     if ($scope.timer < $scope.maxTimer){
       $scope.timer = $scope.timer + 20;
@@ -49,6 +52,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     }
   }
 
+  // Reduce the hp of user's pokémon, how much depends on the pokémon's defense and temp_monster's attack + a random value
+  // If pokémon's curHp <= 0, call battleLost()
   var takeDmg = function() {
     $scope.combo = 1;
     var random2 = Math.floor((Math.random() * 5) + 3);
@@ -76,29 +81,32 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       }
   }
 
+  // Battle is ended and outcome is showed on screen
   var showOutcome = function(){
     $scope.battleEnd = true;
     $timeout(hideOutcome, 2000);
   }
 
+  // Hides battle outcome
   var hideOutcome = function(){
       $scope.battleEnd = false;
   }
 
+  // Increment wins, score and happiness
+  // A chance for a random item drop
+  // Add exp to user's pokémon
+  // Prepares for the next battle
   var battleWon = function(){
     $scope.outcomeImg = "images/victory.png";
     showOutcome();
     $scope.combo = 1;
     $scope.battle = false;
     $scope.ready = false;
-    $scope.user.pokemon.curExp += $scope.temp_monster.exp;
     $scope.user.wins += 1;
     $scope.user.score += 2;
     $scope.user.pokemon.happiness += 1;
 
     if (Math.random()*5>1){
-      console.log("ITEM DROP");
-
       var rand = Math.round(Math.random()*2);
       $scope.user.items[rand] += 1;
       if (rand == 0) {
@@ -114,28 +122,50 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       console.log("ITEM: ", $scope.newItem);
     }
 
-    if ($scope.user.pokemon.curExp>=$scope.user.pokemon.exp){
-      $scope.myMonsterAni = "animated flip";
-      $scope.user.pokemon.curExp -= $scope.user.pokemon.exp;
-      $scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
-      //Cant gain more than one lvl, fix later
-      $scope.user.pokemon.curExp = Math.min($scope.user.pokemon.exp-10,$scope.user.pokemon.curExp);
-      $scope.user.pokemon.lvl += 1;
-      $scope.user.pokemon.hp += Math.floor(Math.random()*10);
-      $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-      $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
-      $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
-      console.log("LEVELED UP!");
-    }
-    else{
-      $scope.myMonsterAni = "animated bounce";
-    }
-
+    addExp();
     // Update user
     Companion.setUser($scope.user);
     getRandomPokemon();
   }
 
+  // Adds gained exp to user's pokémon
+  var addExp = function() {
+    var oldLvl = $scope.user.pokemon.lvl;
+    var gainedExp = $scope.temp_monster.exp;
+    while (gainedExp > 0) {
+      if ($scope.user.pokemon.curExp < $scope.user.pokemon.exp) {
+        $scope.user.pokemon.curExp += Math.min(gainedExp, 99);
+        if (gainedExp < 99) {
+          gainedExp = 0;
+        } else {
+          gainedExp -= 99;
+        }
+      }
+      if ($scope.user.pokemon.curExp >= $scope.user.pokemon.exp) {
+        levelUp();
+      }
+    }
+    if (oldLvl == $scope.user.pokemon.lvl) {
+      $scope.myMonsterAni = "animated bounce";
+    }
+  }
+
+  // Level up the user's pokémon
+  var levelUp = function() {
+    $scope.myMonsterAni = "animated flip";
+    $scope.user.pokemon.curExp -= $scope.user.pokemon.exp;
+    $scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
+    $scope.user.pokemon.lvl += 1;
+    $scope.user.pokemon.hp += Math.floor(Math.random()*10);
+    $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+    $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
+    $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
+    console.log("LEVELED UP!",$scope.user.pokemon.lvl);
+  }
+
+  // Turn user's pokémon into an egg
+  // Increment losses, decrement score
+  // Go back to home screen
   var battleLost = function() {
     $scope.user.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
     $scope.user.losses += 1;
@@ -146,8 +176,9 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     $location.path('#/home');
   }
 
+  // Damage temp_monster and user.pokémon
+  // Add to combo, unleash combo or attack depending on timer
   $scope.attackEnemy = function() {
-
     if ($scope.battle == false){
       if ($scope.ready == true){
         $scope.combo = 1;
@@ -222,19 +253,28 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   // Get a pokémon with the specified monster_id from database
   var getSpecificPokemon = function(monster_id) {
-    Companion.pokemon.get({id:monster_id}, function(data){
-        $scope.temp_monster = data;
-        getSprite($scope.temp_monster);
-        $scope.temp_monster.curHp = $scope.temp_monster.hp;
-        $scope.temp_monster.exp = Math.max($scope.temp_monster.exp,50);
-        $scope.temp_monster.lvl = 1;
-        console.log("Temp monster:",$scope.temp_monster);
-        $scope.timer = 0;
-      }, function(data){
-        $scope.status = "Could not find a new enemy";
+    Companion.pokemon.get({id:monster_id}, function(data) {
+      $scope.temp_monster = data;
+      getSprite($scope.temp_monster);
+      $scope.temp_monster.lvl = Math.max(1,$scope.user.pokemon.lvl+Math.floor(Math.random()*10)-5);
+      $scope.temp_monster.attack = $scope.temp_monster.attack+Math.floor($scope.temp_monster.lvl*Math.random()*3);
+      $scope.temp_monster.defense = $scope.temp_monster.defense+Math.floor($scope.temp_monster.lvl*Math.random()*3);
+      $scope.temp_monster.hp =  $scope.temp_monster.hp+Math.floor($scope.temp_monster.lvl*Math.random()*10)
+      $scope.temp_monster.curHp = $scope.temp_monster.hp;
+      $scope.temp_monster.exp = Math.max(
+        Math.floor($scope.user.pokemon.exp/5+Math.random()*30), 
+        Math.floor($scope.temp_monster.lvl*1.2)+
+        Math.max(Math.floor(Math.random()*10*$scope.temp_monster.lvl),30)-
+        $scope.temp_monster.lvl*4
+        );
+      console.log("Temp monster:",$scope.temp_monster);
+      $scope.timer = 0;
+    }, function(data){
+      $scope.status = "Could not find a new enemy";
     });
   }
 
+  // Get one of the 718 pokémon randomly
   var getRandomPokemon = function() {
     var random = Math.floor((Math.random() * 718) + 1);
     getSpecificPokemon(random);
