@@ -743,6 +743,10 @@ input[type=email].success, input[type=password].success {
 	background-repeat: repeat-x;
 }
 
+#dungeon h2 {
+	color: #eee;
+}
+
 .bg-fix {
 	background-color: white;
 	border-style: solid;
@@ -751,6 +755,7 @@ input[type=email].success, input[type=password].success {
 
 .monsterImageStatic {
 	height: 120px;
+	padding: 5px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -769,9 +774,11 @@ input[type=email].success, input[type=password].success {
 }
 
 .monsterImage:hover {
-
 	margin-top: 190px;
+}
 
+.egg-image {
+	padding: 10px;
 }
 
 .reactionImg {
@@ -805,6 +812,7 @@ input[type=email].success, input[type=password].success {
 
 .fight-monster-image:hover{
 	margin-top: -5px;
+	margin-bottom: 5px;
 }
 
 .my-monster {
@@ -1214,13 +1222,45 @@ h3 small {
 	transform: translateX(-50%);
 }
 
-.list-user {
+.list-user-row {
 	cursor: pointer;
-	color: #197278;
 }
 
-.list-user:hover {
-	color: #59b2b8;
+.list-user-row:hover .list-user {
+	color: rgba(230,40,80,1);
+}
+
+.list-user-row.ng-move,.list-user-row.ng-enter,.list-user-row.ng-leave,
+.list-user-row.ng-move td,.list-user-row.ng-enter td,.list-user-row.ng-leave td {
+  -webkit-transition: all linear .4s;
+  transition: all linear .4s;
+}
+
+.list-user-row.ng-leave.ng-leave-active,
+.list-user-row.ng-move,
+.list-user-row.ng-enter {
+  opacity: 0;
+}
+
+.list-user-row.ng-leave,
+.list-user-row.ng-move.ng-move-active,
+.list-user-row.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.list-user {
+	color: #197278;
+	font-weight: bold;
+}
+
+.list-selected-user {
+	color: #000;
+	font-weight: bold;
+}
+
+.list-selected-user td {
+	background: #eee !important;
+	color: #000 !important;
 }
 
 .progress-bar {

@@ -3,6 +3,7 @@ companionApp.controller('ListCtrl', function ($scope,$rootScope,$routeParams,$fi
 
 	var ref = new Firebase('https://companion-simulation.firebaseio.com/');
 	var usersRef = ref.child('users');
+	$scope.routeUid = $location.path().substring($location.path().lastIndexOf('/')+1);
 	$scope.sortType = 'wins';
 	$scope.sortReverse = true;
 
@@ -18,6 +19,8 @@ companionApp.controller('ListCtrl', function ($scope,$rootScope,$routeParams,$fi
 
 	$scope.getOtherUser = function(uid) {
 		$location.path('rankings/'+uid, false);
+		$scope.routeUid = $location.path().substring($location.path().lastIndexOf('/')+1);
+		console.log($scope.routeUid);
 		usersRef.child(uid).on("value",function(snapshot) {
 			$timeout(function() {
   				$scope.otherUser = snapshot.val();
