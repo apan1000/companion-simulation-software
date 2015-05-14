@@ -9,7 +9,7 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 	var showReaction = function(){
   		$scope.reaction = true;
   		$scope.status = false;
-  		$timeout(hideReaction, 2500);
+  		$timeout(hideReaction, 3000);
 	}
 
 	var hideReaction = function(){
@@ -23,7 +23,7 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 			// Add level if dropped item is Rare candy
 			if (data.name === "Rare candy") {
 				if ($scope.user.items[0]>0){
-					$scope.reactionImage = "levelup.png";
+					$scope.reactionImage = "star.gif";
 					showReaction();
 
 					$scope.user.items[0] -= 1;
