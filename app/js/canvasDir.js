@@ -89,11 +89,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         //var grassTile = createImage("../images/grassTile1.png");
 
-        var grassTile = new Image();
-        grassTile.src = "../images/grassTile1.png";
+        //var grassTile = new Image();
+        //grassTile.src = "../images/grassTile1.png";
 
-        var beach = new Image();
-        beach.src = "../images/beach.png"
+        //var beach = new Image();
+        //beach.src = "../images/beach.png"
 
 
        var createImage = function(src){
@@ -533,7 +533,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         function movePlayer(){
           var amount = movespeed*delta/1000;
           //console.log(amount);
-          var x = otherPlayers[playerUser.uid].y_coord
+          if (otherPlayers[playerUser.uid].y_coord) {
+            var x = otherPlayers[playerUser.uid].y_coord
+          } else {
+            var x = 255;
+          }
           var a = 250;
           var b = 500;
           var c = 0.5;
