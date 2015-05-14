@@ -200,7 +200,7 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
 
   // When changes to user has been made redirect if necessary
   $scope.$on('userChanged', function() {
-    console.log("User changed, setting scope.user!");
+    //console.log("User changed, setting scope.user!");
     $scope.user = Companion.getUser();
     if ($scope.user) {
       if ($location.path() === "/") {

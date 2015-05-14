@@ -94,7 +94,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   this.setUser = function(newUser) {
     $rootScope.user = newUser;
     $localStorage.user = newUser;
-    console.log("setUser:",$localStorage.user);
+    //console.log("setUser:",$localStorage.user);
     // Update user on Firebase
     if (newUser) {
       newUser.online = true;
