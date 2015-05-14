@@ -132,35 +132,13 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   var addExp = function() {
     var oldLvl = $scope.user.pokemon.lvl;
     var gainedExp = $scope.temp_monster.exp;
-    while (gainedExp > 0) {
-      if ($scope.user.pokemon.curExp < $scope.user.pokemon.exp) {
-        $scope.user.pokemon.curExp += Math.min(gainedExp, 99);
-        if (gainedExp < 99) {
-          gainedExp = 0;
-        } else {
-          gainedExp -= 99;
-        }
-      }
-      if ($scope.user.pokemon.curExp >= $scope.user.pokemon.exp) {
-        levelUp();
-      }
-    }
+    Companion.addExp(gainedExp);
     if (oldLvl == $scope.user.pokemon.lvl) {
       $scope.myMonsterAni = "animated bounce";
+    } else {
+      $scope.myMonsterAni = "animated flip";
+      console.log("LEVELED UP!",$scope.user.pokemon.lvl);
     }
-  }
-
-  // Level up the user's pokémon
-  var levelUp = function() {
-    $scope.myMonsterAni = "animated flip";
-    $scope.user.pokemon.curExp -= $scope.user.pokemon.exp;
-    $scope.user.pokemon.exp += Math.floor($scope.user.pokemon.exp*0.1)+1;
-    $scope.user.pokemon.lvl += 1;
-    $scope.user.pokemon.hp += Math.floor(Math.random()*10);
-    $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
-    $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
-    $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
-    console.log("LEVELED UP!",$scope.user.pokemon.lvl);
   }
 
   // Turn user's pokémon into an egg

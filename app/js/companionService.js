@@ -107,6 +107,34 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     return $rootScope.user;
   }
 
+  this.addExp = function(gainedExp) {
+    while (gainedExp > 0) {
+      if ($rootScope.user.pokemon.curExp < $rootScope.user.pokemon.exp) {
+        $rootScope.user.pokemon.curExp += Math.min(gainedExp, 99);
+        if (gainedExp < 99) {
+          gainedExp = 0;
+        } else {
+          gainedExp -= 99;
+        }
+      }
+      if ($rootScope.user.pokemon.curExp >= $rootScope.user.pokemon.exp) {
+        this.levelUp();
+      }
+    }
+  }
+
+  this.levelUp = function() {
+    var user = this.getUser();
+    user.pokemon.curExp -= user.pokemon.exp;
+    user.pokemon.exp += Math.floor(user.pokemon.exp*0.1)+1;
+    user.pokemon.lvl += 1;
+    user.pokemon.hp += Math.floor(Math.random()*10);
+    user.pokemon.curHp = user.pokemon.hp;
+    user.pokemon.attack += Math.floor(Math.random()*5)+1;
+    user.pokemon.defense += Math.floor(Math.random()*5)+1;
+    this.setUser(user);
+  }
+
   this.getLoginMsg = function() {
     return loginMsg;
   }

@@ -738,7 +738,7 @@ input[type=email].success, input[type=password].success {
 
 #dungeon {
 	height: 560px;
-	background-image: url("../images/monsterBackgroundDusk.png");
+	background-image: url("../images/red_grass.png");
 	background-size: 800px 600px;
 	background-repeat: repeat-x;
 }
