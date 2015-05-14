@@ -3,8 +3,6 @@ companionApp.factory('ChatService', function ($rootScope, Companion) {
   var numOnlineUsers = 0;
   var onlineUsers = [];
 
-  // Create our references
-  //var userRef = new Firebase('https://companion-simulation.firebaseio.com/presence/'+ $scope.user.uid);
   var listRef = new Firebase('https://companion-simulation.firebaseio.com/presence/');
   var userRef = listRef.child(Companion.getUser().uid); // This creates a unique reference for each user
   var presenceRef = new Firebase('https://companion-simulation.firebaseio.com/.info/connected');

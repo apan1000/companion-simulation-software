@@ -1,4 +1,9 @@
 // Service for the challenging user
+/*
+ANVÄNDS INTE
+HUEHUEHUEHUEHUEUH
+HUEHEUUHEHUE
+*/
 companionApp.factory('Challenger', function (Companion,$rootScope,$routeParams,$location,$timeout) {
 	var self = this;
 	var challenger = null;

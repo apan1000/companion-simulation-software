@@ -6,7 +6,7 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 		var chatRef = ref.child('chat');
 		var usersRef = ref.child('users');
 
-		$scope.status = "Loading...";
+		$scope.status = "Loading messages...";
 		chatRef.on("value", function(snapshot) {
 			$scope.status = "";
 		});
@@ -14,14 +14,13 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 		//Get messages as an array
 		$scope.messages = $firebaseArray(latestMessages);
 
-		//Post message function
+		// Post a message
 		$scope.postMessage = function(e) {
 			if (e.keyCode === 13 && !e.shiftKey) {
 				// Prevent new line if not holding Shift
 				e.preventDefault();
 				if ($scope.msg) {
-					var user = $scope.getUser();
-					console.log(user);
+					var user = Companion.getUser();
 					var time = Date.now();
 					//Add to firebase
 					var newMsg = chatRef.push({
@@ -32,7 +31,6 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 					});
 					newMsgID = {};
 					newMsgID = newMsg.key();
-					console.log('\nnewMsgID: ');console.log(newMsgID);console.log('');
 
 					usersRef.child(user.uid+'/messages/'+newMsgID).set(true);
 
@@ -40,10 +38,6 @@ companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 					$scope.msg = "";
 				}
 			}
-		}
-
-		$scope.getUser = function() {
-			return Companion.getUser();
 		}
 	}
 ]);

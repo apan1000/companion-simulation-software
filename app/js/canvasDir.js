@@ -6,6 +6,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         var playerUser = scope.user;
         console.log("user: ", playerUser.uid);
 
+        // Loading animation
+        element.css('background','url(../images/eggspin.gif) no-repeat center')
+
         //var syncArray = ChatService.onlineUsers; //Får bara ut de som är online
         var refSyncObject = new Firebase("https://companion-simulation.firebaseio.com/users/"+playerUser.uid);
         var syncObject = $firebaseObject(refSyncObject); //.child("users").child(playerUser.uid));
@@ -32,6 +35,8 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         messages.$loaded(
           function(data) {
             console.log(data === messages); // true
+            // Remove loading animation
+            element.css('background','')
             
             console.log("MESSAGES loaded");
             console.log(messages);
