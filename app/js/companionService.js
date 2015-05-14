@@ -151,8 +151,8 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           combo: 0,
           losses: 0,
           items: [2,5,5],
-          x_coord: 0,
-          y_coord: 0,
+          x_coord: 340,
+          y_coord: 280,
           score: 0,
           online: false,
           beginner: true
@@ -220,9 +220,9 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
           wins: 0,
           losses: 0,
           items: [2,5,5],
-          x_coord: 0,
+          x_coord: 340,
           combo: 0,
-          y_coord: 0,
+          y_coord: 280,
           score: 0,
           online: false,
           beginner: true
