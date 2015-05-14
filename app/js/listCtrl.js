@@ -6,12 +6,15 @@ companionApp.controller('ListCtrl', function ($scope,$rootScope,$routeParams,$fi
 	$scope.sortType = 'wins';
 	$scope.sortReverse = true;
 
-	$scope.status = "Loading...";
-	usersRef.on("value", function(snapshot) {
-		$scope.status = "";
-	});
+	$scope.loading = true;
 	//Get users as an array
 	$scope.users = $firebaseArray(usersRef);
+
+	$scope.users.$loaded(function(data) {
+		$scope.loading = false;
+	}, function(error) {
+		console.error("Error:", error);
+	});
 
 	$scope.getOtherUser = function(uid) {
 		$location.path('rankings/'+uid, false);

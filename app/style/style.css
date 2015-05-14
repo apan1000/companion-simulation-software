@@ -729,7 +729,7 @@ input[type=email].success, input[type=password].success {
 }
 
 .onHover {
-	opacity: 0.1;
+	opacity: .5;
 }
 
 .onHover:hover {
@@ -1206,6 +1206,12 @@ h3 small {
 
 .offline-dot {
 	background: Crimson;
+}
+
+.list-loading {
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 .list-user {
