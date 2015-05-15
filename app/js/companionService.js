@@ -14,17 +14,9 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   // Reference with connection status
   var presenceRef = new Firebase('https://companion-simulation.firebaseio.com/.info/connected');
 
-  // Get user from cookies
+  // Get user from local storage
   $rootScope.user = $localStorage.user;
-  console.log("localStorage user:",$rootScope.user);
-
-/*
-  var getMonster = function(monster_id){
-    return $resource(POKE_API + '/api/v1/pokemon/'+ monster_id).then(function(result){
-      return result.data;
-    });
-  }
-*/
+  //console.log("localStorage user:",$rootScope.user);
 
   // Returns sprite data from pokeapi
   this.getSpriteData = function(uri) {
@@ -36,9 +28,10 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     });;
   }
 
+  // Give user a new pokémon
   this.getNewPokemon = function() {
     var pokeID = Math.floor((Math.random() * 718) + 1);
-    console.log("Random id will be: "+ pokeID);
+    //console.log("Random id will be: "+ pokeID);
     // Get pokemon
     self.pokemon.get({id:pokeID}, function(data){
       // Get sprite uri
@@ -103,10 +96,12 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     $rootScope.$broadcast('userChanged');
   }
 
+  // Returns current user
   this.getUser = function() {
     return $rootScope.user;
   }
 
+  // Add exp to pokémon, call levelup() if curExp>=exp
   this.addExp = function(gainedExp) {
     while (gainedExp > 0) {
       if ($rootScope.user.pokemon.curExp < $rootScope.user.pokemon.exp) {
@@ -123,6 +118,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     }
   }
 
+  // Adds a level to pokémon, stats changes as well
   this.levelUp = function() {
     var user = this.getUser();
     user.pokemon.curExp -= user.pokemon.exp;
@@ -135,10 +131,12 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
     this.setUser(user);
   }
 
+  // Returns a string to show on login screen
   this.getLoginMsg = function() {
     return loginMsg;
   }
 
+  // Returns a string to show on login screen when creating new account
   this.getNewAccMsg = function() {
     return newAccMsg;
   }
@@ -153,7 +151,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
         console.log(error);
         loginMsg = error.code;
       } else {
-        console.log("Authenticated successfully with payload:", authData);
+        //console.log("Authenticated successfully with payload:", authData);
         loginMsg = "success";
       }
       // Broadcast that loginMsg has changed
@@ -170,8 +168,8 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
       if (error) {
         newAccMsg = error.code;
       } else {
-        console.log("Successfully created user account with uid:", userData.uid);
-        console.log(userData);
+        //console.log("Successfully created user account with uid:", userData.uid);
+        //console.log(userData);
         usersRef.child(userData.uid).set({
           name: emailVal.replace(/@.*/, ''),
           pokemon: {name:'Egg',sprite:'images/egg_jump.gif',lvl:0, isEgg: true},

@@ -35,8 +35,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     }
   }
 
-  // 
-  function reduceTime() {
+  // Change battle timer
+  function changeTimer() {
     if ($scope.timer < $scope.maxTimer){
       $scope.timer = $scope.timer + 20;
     }
@@ -54,7 +54,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     }
 
     if($scope.battle){
-      $timeout( function(){ reduceTime(); }, rate);
+      $timeout( function(){ changeTimer(); }, rate);
     }
   }
 
@@ -80,7 +80,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     if ($scope.user.pokemon.curHp<=0){
         $scope.outcomeImg = "images/youdied.png";
         $scope.battleEnd = true;
-        console.log("YOU DED");
+        //console.log("YOU DED");
         $scope.myMonsterAni = "animated fadeOutUp";
         $scope.battle = false;
         $timeout( function(){ battleLost(); }, 2000);
@@ -125,7 +125,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         $scope.newItem = "Potion";
         $scope.itemImage = "images/potion.png";
       }  
-      console.log("ITEM: ", $scope.newItem);
     }
 
     addExp();
@@ -168,7 +167,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         $scope.combo = 1;
         $scope.battle = true;
         $scope.myMonsterAni = "";
-        reduceTime(); //START MORTAL COMBAT
+        changeTimer(); //START MORTAL COMBAT
       }
       else{
         console.log('Not ready yet!');

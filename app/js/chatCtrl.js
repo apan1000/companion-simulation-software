@@ -1,4 +1,4 @@
-// Chat controller that we use whenever we 
+// Chat controller for sending and receiving messages
 companionApp.controller('ChatCtrl', ["$scope", "$firebaseArray", "Companion",
 	function ($scope, $firebaseArray, Companion) {
 
