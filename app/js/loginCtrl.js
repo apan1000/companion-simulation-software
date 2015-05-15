@@ -7,7 +7,10 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
 
   if ($scope.user && $scope.user.challengers) {
     $scope.numChallengers = Object.keys($scope.user.challengers).length;
-    console.log('challengers: ', $scope.numChallengers);
+    $scope.numChallengeChange = true;
+    $timeout(function() {
+      $scope.numChallengeChange = false;
+    }, 1300);
   } else {
     $scope.numChallengers = 0;
   }
@@ -208,10 +211,18 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
           $location.path("/home");
         });
       }
+      var oldNumChallengers = $scope.numChallengers;
       if ($scope.user.challengers) {
         $scope.numChallengers = Object.keys($scope.user.challengers).length;
       } else {
         $scope.numChallengers = 0;
+      }
+      // Show that numChallengers has changed
+      if (oldNumChallengers != $scope.numChallengers && $scope.numChallengers != 0) {
+        $scope.numChallengeChange = true;
+        $timeout(function() {
+          $scope.numChallengeChange = false;
+        }, 1300);
       }
     } else {
       $timeout(function() {
