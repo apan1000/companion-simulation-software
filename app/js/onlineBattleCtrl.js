@@ -204,7 +204,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.newItem = "Rare Candy";
       $scope.itemImage = "images/rarecandy.png";
     } else if (rand == 1) {
-      $scope.newItem = "Poke Bell";
+      $scope.newItem = "Happy Bell";
       $scope.itemImage = "images/pokebell.png";
     } else {
       $scope.newItem = "Potion";
@@ -220,7 +220,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       person.pokemon.curHp = person.pokemon.hp;
       person.pokemon.attack += Math.floor(Math.random()*5)+1;
       person.pokemon.defense += Math.floor(Math.random()*5)+1;
-      console.log("LEVELED UP!");
+      // console.log("LEVELED UP!");
     }
     else{
      person.animation = "animated bounce";

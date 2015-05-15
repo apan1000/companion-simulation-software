@@ -2,7 +2,7 @@
 companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 
 	$scope.items = [{name:'Rare candy',image:'rarecandy.png',id:'rare-candy'},
-		{name:'Poke bell',image:'pokebell.png',id:'poke-bell'},
+		{name:'Happy bell',image:'pokebell.png',id:'poke-bell'},
 		{name:'Potion',image:'potion.png',id:'potion'}];
 	/*$scope.reactionImage = "";*/
 
@@ -17,7 +17,7 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 	}
 
 	$scope.onDropComplete = function(data,evt) {
-		console.log("drop success, data:", data);
+		// console.log("drop success, data:", data);
 
 		if ($scope.user.pokemon.isEgg === false) {
 			// Add level if dropped item is Rare candy
@@ -40,8 +40,8 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 		    	} 
 			}
 
-			// Add happiness if dropped items is Poke bell
-			if (data.name === "Poke bell") {
+			// Add happiness if dropped items is Happy bell
+			if (data.name === "Happy bell") {
 				if ($scope.user.items[1]>0){
 					$scope.reactionImage = "whistle.gif";
 					showReaction();
