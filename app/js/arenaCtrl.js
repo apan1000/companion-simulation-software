@@ -236,9 +236,19 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     Companion.pokemon.get({id:monster_id}, function(data) {
       $scope.temp_monster = data;
       getSprite($scope.temp_monster);
+      var multiplier = 1;
+      if ($scope.user.pokemon.lvl < 8) {
+        multiplier = 2;
+      } else if ($scope.user.pokemon.lvl < 15) {
+        multiplier = 3;
+      } else if ($scope.user.pokemon.lvl < 20) {
+        multiplier = 4;
+      } else {
+        multiplier = 6;
+      }
       $scope.temp_monster.lvl = Math.max(1,$scope.user.pokemon.lvl+Math.floor(Math.random()*10)-5);
-      $scope.temp_monster.attack = $scope.temp_monster.attack+Math.floor($scope.temp_monster.lvl*Math.random()*3);
-      $scope.temp_monster.defense = $scope.temp_monster.defense+Math.floor($scope.temp_monster.lvl*Math.random()*3);
+      $scope.temp_monster.attack = $scope.temp_monster.attack+Math.floor($scope.temp_monster.lvl*Math.random()*multiplier);
+      $scope.temp_monster.defense = $scope.temp_monster.defense+Math.floor($scope.temp_monster.lvl*Math.random()*multiplier);
       $scope.temp_monster.hp =  $scope.temp_monster.hp+Math.floor($scope.temp_monster.lvl*Math.random()*10)
       $scope.temp_monster.curHp = $scope.temp_monster.hp;
       $scope.temp_monster.exp = Math.max(
