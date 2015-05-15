@@ -47,6 +47,10 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 					showReaction();
 					$scope.user.items[1] -= 1;
 					$scope.user.pokemon.happiness += 20;
+					$scope.user.pokemon.curHp += 10
+					if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
+						$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
+					}
 
 					setMonsterAni("animated bounce");
 					Companion.setUser($scope.user);
@@ -59,7 +63,7 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 					$scope.reactionImage = "heartbubble.png";
 					showReaction();
 					$scope.user.items[2] -= 1;
-					$scope.user.pokemon.curHp += 20;
+					$scope.user.pokemon.curHp += 25+($scope.user.pokemon.hp*0.10);
 					if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
 						$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
 					}
