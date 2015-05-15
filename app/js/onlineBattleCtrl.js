@@ -154,14 +154,14 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
   	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
 
-  	if ($scope.user.pokemon.curHp<=0){
+  	if ($scope.user.pokemon.curHp<=1){
         $scope.outcome = "defeat";
         $scope.showOutcome = true;
         battleWon($scope.challenger,$scope.user);
         battleLost($scope.user,$scope.challenger);
     }
 
-    if ($scope.challenger.pokemon.curHp<=0){
+    if ($scope.challenger.pokemon.curHp<=1){
         $scope.outcome = "victory";
         $scope.showOutcome = true;
         battleWon($scope.user,$scope.challenger);
