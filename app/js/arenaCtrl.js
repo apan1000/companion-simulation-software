@@ -251,12 +251,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       $scope.temp_monster.defense = $scope.temp_monster.defense+Math.floor($scope.temp_monster.lvl*Math.random()*multiplier);
       $scope.temp_monster.hp =  $scope.temp_monster.hp+Math.floor($scope.temp_monster.lvl*Math.random()*10)
       $scope.temp_monster.curHp = $scope.temp_monster.hp;
-      $scope.temp_monster.exp = Math.max(
-        Math.floor($scope.user.pokemon.exp/5+Math.random()*30), 
-        Math.floor($scope.temp_monster.lvl*1.2)+
-        Math.max(Math.floor(Math.random()*10*$scope.temp_monster.lvl),30)-
-        $scope.temp_monster.lvl*4
-        );
+      $scope.temp_monster.exp = Math.floor(0.05*$scope.user.pokemon.exp+$scope.temp_monster.exp+Math.random()*$scope.temp_monster.exp*0.1);
+
       console.log("Temp monster:",$scope.temp_monster);
       $scope.timer = 0;
     }, function(data){
