@@ -13,7 +13,6 @@
 					<div class="row hpbars">
 						<div ng-model="message" ng-show="showMessage" class="combatMessage fadeout"><h1>{{enemyDmg}}</h1></div>
 						<h3>{{user.pokemon.name}}</h3>
-						<!--progress id="health" value="{{user.pokemon.curHp}}" max="{{user.pokemon.hp}}"></progress-->
 						<div class="bar">
 							<div>
 								<span>{{user.pokemon.curHp}}/{{user.pokemon.hp}}</span>
@@ -59,11 +58,6 @@
 	</div>
 	<div class="row">
 			<div class="col-xs-6 col-xs-offset-3">
-				<!--<div class="progress">
-				  <div class="progress-bar" ng-class="rightMoment" ng-style="{width : ( timer + '%' ) }" ng-click="rightMoment='progress-bar-success'">
-				    <span class="sr-only"></span>
-				  </div>
-				</div>-->
 				<table class="table-progress">
 				    <thead>
 				        <tr>
@@ -132,7 +126,4 @@
 		</div>
 	</div>
 </div>
-	<!--<img ng-src="{{sprite}}" alt="{{user.pokemon.name}}" class="monsterImage" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
-	left : (timer - 100)+'%',
-	-->
 
