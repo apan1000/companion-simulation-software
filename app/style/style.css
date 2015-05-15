@@ -200,6 +200,38 @@ input[type=email].success, input[type=password].success {
 	opacity: 0.5;
 }
 
+.dropdown-menu {
+	min-width: 300px;
+	left: -80px;
+}
+
+.dropdown-menu>li>div>a {
+	padding: 3px 20px;
+	color: #333;
+}
+
+.dropdown-menu .btn {
+	width: 75px;
+	float: right;
+	margin-right: 10px;
+	margin-top: 6px;
+}
+
+.dropdown-challenger {
+	display: inline-block;
+	width: 68%;
+	margin-left: 5px;
+	padding: 3px 3px !important;
+	word-break: break-all;
+	border-radius: 6px;
+}
+
+.dropdown-challenger:hover {
+	background: rgba(240,240,240,.9);
+	color: rgba(230,40,80,1);
+	text-decoration: none;
+}
+
 .challenge-dropdown {
 	color: #fff !important;
 	background: rgba(230,40,80,1) !important;

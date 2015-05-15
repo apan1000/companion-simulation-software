@@ -44,7 +44,6 @@ which module to associate the app with. In app.js we create the "companionSimula
     <script src="js/loginCtrl.js"></script>
     <script src="js/arenaCtrl.js"></script>
     <script src="js/itemsCtrl.js"></script>
-    <script src="js/canvasCtrl.js"></script>
     <script src="js/listCtrl.js"></script>
     <script src="js/onlineBattleCtrl.js"></script>
     <script src="js/tutorialCtrl.js"></script>
@@ -71,19 +70,22 @@ which module to associate the app with. In app.js we create the "companionSimula
 				<li><a ng-href="#/valley" ng-class="{'nav-selected': navSelected=='valley'}"  type="button"><span class="glyphicon glyphicon-tree-conifer"></span> Valley</a></li>
 				<li>
 					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle challenge-dropdown" type="button" id="menu1" data-toggle="dropdown">
+						<button class="btn btn-default dropdown-toggle challenge-dropdown" type="button" data-toggle="dropdown">
 							<span class="challenge-alert" ng-class="{'challenge-alert-change':numChallengeChange, 'no-challengers':numChallengers==0}">{{numChallengers}}</span>
 							<span ng-if="numChallengers > 1">challengers!</span>
               <span ng-if="numChallengers == 1">challenger!</span> 
               <span ng-if="numChallengers == 0">challengers</span>
               <span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-							<li ng-if="numChallengers > 0" role="presentation" ng-repeat="(uid,challenger) in user.challengers">
-								<a role="menuitem" tabindex="-1" ng-href="#/dungeon/{{challenger.battleID}}">
-									<img ng-src="{{challenger.sprite}}" height="50">
-									{{challenger.name}}
-								</a>
+						<ul class="dropdown-menu">
+							<li ng-if="numChallengers > 0" ng-repeat="(uid,challenger) in user.challengers">
+							<div>
+									<a ng-href="#/rankings/{{uid}}" class="dropdown-challenger">
+										<img ng-src="{{challenger.sprite}}" height="50">
+										{{challenger.name}}
+									</a>
+									<a ng-href="#/dungeon/{{challenger.battleID}}" data-tooltip="Fight against {{challenger.name}} on the battlefield!" class="btn btn-success"><img src="images/swords.png" height="25"></a>
+								</div>
 							</li>
               <li ng-if="numChallengers == 0" role="presentation" class="dropdown-object">
                   <span role="menuitem">You have no challenges</span>
