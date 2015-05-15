@@ -86,8 +86,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
  		}
  	}
 
-
-
   var fetchChallengerData = function(){
   	$scope.challengerRef.once("value", function(snapshot) {
       $timeout(function() {
@@ -97,53 +95,39 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     });
   }
 
+  var whichMove = function(person,enemy,battleData){
+
+    var yourDmg = 0;
+    var power = 4;
+
+    if (battleData.battleLog == "buildUp"){
+      person.combo +=1;
+      yourDmg = Math.floor((person.pokemon.attack*power*0.50)/enemy.pokemon.defense);
+    }
+    else{
+      if (battleData.battleLog == "unleash"){
+        var defBreaker = 2/person.combo;
+        yourDmg = Math.floor((person.pokemon.attack*power*person.combo)/(enemy.pokemon.defense*defBreaker));
+        person.combo = 1;
+      }
+      else{
+        if (battleData.battleLog == "counter"){
+          yourDmg = Math.floor((person.pokemon.attack*power*enemy.combo)/(enemy.pokemon.defense));
+        }
+      }
+    }
+    return yourDmg
+  }
+
   var executeMoves = function(){
 
-  	console.log("EXECUTING MOVES")
-  	var power = 4; //so both get the same numbers
-
-    //	MY MOVES -------------
-    if ($scope.userBattleData.battleLog == "buildUp"){
-  		$scope.user.combo +=1;
-      $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*power*0.50)/$scope.challenger.pokemon.defense);
-  	}
-  	else{
-  		if ($scope.userBattleData.battleLog == "unleash"){
-  			var defBreaker = 2/$scope.user.combo;
-        $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*power*$scope.user.combo)/($scope.challenger.pokemon.defense*defBreaker));
-        $scope.user.combo = 1;
-  		}
-  		else{
-  			if ($scope.userBattleData.battleLog == "counter"){
-  				$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*power*$scope.challenger.combo)/($scope.challenger.pokemon.defense));
-  			}
-  		}
-  	}
-
-    //	ENEMY MOVES ------------
-  	if ($scope.challengerBattleData.battleLog == "buildUp"){
-  		$scope.challenger.combo += 1;
-      $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*power*0.50)/$scope.user.pokemon.defense);
-  	}
-  	else{
-  		if ($scope.challengerBattleData.battleLog == "unleash"){
-  			var defBreaker = 2/$scope.challenger.combo;
-        $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*power*$scope.challenger.combo)/($scope.user.pokemon.defense*defBreaker));
-        $scope.challenger.combo = 1;
-  		}
-  		else{
-  			if ($scope.challengerBattleData.battleLog == "counter"){
-  				$scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*power*$scope.user.combo)/($scope.user.pokemon.defense));
-  			}
-  		}
-  	}
+    $scope.yourDmg = whichMove($scope.user,$scope.challenger,$scope.userBattleData);
+    $scope.enemyDmg = whichMove($scope.challenger,$scope.user,$scope.challengerBattleData);
 
   	$scope.showMessage = true;
     $timeout(function() {
       $scope.showMessage = false;
     }, 1000);
-
-  
 
   	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
   	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
@@ -170,15 +154,10 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
         battleLost($scope.challenger,$scope.user);
         $scope.battleData.user1.here = false;
         $scope.battleData.user2.here = false;
-        /*$timeout( function(){ 
-        	$scope.challengerRef.set($scope.challenger);
-        	Companion.setUser($scope.user); 
-        }, 100);*/
     }
 
   	$scope.battleData.user1.battleLog = false;
   	$scope.battleData.user2.battleLog = false;
-  	$scope.battleData.timer = maxTime;
 
     //Only user1 send in the data, no conflict
     if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
@@ -262,7 +241,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     if (person.pokemon.curExp>=person.pokemon.exp){
       person.pokemon.curExp -= person.pokemon.exp;
       person.pokemon.exp += Math.floor(person.pokemon.exp*0.1)+1;
-      //Cant gain more than one lvl, fix later
       person.pokemon.curExp = Math.min(person.pokemon.exp-10,person.pokemon.curExp);
       person.pokemon.lvl += 1;
       person.pokemon.hp += Math.floor(Math.random()*10);
@@ -287,8 +265,13 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
     delete person.challengers[enemy.uid];
   }
-    
-  // $scope.$on('userChanged', function() {
-  // });
+
+  /* Could fix if player leaves a challenge
+  $rootScope.$on("$routeChangeStart", function(event, next, current) {
+    battleRef.set($scope.battleData);
+    $scope.battleData.user1.here = false;
+    $scope.battleData.user2.here = false;
+  });
+  */
 
 });
