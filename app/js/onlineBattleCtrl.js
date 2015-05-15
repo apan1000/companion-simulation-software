@@ -1,4 +1,4 @@
-// Arena controller for fights against other monsters
+// Multiplayer controller for fights against other players
 companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout,$location) {
 
   $scope.maxTimer = 100;
@@ -6,7 +6,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   $scope.timer = 10;
   var ready = false;
   $scope.choice = "";
-  $scope.notStarted = true;
   $scope.enemyReady = false;
   $scope.myMonsterAni  = "";
   $scope.enemyMonsterAni  = "";
@@ -21,10 +20,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var battleRef = ref.child('battles/'+$routeParams.battleID);
 
-  console.log("ME:",$scope.user)
-
-
-  // Fetches at all the changes;
+  // When something within the battle has been changed, check for updates
   battleRef.on("value", function(snapshot) {
     $timeout(function() {
   		$scope.battleData = snapshot.val();
@@ -32,26 +28,25 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   		$scope.challengerUid = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user2.uid : $scope.battleData.user1.uid;
   		$scope.challengerBattleData = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user2 : $scope.battleData.user1;
   		$scope.userBattleData = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user1 : $scope.battleData.user2;
-  		$scope.timer = $scope.battleData.timer;
-
-      console.log("battleData:",$scope.battleData);
       $scope.enemyReady = $scope.challengerBattleData.here;
-      console.log("challenger is here", $scope.enemyReady)
+
+      $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
+      fetchChallengerData();
 
       if ($scope.battleData.isEnded == false) {
-        if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.here == true){
-          console.log("LET THE GAMES BEGIN");
-          $scope.enemyState  = "";
-          $scope.notStarted = false;
-        }
-
+        
+        //If the player has connected to the battle
         if(ready == false){
           imReady();
           ready = true;
         }
-
+        //Has a move been made? In that case show the other player
         if($scope.challengerBattleData.battleLog != false){
           $scope.enemyState = "glow";
+        }
+
+        if($scope.userBattleData.battleLog != false){
+          $scope.myState = "glow";
         }
 
         //Both have made a descision, fight it out!
@@ -60,17 +55,14 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
           $scope.enemyState = "";
           executeMoves();
         }
-
-        $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
-        fetchChallengerData();
       } else {
         console.log("battle is over");
       }
     });
  	});
 
+  //Set status to ready and show ourselves with full opacity
  	var imReady = function(){
-
  		if ($scope.myState == "half_opacity"){
 	 		if ($scope.battleData.user1.uid == $scope.user.uid){
 	 			$scope.battleData.user1.here = true;
@@ -78,12 +70,12 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 	 		else{
 	 			$scope.battleData.user2.here = true;
 	 		}
-	 		console.log("READY FOR BATTLE")
 	 		$scope.myState  = "";
 	 		battleRef.set($scope.battleData);
  		}
  	}
 
+  //Get the challenger data, becomes a scope variable
   var fetchChallengerData = function(){
   	$scope.challengerRef.once("value", function(snapshot) {
       $timeout(function() {
@@ -93,8 +85,29 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     });
   }
 
-  var whichMove = function(person,enemy,battleData){
+  //When we choose a move, we tell the battle about it
+  $scope.chooseMove = function(move){
+    if ($scope.battleData.user1.uid == $scope.user.uid){
+      $scope.battleData.user1.battleLog = move;
+    }
+    else{
+      $scope.battleData.user2.battleLog = move;
+    }
+    battleRef.set($scope.battleData);
+  }
 
+  $scope.getHpPercentage = function() {
+    return $scope.user.pokemon.curHp/$scope.user.pokemon.hp*100;
+  }
+
+  $scope.getEnemyHpPercentage = function() {
+    if ($scope.challenger) {
+      return $scope.challenger.pokemon.curHp/$scope.challenger.pokemon.hp*100;
+    }
+  }
+
+  //Calculates the amount of damage that is dealt depending on the move that was chosen
+  var whichMove = function(person,enemy,battleData){
     var yourDmg = 0;
     var power = 4;
 
@@ -117,8 +130,10 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     return yourDmg
   }
 
+  //When both have made a choice, we calculate damage and dish it out, also check for deaths
   var executeMoves = function(){
 
+    //Order is important depending on who is who, so the numbers are displayed the same.
     if ($scope.battleData.user1.uid == $scope.user.uid){
       $scope.yourDmg = whichMove($scope.user,$scope.challenger,$scope.userBattleData);
       $scope.enemyDmg = whichMove($scope.challenger,$scope.user,$scope.challengerBattleData);
@@ -128,6 +143,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.yourDmg = whichMove($scope.user,$scope.challenger,$scope.userBattleData);
     }
 
+    //Show combat message for damage dealt
   	$scope.showMessage = true;
     $timeout(function() {
       $scope.showMessage = false;
@@ -150,6 +166,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
         battleLost($scope.challenger,$scope.user);
     }
 
+    //Reset the move choice
   	$scope.battleData.user1.battleLog = false;
   	$scope.battleData.user2.battleLog = false;
 
@@ -161,42 +178,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     }
  	}
 
- 	$scope.chooseMove = function(move){
-
- 		if ($scope.battleData.user1.uid == $scope.user.uid){
- 			$scope.battleData.user1.battleLog = move;
- 		}
- 		else{
- 			$scope.battleData.user2.battleLog = move;
- 		}
-
- 		$scope.myState = "glow";
- 		battleRef.set($scope.battleData);
- 	}
-
-  $scope.getHpPercentage = function() {
-    return $scope.user.pokemon.curHp/$scope.user.pokemon.hp*100;
-  }
-
-  $scope.getEnemyHpPercentage = function() {
-    if ($scope.challenger) {
-      return $scope.challenger.pokemon.curHp/$scope.challenger.pokemon.hp*100;
-    }
-  }
-
-  function reduceTime() {
-  	if ($scope.battleData.user1.uid == $scope.user.uid){
-	    if ($scope.battleData.timer > 0){
-	      $scope.battleData.timer -=1;
-	      $timeout( function(){ reduceTime(); }, rate);
-	    }
-	    else
-	    {
-	 			battleRef.set($scope.battleData);
-	    }
-	  }
-  }
-
   var showOutcome = function(){
     $scope.outcomeImg = "images/victory.png";
     $scope.battleEnd = true;
@@ -207,10 +188,11 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.battleEnd = false;
   }
 
+  //Increment score etc. Give a random item, check if a new lvl has been reached
+  //Remove the challenger
   var battleWon = function(person,enemy){
     $scope.battleData.isEnded = true;
 
-    //showOutcome();
     person.combo = 1;
     person.pokemon.curExp += Math.floor(($scope.challenger.pokemon.exp)*0.5);
     person.wins += 1;
@@ -248,6 +230,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     }
   }
 
+  //Decrement score etc. Set health to 1. Remove the challenger
   var battleLost = function(person,enemy){
     $scope.battleData.isEnded = true;
 
@@ -259,13 +242,4 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
 
     delete person.challengers[enemy.uid];
   }
-
-  /* Could fix if player leaves a challenge
-  $rootScope.$on("$routeChangeStart", function(event, next, current) {
-    battleRef.set($scope.battleData);
-    $scope.battleData.user1.here = false;
-    $scope.battleData.user2.here = false;
-  });
-  */
-
 });

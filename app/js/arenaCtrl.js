@@ -62,9 +62,9 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
   // If pokémon's curHp <= 0, call battleLost()
   var takeDmg = function() {
     $scope.combo = 1;
-    var random2 = Math.floor((Math.random() * 5) + 3);
+    var random = Math.floor((Math.random() * 5) + 3);
     $scope.yourDmg = 0;
-    $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*random2)/$scope.user.pokemon.defense);
+    $scope.enemyDmg = Math.floor(($scope.temp_monster.attack*random)/$scope.user.pokemon.defense);
     $scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
     $scope.user.pokemon.happiness = Math.max(0,$scope.user.pokemon.happiness-5);
 
@@ -167,7 +167,8 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         $scope.combo = 1;
         $scope.battle = true;
         $scope.myMonsterAni = "";
-        changeTimer(); //START MORTAL COMBAT
+        changeTimer();
+        //Start combat
       }
       else{
         console.log('Not ready yet!');
@@ -182,7 +183,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         var randomAtk1 = Math.floor((Math.random() * 3) + 3);
         var randomAtk2 = Math.floor((Math.random() * 3) + 3);
 
-        //if ($scope.timer <= 90 && $scope.timer >= 70){
         if ($scope.timer == 40){ //COMBO BUILDUP
           $scope.combo += 1;
           $scope.enemyMonsterAni = "animated rubberBand";
@@ -195,7 +195,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
             $scope.combo = 1;
             $scope.enemyMonsterAni = "animated wobble";
           }
-          else{
+          else{ //NORMAL ATTACK
             $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1)/$scope.temp_monster.defense);
             $scope.combo = 1;
             $scope.enemyMonsterAni = "animated shake";
