@@ -60,10 +60,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
         if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
           $scope.myState = "";
           $scope.enemyState = "";
-        
-          if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
-            executeMoves();
-          }
+          executeMoves();
         }
 
         $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
@@ -103,27 +100,22 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   var executeMoves = function(){
 
   	console.log("EXECUTING MOVES")
-  	var randomAtk1 = Math.round((Math.random() * 2) + 2);
-    var randomAtk2 = Math.round((Math.random() * 2) + 2);
+  	var power = 3; //so both get the same numbers
 
     //	MY MOVES -------------
     if ($scope.userBattleData.battleLog == "buildUp"){
   		$scope.user.combo +=1;
-      $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*0.50)/$scope.challenger.pokemon.defense);
+      $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*power*0.50)/$scope.challenger.pokemon.defense);
   	}
   	else{
   		if ($scope.userBattleData.battleLog == "unleash"){
   			var defBreaker = 2/$scope.user.combo;
-        $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.user.combo)/($scope.challenger.pokemon.defense*defBreaker));
-        $scope.user.combo =1;
+        $scope.yourDmg = Math.floor(($scope.user.pokemon.attack*power*$scope.user.combo)/($scope.challenger.pokemon.defense*defBreaker));
+        $scope.user.combo = 1;
   		}
   		else{
   			if ($scope.userBattleData.battleLog == "counter"){
-  				$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*randomAtk1*$scope.challenger.combo)/($scope.challenger.pokemon.defense));
-  			}
-  			else{
-  				$scope.yourDmg = 0;
-  				console.log("You did nothing")
+  				$scope.yourDmg = Math.floor(($scope.user.pokemon.attack*power*$scope.challenger.combo)/($scope.challenger.pokemon.defense));
   			}
   		}
   	}
@@ -131,69 +123,67 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     //	ENEMY MOVES ------------
   	if ($scope.challengerBattleData.battleLog == "buildUp"){
   		$scope.challenger.combo += 1;
-      $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*0.50)/$scope.user.pokemon.defense);
+      $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*power*0.50)/$scope.user.pokemon.defense);
   	}
   	else{
   		if ($scope.challengerBattleData.battleLog == "unleash"){
   			var defBreaker = 2/$scope.challenger.combo;
-        $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.challenger.combo)/($scope.user.pokemon.defense*defBreaker));
+        $scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*power*$scope.challenger.combo)/($scope.user.pokemon.defense*defBreaker));
         $scope.challenger.combo = 1;
   		}
   		else{
   			if ($scope.challengerBattleData.battleLog == "counter"){
-  				$scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*randomAtk2*$scope.user.combo)/($scope.user.pokemon.defense));
-  			}
-  			else{
-  				$scope.enemyDmg = 0;
-  				console.log("You did nothing")
+  				$scope.enemyDmg = Math.floor(($scope.challenger.pokemon.attack*power*$scope.user.combo)/($scope.user.pokemon.defense));
   			}
   		}
   	}
 
   	$scope.showMessage = true;
-
-  	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
-  	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
-
     $timeout(function() {
       $scope.showMessage = false;
     }, 1000);
 
-  	if ($scope.user.pokemon.curHp<=0){
-  			console.log("I DIED")
-        $scope.myMonsterAni = "animated wooble";
-        $scope.enemyMonsterAni  = "animated bounce";
-        $scope.outcome = "defeat";
-        $scope.showOutcome = true;
-        battleWon($scope.challenger);
-        battleLost($scope.user);
-        $scope.battleData.user1.here = false;
-        $scope.battleData.user2.here = false;
+    if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
+
+    	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
+    	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
+
+    	if ($scope.user.pokemon.curHp<=0){
+    			console.log("I DIED")
+          $scope.myMonsterAni = "animated wooble";
+          $scope.enemyMonsterAni  = "animated bounce";
+          $scope.outcome = "defeat";
+          $scope.showOutcome = true;
+          battleWon($scope.challenger);
+          battleLost($scope.user);
+          $scope.battleData.user1.here = false;
+          $scope.battleData.user2.here = false;
+      }
+
+      if ($scope.challenger.pokemon.curHp<=0){
+      		console.log("ENEMY DIED")
+          $scope.myMonsterAni = "animated bounce";
+          $scope.enemyMonsterAni  = "animated wooble";
+          $scope.outcome = "victory";
+          $scope.showOutcome = true;
+          battleWon($scope.user);
+          battleLost($scope.challenger);
+          $scope.battleData.user1.here = false;
+          $scope.battleData.user2.here = false;
+          /*$timeout( function(){ 
+          	$scope.challengerRef.set($scope.challenger);
+          	Companion.setUser($scope.user); 
+          }, 100);*/
+      }
+
+    	$scope.battleData.user1.battleLog = false;
+    	$scope.battleData.user2.battleLog = false;
+    	$scope.battleData.timer = maxTime;
+
+    	$scope.challengerRef.set($scope.challenger);
+    	Companion.setUser($scope.user);
+    	battleRef.set($scope.battleData);
     }
-
-    if ($scope.challenger.pokemon.curHp<=0){
-    		console.log("ENEMY DIED")
-        $scope.myMonsterAni = "animated bounce";
-        $scope.enemyMonsterAni  = "animated wooble";
-        $scope.outcome = "victory";
-        $scope.showOutcome = true;
-        battleWon($scope.user);
-        battleLost($scope.challenger);
-        $scope.battleData.user1.here = false;
-        $scope.battleData.user2.here = false;
-        /*$timeout( function(){ 
-        	$scope.challengerRef.set($scope.challenger);
-        	Companion.setUser($scope.user); 
-        }, 100);*/
-    }
-
-  	$scope.battleData.user1.battleLog = false;
-  	$scope.battleData.user2.battleLog = false;
-  	$scope.battleData.timer = maxTime;
-
-  	$scope.challengerRef.set($scope.challenger);
-  	Companion.setUser($scope.user);
-  	battleRef.set($scope.battleData);
  	}
 
  	$scope.chooseMove = function(move){
