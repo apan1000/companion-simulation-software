@@ -34,9 +34,8 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 			        $scope.user.pokemon.curHp = $scope.user.pokemon.hp;
 			        $scope.user.pokemon.attack += Math.floor(Math.random()*5)+1;
 			        $scope.user.pokemon.defense += Math.floor(Math.random()*5)+1;
-			        console.log("LEVELED UP!");
 
-			        $scope.monsterAni = "animated tada";
+			        setMonsterAni("animated tada");
 					Companion.setUser($scope.user);
 		    	} 
 			}
@@ -48,8 +47,8 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 					showReaction();
 					$scope.user.items[1] -= 1;
 					$scope.user.pokemon.happiness += 20;
-					$scope.monsterAni = "animated bounce";
 
+					setMonsterAni("animated bounce");
 					Companion.setUser($scope.user);
 		        }	
 			}
@@ -60,16 +59,30 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 					$scope.reactionImage = "heartbubble.png";
 					showReaction();
 					$scope.user.items[2] -= 1;
-					console.log("Current hp; ", $scope.user.pokemon.curHp);
 					$scope.user.pokemon.curHp += 20;
-					$scope.monsterAni = "animated bounce";
 					if ($scope.user.pokemon.curHp > $scope.user.pokemon.hp) {
 						$scope.user.pokemon.curHp = $scope.user.pokemon.hp;
 					}
+
+					setMonsterAni("animated bounce");
 					Companion.setUser($scope.user);
 		    	}
 			}
 		}
 	}
+
+	// Set $scope.monsterAni to specified animation string
+	var setMonsterAni = function(animation) {
+		$scope.monsterAni = animation;
+		$timeout(function() {
+			$scope.monsterAni = "";
+		},1000);
+	}
+
+	$scope.$on('draggable:start', function(){
+		$scope.reactionImage = "clickme.png";
+		setMonsterAni("animated shake");
+	});
+
 });
 
