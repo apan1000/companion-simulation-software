@@ -1266,7 +1266,6 @@ h3 small {
 }
 
 .rankings-head input {
-	/*border-radius: 4px;*/
 	padding-left: 6px;
 	padding-right: 6px;
 	color: white;
@@ -1275,24 +1274,20 @@ h3 small {
 	border-bottom: 1px solid #333;
 }
 
-.rankings-head input[placeholder], .rankings-head [placeholder], .rankings-head *[placeholder] {
-	color: white;
-}
-
 .rankings-head input::-webkit-input-placeholder {
-   color: white;
+   color: rgba(255,255,255,.9);
 }
 
 .rankings-head input:-moz-placeholder {
-   color: white;  
+   color: rgba(255,255,255,.9);  
 }
 
 .rankings-head input::-moz-placeholder {
-   color: white;  
+   color: rgba(255,255,255,.9);  
 }
 
 .rankings-head input:-ms-input-placeholder {  
-   color: white;  
+   color: rgba(255,255,255,.9);  
 }
 
 .table-fix{
