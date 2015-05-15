@@ -59,9 +59,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
               initOthers();
               initPlayer();
+              dataUpdate();
               update();
               render();
-              dataUpdate();
           },
           function(error) {
             console.error("Error:", error);
