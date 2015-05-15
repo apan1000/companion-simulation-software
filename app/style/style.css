@@ -792,6 +792,13 @@ input[type=email].success, input[type=password].success {
 	-webkit-transition: margin 0.1s ease-out;
     -moz-transition: margin 0.1s ease-out;
     -o-transition: margin 0.1s ease-out;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .monsterImage:hover {
@@ -1020,6 +1027,13 @@ input[type=email].success, input[type=password].success {
 	text-align: center;
 	/*height:90px !important;*/
 	transform: translate(-20px,0);
+
+	-moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .itemImage {

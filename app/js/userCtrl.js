@@ -94,6 +94,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
         here: false
       };
       newBattleRef = ref.child('battles').push({
+        isEnded: false,
         user1,
         user2
       });
