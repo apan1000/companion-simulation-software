@@ -17,25 +17,26 @@ companionApp.controller('ListCtrl', function ($scope,$rootScope,$routeParams,$fi
 		console.error("Error:", error);
 	});
 
+	// Go to the ranking page of the user with specified uid
 	$scope.getOtherUser = function(uid) {
 		$location.path('rankings/'+uid, false);
 		$scope.routeUid = $location.path().substring($location.path().lastIndexOf('/')+1);
-		console.log($scope.routeUid);
+		//console.log($scope.routeUid);
 		usersRef.child(uid).on("value",function(snapshot) {
 			$timeout(function() {
   				$scope.otherUser = snapshot.val();
-  				console.log($scope.otherUser)
+  				//console.log($scope.otherUser)
   			});
   		});
   		$rootScope.$broadcast("otherUserChanged");
 	}
 
 	if ($routeParams.user != '0') {
-		$scope.otherUser = null;
+		$scope.otherUser = null; // So the logged in user won't show
 		usersRef.child($routeParams.user).on("value",function(snapshot) {
 			$timeout(function() {
 				$scope.otherUser = snapshot.val();
-				console.log($scope.otherUser)
+				//console.log($scope.otherUser)
   			});
 		});
 	}

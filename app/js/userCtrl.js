@@ -40,29 +40,8 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     $scope.nicknameSuccess = false;
   }
 
-  // var getAttacks = function() {
-  //   $scope.moves = $scope.user.pokemon.moves;
-  //   $scope.attacks = $scope.moves.slice(0,1,2,3);
-  //   // console.log("Attacks:"+$scope.attacks);
-  // }
-
-  // Get the sprite of $scope.user.pokemon and set it as $scope.sprite NOT USED ATM!!!
-  var getSprite = function() {
-    var parts = $scope.user.pokemon.sprites[0].resource_uri.split("/");
-    var spriteUri = parts[parts.length - 2];
-
-    Companion.sprite.get({uri:spriteUri}, function(data){
-      $scope.status = "";
-      $scope.user.pokemon.sprite =  'http://pokeapi.co' + data.image;
-    }, function(data){
-      $scope.status = "There was an error";
-      $scope.user.pokemon.sprite = 'http://i.imgur.com/D9sYjvH.jpg';
-    });
-  }
-
+  // Challenge another player, creates a reference in Firebase for the battle
   $scope.challenge = function() {
-    // console.log("otherUser!!!!",$scope.otherUser);
-    
     if (!$scope.user.challengers) {
       $scope.user.challengers = {};
     }
@@ -77,10 +56,9 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     // If you already have challenged the user
     else if ($scope.user.challengers[($scope.otherUser.uid)] && 
       $scope.user.challengers[($scope.otherUser.uid)].challengedYou == false) {
-      // något
+      // Do something
     } else {
       // Put both users' uids in a child to battles in Firebase
-      var timer = 10;
       var user1 = {
         uid: $scope.user.uid,
         battleLog: false,
@@ -123,7 +101,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   // Attach an asynchronous callback to get otherUser when changed
   $scope.$on("userChanged", function() {
     if (!$routeParams.user) {
-      console.log("User changed, setting scope.otherUser!");
+      // console.log("User changed, setting scope.otherUser!");
       $timeout(function() {
         $scope.otherUser = Companion.getUser();
       });
@@ -138,7 +116,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
       otherUserRef.off("value");
     }
 
-    console.log("Setting otherUserRef!");
+    // console.log("Setting otherUserRef!");
     otherUserRef = ref.child('users/'+uid);
     otherUserRef.on("value", function(snapshot) {
       $timeout(function() {
