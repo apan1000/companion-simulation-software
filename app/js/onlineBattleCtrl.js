@@ -40,33 +40,37 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.enemyReady = $scope.challengerBattleData.here;
       console.log("challenger is here", $scope.enemyReady)
 
-      if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.here == true){
-      	console.log("LET THE GAMES BEGIN");
-      	$scope.enemyState  = "";
-      	$scope.notStarted = false;
+      if ($scope.battleData.isEnded == false) {
+        if($scope.notStarted == true && $scope.battleData.user1.here == true && $scope.battleData.user2.here == true){
+          console.log("LET THE GAMES BEGIN");
+          $scope.enemyState  = "";
+          $scope.notStarted = false;
+        }
+
+        if(ready == false){
+          imReady();
+          ready = true;
+        }
+
+        if($scope.challengerBattleData.battleLog != false){
+          $scope.enemyState = "glow";
+        }
+
+        //Both have made a descision, fight it out!
+        if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
+          $scope.myState = "";
+          $scope.enemyState = "";
+        
+          if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
+            executeMoves();
+          }
+        }
+
+        $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
+        fetchChallengerData();
+      } else {
+        console.log("battle is over");
       }
-
-      if(ready == false){
-      	imReady();
-      	ready = true;
-      }
-
-    	if($scope.challengerBattleData.battleLog != false){
-    		$scope.enemyState = "glow";
-    	}
-
-    	//Both have made a descision, fight it out!
-    	if ($scope.battleData.user1.battleLog != false && $scope.battleData.user2.battleLog != false){
-    		$scope.myState = "";
-      	$scope.enemyState = "";
-      
-      	if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
-      		executeMoves();
-      	}
-      }
-
-      $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
-      fetchChallengerData();
     });
  	});
 
@@ -235,6 +239,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   }
 
   var battleWon = function(person){
+    $scope.battleData.isEnded = true;
 
     //showOutcome();
     person.combo = 1;
@@ -269,21 +274,17 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   }
 
   var battleLost = function(person){
+    $scope.battleData.isEnded = true;
+
   	person.combo = 1;
-    person.pokemon = {name:'egg',sprite:'images/egg_jump.gif', lvl:0, isEgg:true};
+    person.curExp = 0;
+    person.pokemon.curHp = 1;
     person.losses += 1;
     person.challengers = [];
     person.score -= 2;
   }
     
-  $scope.$on('userChanged', function() {
-    var url = $location.url();
-    if (url === "/fields/"+$routeParams.user || url === "/fields/0") {
-      $scope.user = Companion.getUser();
-    }
-    else {
-      $scope.battle = false;
-    }
-  });
+  // $scope.$on('userChanged', function() {
+  // });
 
 });
