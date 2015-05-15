@@ -81,7 +81,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     if ($scope.user.pokemon.curHp<=0){
         $scope.outcomeImg = "images/youdied.png";
         $scope.battleEnd = true;
-        //console.log("YOU DED");
         $scope.myMonsterAni = "animated fadeOutUp";
         $scope.battle = false;
         $timeout( function(){ battleLost(); }, 2000);
@@ -143,7 +142,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       $scope.myMonsterAni = "animated bounce";
     } else {
       $scope.myMonsterAni = "animated flip";
-      console.log("LEVELED UP!",$scope.user.pokemon.lvl);
     }
   }
 
@@ -170,9 +168,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         $scope.myMonsterAni = "";
         changeTimer();
         //Start combat
-      }
-      else{
-        console.log('Not ready yet!');
       }
     }
     else{
@@ -259,7 +254,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       $scope.temp_monster.curHp = $scope.temp_monster.hp;
       $scope.temp_monster.exp = Math.floor(0.05*$scope.user.pokemon.exp+$scope.temp_monster.exp+Math.random()*$scope.temp_monster.exp*0.1);
 
-      console.log("Temp monster:",$scope.temp_monster);
       $scope.timer = 0;
     }, function(data){
       $scope.status = "Could not find a new enemy";
@@ -279,7 +273,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
     Companion.sprite.get({uri:spriteUri}, function(data){
       monster.new_sprite = 'http://pokeapi.co' + data.image;
-      console.log("SPRITE DATA ",monster.new_sprite);
       $scope.enemyMonsterAni = "animated lightSpeedIn"; //entering the fields
       $scope.ready = true;
     }, function(data){
@@ -295,7 +288,6 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     otherUserRef.once("value", function(snapshot) {
       $timeout(function() {
         $scope.otherUser = snapshot.val();
-        console.log("otherUser:",$scope.otherUser);
         $scope.temp_monster = $scope.otherUser.pokemon;
         $scope.temp_monster.new_sprite = $scope.otherUser.pokemon.sprite;
         $scope.temp_monster.curHp = $scope.temp_monster.hp;

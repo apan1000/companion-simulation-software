@@ -1384,7 +1384,7 @@ h3 small {
 .progress-combo {
 	height: 40px !important;
 	width: 100%;
-    background: yellow;    
+    background: yellow;
     transition:left 0.1s;
 }
 
