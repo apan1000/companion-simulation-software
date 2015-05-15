@@ -55,8 +55,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
           $scope.enemyState = "";
           executeMoves();
         }
-      } else {
-        console.log("battle is over");
       }
     });
  	});
@@ -80,7 +78,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   	$scope.challengerRef.once("value", function(snapshot) {
       $timeout(function() {
         $scope.challenger = snapshot.val();
-        console.log("challenger:",$scope.challenger);
       });
     });
   }

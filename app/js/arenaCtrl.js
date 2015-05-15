@@ -45,6 +45,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
       rate = 500;
       var url = $location.url();
       if (url === "/fields/"+$routeParams.user || url === "/fields/0") {
+        //If the timer ran out and we didnt issue an attack, punishment awaits
         takeDmg();
       }
       else {
