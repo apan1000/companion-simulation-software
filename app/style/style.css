@@ -1366,32 +1366,32 @@ h3 small {
 .progress-bar {
     position: absolute;
     height: 20px;
-    z-index: -1;    
+    z-index: -1;
 }
 
 .progress-t {
     width: 10%;
-    background: #8F8;
-    transition:left 0s;
+    background: #eb4a4a;
+    transition: left 0s;
 }
 
 .progress-c {
 	width: 100%;
-    background: #99CCFF;    
+    background: #99CCFF;
     transition:left 0.1s;
 }
 
 .progress-combo {
 	height: 40px !important;
 	width: 100%;
-    background: yellow;
-    transition:left 0.1s;
+    background: #ffd200;
+    transition: left 0.1s;
 }
 
 .progress-h {
 	width: 100%;
-    background: orange;    
-    transition:left 0.1s;
+    background: orange;
+    transition: left 0.1s;
 }
 
 .table-progress {
