@@ -63,8 +63,6 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   $scope.challenge = function() {
     // console.log("otherUser!!!!",$scope.otherUser);
     
-
-    
     if (!$scope.user.challengers) {
       $scope.user.challengers = {};
     }
@@ -147,7 +145,6 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
         $scope.otherUser = snapshot.val();
       });
     });
-
   });
 
   if ($routeParams.user) {
