@@ -1,5 +1,5 @@
 body {
-	padding-top: 40px;
+	padding-top: 60px;
 	position: absolute;
 	z-index: -1;
 	right: 0;
@@ -1258,6 +1258,41 @@ h3 small {
     text-align: center;
 
     font: 32px Arial, sans-serif;
+}
+
+.rankings-head h3 {
+	display: inline-block;
+	margin-right: 20px;
+}
+
+.rankings-head input {
+	/*border-radius: 4px;*/
+	padding-left: 6px;
+	padding-right: 6px;
+	color: white;
+	background: none;
+	border: 0;
+	border-bottom: 1px solid #333;
+}
+
+.rankings-head input[placeholder], .rankings-head [placeholder], .rankings-head *[placeholder] {
+	color: white;
+}
+
+.rankings-head input::-webkit-input-placeholder {
+   color: white;
+}
+
+.rankings-head input:-moz-placeholder {
+   color: white;  
+}
+
+.rankings-head input::-moz-placeholder {
+   color: white;  
+}
+
+.rankings-head input:-ms-input-placeholder {  
+   color: white;  
 }
 
 .table-fix{

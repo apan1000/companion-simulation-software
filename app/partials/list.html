@@ -1,7 +1,8 @@
 <div class="col-xs-12">
-	<div class="title-head row">
+	<div class="title-head rankings-head row">
 		<div class="col-xs-12">
 			<h3>Rankings</h3>
+			<input type="text" ng-model="searchText.name" placeholder="Search for user">
 		</div>
 	</div>
 	<div class="row" id="table-wrapper">
@@ -54,7 +55,7 @@
 					</tr>
 			  	</thead>
 				<tbody>
-				 	<tr ng-repeat="(uid,player) in users | orderBy:sortType:sortReverse" ng-if="uid!=undefined" ng-click="getOtherUser(player.uid)" ng-class="{'list-selected-user':player.uid==routeUid}" class="list-user-row">
+				 	<tr ng-repeat="(uid,player) in users | orderBy:sortType:sortReverse | filter:searchText" ng-if="uid!=undefined" ng-click="getOtherUser(player.uid)" ng-class="{'list-selected-user':player.uid==routeUid}" class="list-user-row">
 					  	<td>
 					  		<span ng-class="{'online-dot animated bounceIn':player.online==true, 'offline-dot':player.online==false}" class="login-status-dot" ng-attr-title="{{player.online && 'online' || player.online==false && 'offline'}}"></span>
 					  	</td>

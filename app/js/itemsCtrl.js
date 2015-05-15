@@ -83,7 +83,7 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 		},1000);
 	}
 
-	$scope.$on('draggable:start', function(){
+	$scope.$on('draggable:start', function() {
 		setMonsterAni("animated shake");
 	});
 
