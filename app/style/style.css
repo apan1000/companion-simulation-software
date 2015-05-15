@@ -1279,15 +1279,15 @@ h3 small {
 }
 
 .rankings-head input:-moz-placeholder {
-   color: rgba(255,255,255,.9);  
+   color: rgba(255,255,255,.9);
 }
 
 .rankings-head input::-moz-placeholder {
-   color: rgba(255,255,255,.9);  
+   color: rgba(255,255,255,.9);
 }
 
 .rankings-head input:-ms-input-placeholder {  
-   color: rgba(255,255,255,.9);  
+   color: rgba(255,255,255,.9);
 }
 
 .table-fix{
