@@ -119,7 +119,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
         $scope.newItem = "Rare Candy";
         $scope.itemImage = "images/rarecandy.png";
       } else if (rand == 1) {
-        $scope.newItem = "Poke Bell";
+        $scope.newItem = "Happy Bell";
         $scope.itemImage = "images/pokebell.png";
       } else {
         $scope.newItem = "Potion";
