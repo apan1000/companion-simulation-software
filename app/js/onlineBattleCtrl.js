@@ -34,6 +34,11 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       fetchChallengerData();
 
       if ($scope.battleData.isEnded == false) {
+
+        if($scope.battleData.user1.here == true && $scope.battleData.user2.here == true){
+          $scope.enemyState  = "";
+          $scope.notStarted = false;
+        }
         
         //If the player has connected to the battle
         if(ready == false){
