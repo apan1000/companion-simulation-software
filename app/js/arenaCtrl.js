@@ -106,7 +106,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     $scope.user.score += 2;
     $scope.user.pokemon.happiness += 1;
 
-    if (Math.random()*5>1){
+    if (Math.random()*3>1){
       var rand = Math.round(Math.random()*2);
       $scope.user.items[rand] += 1;
       if (rand == 0) {
@@ -276,11 +276,10 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     });
   }
 
-  // Get a challenger upon entering arena
+  // Get an offline challenger upon entering arena
   if ($routeParams.user != '0') {
     var otherUserRef = ref.child('users/'+$routeParams.user);
-    console.log("USER FIENDE");
-    // Fetches once, so it can't be healed by user giving candy etc.
+    // Fetches once, so it can't accidentaly be healed by user giving candy etc.
     otherUserRef.once("value", function(snapshot) {
       $timeout(function() {
         $scope.otherUser = snapshot.val();
