@@ -1,6 +1,7 @@
 //Tutorial Ctrl for the Tutorial which is displayed when a user is new.
 companionApp.controller('TutorialCtrl', function ($scope,$routeParams,$firebaseObject,Companion,$rootScope,$timeout) {
 
+  // Showing tutorial the first time the user logs in after having created an account.
 	if($scope.user.beginner === true) {
 		$scope.showTutorial = true;
 		$scope.welcome = true; 

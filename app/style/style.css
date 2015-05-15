@@ -866,6 +866,10 @@ keyframes alert-change {
 	color: #eee;
 }
 
+.waitingText {
+	font-family: "Coda";
+}
+
 .dungeonOutcome {
 	z-index: 100;
 	position: absolute;
