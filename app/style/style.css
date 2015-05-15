@@ -968,6 +968,10 @@ keyframes alert-change {
 	cursor: pointer;
 }
 
+.challenger-monster-image {
+	cursor: default;
+}
+
 .bar {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
