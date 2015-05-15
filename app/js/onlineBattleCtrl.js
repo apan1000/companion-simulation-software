@@ -30,8 +30,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   		$scope.userBattleData = ($scope.battleData.user1.uid == $scope.user.uid) ? $scope.battleData.user1 : $scope.battleData.user2;
       $scope.enemyReady = $scope.challengerBattleData.here;
 
-      $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
-      fetchChallengerData();
 
       if ($scope.battleData.isEnded == false) {
 
@@ -59,6 +57,9 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
           $scope.enemyState = "";
           executeMoves();
         }
+
+        $scope.challengerRef = ref.child('users/'+$scope.challengerUid);
+        fetchChallengerData();
       }
     });
  	});
