@@ -100,7 +100,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   var executeMoves = function(){
 
   	console.log("EXECUTING MOVES")
-  	var power = 3; //so both get the same numbers
+  	var power = 4; //so both get the same numbers
 
     //	MY MOVES -------------
     if ($scope.userBattleData.battleLog == "buildUp"){
@@ -143,43 +143,45 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.showMessage = false;
     }, 1000);
 
+  
+
+  	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
+  	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
+
+  	if ($scope.user.pokemon.curHp<=0){
+  			console.log("I DIED")
+        $scope.myMonsterAni = "animated wooble";
+        $scope.enemyMonsterAni  = "animated bounce";
+        $scope.outcome = "defeat";
+        $scope.showOutcome = true;
+        battleWon($scope.challenger,$scope.user);
+        battleLost($scope.user,$scope.challenger);
+        $scope.battleData.user1.here = false;
+        $scope.battleData.user2.here = false;
+    }
+
+    if ($scope.challenger.pokemon.curHp<=0){
+    		console.log("ENEMY DIED")
+        $scope.myMonsterAni = "animated bounce";
+        $scope.enemyMonsterAni  = "animated wooble";
+        $scope.outcome = "victory";
+        $scope.showOutcome = true;
+        battleWon($scope.user,$scope.challenger);
+        battleLost($scope.challenger,$scope.user);
+        $scope.battleData.user1.here = false;
+        $scope.battleData.user2.here = false;
+        /*$timeout( function(){ 
+        	$scope.challengerRef.set($scope.challenger);
+        	Companion.setUser($scope.user); 
+        }, 100);*/
+    }
+
+  	$scope.battleData.user1.battleLog = false;
+  	$scope.battleData.user2.battleLog = false;
+  	$scope.battleData.timer = maxTime;
+
+    //Only user1 send in the data, no conflict
     if ($scope.battleData.user1.uid == $scope.user.uid && $scope.notStarted == false){
-
-    	$scope.user.pokemon.curHp = Math.max(0,$scope.user.pokemon.curHp-$scope.enemyDmg);
-    	$scope.challenger.pokemon.curHp = Math.max(0,$scope.challenger.pokemon.curHp-$scope.yourDmg);
-
-    	if ($scope.user.pokemon.curHp<=0){
-    			console.log("I DIED")
-          $scope.myMonsterAni = "animated wooble";
-          $scope.enemyMonsterAni  = "animated bounce";
-          $scope.outcome = "defeat";
-          $scope.showOutcome = true;
-          battleWon($scope.challenger);
-          battleLost($scope.user);
-          $scope.battleData.user1.here = false;
-          $scope.battleData.user2.here = false;
-      }
-
-      if ($scope.challenger.pokemon.curHp<=0){
-      		console.log("ENEMY DIED")
-          $scope.myMonsterAni = "animated bounce";
-          $scope.enemyMonsterAni  = "animated wooble";
-          $scope.outcome = "victory";
-          $scope.showOutcome = true;
-          battleWon($scope.user);
-          battleLost($scope.challenger);
-          $scope.battleData.user1.here = false;
-          $scope.battleData.user2.here = false;
-          /*$timeout( function(){ 
-          	$scope.challengerRef.set($scope.challenger);
-          	Companion.setUser($scope.user); 
-          }, 100);*/
-      }
-
-    	$scope.battleData.user1.battleLog = false;
-    	$scope.battleData.user2.battleLog = false;
-    	$scope.battleData.timer = maxTime;
-
     	$scope.challengerRef.set($scope.challenger);
     	Companion.setUser($scope.user);
     	battleRef.set($scope.battleData);
@@ -232,7 +234,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.battleEnd = false;
   }
 
-  var battleWon = function(person){
+  var battleWon = function(person,enemy){
     $scope.battleData.isEnded = true;
 
     //showOutcome();
@@ -241,10 +243,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     person.wins += 1;
     person.score += 5;
     person.pokemon.happiness += 5;
-    person.challengers = [];
 
-    //if (Math.random()*5>1){
-    //  console.log("ITEM DROP");
+    delete person.challengers[enemy.uid];
 
     var rand = Math.round(Math.random()*2);
     person.items[rand] += 1;
@@ -259,7 +259,6 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
       $scope.itemImage = "images/potion.png";
     }  
     
-
     if (person.pokemon.curExp>=person.pokemon.exp){
       person.pokemon.curExp -= person.pokemon.exp;
       person.pokemon.exp += Math.floor(person.pokemon.exp*0.1)+1;
@@ -277,15 +276,16 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     }
   }
 
-  var battleLost = function(person){
+  var battleLost = function(person,enemy){
     $scope.battleData.isEnded = true;
 
   	person.combo = 1;
     person.curExp = 0;
     person.pokemon.curHp = 1;
     person.losses += 1;
-    person.challengers = [];
     person.score -= 2;
+
+    delete person.challengers[enemy.uid];
   }
     
   // $scope.$on('userChanged', function() {
