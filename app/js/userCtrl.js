@@ -11,7 +11,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     var otherUserRef = null;
   }
 
-  // Gives user a new pokémon
+  // Gives user a new monster
   $scope.hatchEgg = function() {
     if($scope.user.pokemon.isEgg === true) {
       Companion.getNewPokemon();
@@ -20,7 +20,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     }
   }
 
-  // Sets a new name to user's pokemon
+  // Sets a new name to user's monster
   $scope.addNickname = function(newNickname) {
     console.log("Nickname: ",newNickname);
     $scope.user.pokemon.name = newNickname.substring(0,20);
@@ -40,12 +40,6 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     $scope.nicknameSuccess = false;
   }
 
-  // var getAttacks = function() {
-  //   $scope.moves = $scope.user.pokemon.moves;
-  //   $scope.attacks = $scope.moves.slice(0,1,2,3);
-  //   // console.log("Attacks:"+$scope.attacks);
-  // }
-
   // Get the sprite of $scope.user.pokemon and set it as $scope.sprite NOT USED ATM!!!
   var getSprite = function() {
     var parts = $scope.user.pokemon.sprites[0].resource_uri.split("/");
@@ -61,7 +55,6 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
   }
 
   $scope.challenge = function() {
-    // console.log("otherUser!!!!",$scope.otherUser);
     
     if (!$scope.user.challengers) {
       $scope.user.challengers = {};
@@ -77,10 +70,8 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     // If you already have challenged the user
     else if ($scope.user.challengers[($scope.otherUser.uid)] && 
       $scope.user.challengers[($scope.otherUser.uid)].challengedYou == false) {
-      // något
     } else {
       // Put both users' uids in a child to battles in Firebase
-      var timer = 10;
       var user1 = {
         uid: $scope.user.uid,
         battleLog: false,
