@@ -3,18 +3,6 @@
 	<div ng-if="user.pokemon.isEgg == true" ng-show="status" class="clickMe">
 		<img src="images/clickme.png" alt="clickMe">
 	</div>
-	<!-- <div ng-show="status" class="statusBubble">
-		<h3>Name: {{user.pokemon.name}}
-		<br/><small>MonsterID: {{user.pokemon.id}} </small></h3>
-		<div class="row">
-			<div class="col-sm-6">
-				<h4>Level: {{user.pokemon.lvl}}</h4>
-			</div>
-			<div class="col-sm-6">
-				<h4>Type: <small ng-repeat="type in user.pokemon.types">{{type}} </small></h4>
-			</div>
-		</div>
-	</div> -->
 	<div class="reactionImg">
 		<img ng-show="reaction" ng-src="images/{{reactionImage}}" alt=":)"></img>
 	</div>
@@ -33,11 +21,14 @@
 		<img class="monsterImageStatic" ng-src="{{user.pokemon.sprite}}" alt="Awesome companion">
 		<h4>{{user.pokemon.name}} hatched from the egg! Give a nickname to {{user.pokemon.name}}?</h4>
 		<form name="createNickname">
-			<button type="button" class="btn btn-success" ng-click="showAddNickname=true" ng-keydown="$event.keyCode == 27 && hideNickname()" focus-me="showNickname">Yes</button>
-		    <button type="button" class="btn btn-danger" ng-click="hideNickname()">Nah</button>
-		    <br>
+			<span ng-hide="showAddNickname">
+				<button type="button" class="btn btn-success" ng-click="showAddNickname=true" ng-keydown="$event.keyCode == 27 && hideNickname()" focus-me="showNickname">Yes</button>
+		    	<button type="button" class="btn btn-danger" ng-click="hideNickname()">Nah</button>
+		    </span>
+
 		    <div ng-show="showAddNickname">
 		    	<input type="text" class="form-control login-input" placeholder="Enter name" ng-model="newNickname" name="newNickname" id="newNickname" ng-keypress="$event.keyCode == 13 && addNickname(newNickname)" maxlength="20" focus-me="showAddNickname" required></input>
+		    	<a href="#/home" ng-click="hideNickname()">Cancel</a>
 		    	<button type="button" class="btn btn-success" ng-click="addNickname(newNickname)">Give nickname!</button>
 		    </div>
 		</form>

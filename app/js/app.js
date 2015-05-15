@@ -16,7 +16,7 @@ companionApp.config(['$routeProvider',
         controller: 'ArenaCtrl'
       }).
       when('/valley',{
-        templateUrl: 'partials/bar.html'
+        templateUrl: 'partials/valley.html'
       }).
       when('/rankings/:user', {
         templateUrl: 'partials/rankings.html',
