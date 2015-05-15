@@ -80,7 +80,6 @@ companionApp.controller('ItemsCtrl', function ($scope,Companion,$timeout) {
 	}
 
 	$scope.$on('draggable:start', function(){
-		$scope.reactionImage = "clickme.png";
 		setMonsterAni("animated shake");
 	});
 

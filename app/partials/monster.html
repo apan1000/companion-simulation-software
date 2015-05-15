@@ -1,11 +1,11 @@
-<div id="monster">
+<div id="monster" class="non-select non-drag">
 	<img ng-src="{{user.pokemon.sprite}}" alt="{{user.pokemon.name}}" class="monsterImage non-select non-drag" ng-class="monsterAni" ng-drop="true" ng-click="hatchEgg()" ng-drop-success="onDropComplete($data,$event)" ng-drag-start="itemDragged=true" ng-drag-stop="itemDragged=false">
 	<div ng-if="user.pokemon.isEgg == true" ng-show="status" class="clickMe">
 		<img src="images/clickme.png" alt="clickMe">
 	</div>
 	<div class="reactionImg">
-		<img ng-show="reaction && !itemDragged" ng-src="images/{{reactionImage}}" alt=":)">
-		<img ng-show="itemDragged" ng-src="images/giveme.png" alt="Give me!">
+		<img ng-show="reaction && !itemDragged" ng-src="images/{{reactionImage}}" class="non-select non-drag" alt=":)">
+		<img ng-show="itemDragged" ng-src="images/giveme.png" class="non-select non-drag" alt="Give me!">
 	</div>
 </div>
 <ng-include class="row" src="'partials/items.html'"></ng-include>

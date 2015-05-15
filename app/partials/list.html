@@ -54,17 +54,17 @@
 					</tr>
 			  	</thead>
 				<tbody>
-				 	<tr ng-repeat="user in users | orderBy:sortType:sortReverse" ng-click="getOtherUser(user.uid)" ng-class="{'list-selected-user':user.uid==routeUid}" class="list-user-row">
+				 	<tr ng-repeat="(uid,player) in users | orderBy:sortType:sortReverse" ng-if="uid!=undefined" ng-click="getOtherUser(player.uid)" ng-class="{'list-selected-user':player.uid==routeUid}" class="list-user-row">
 					  	<td>
-					  		<span ng-class="{'online-dot animated bounceIn':user.online==true, 'offline-dot':user.online==false}" class="login-status-dot" ng-attr-title="{{user.online && 'online' || user.online==false && 'offline'}}"></span>
+					  		<span ng-class="{'online-dot animated bounceIn':player.online==true, 'offline-dot':player.online==false}" class="login-status-dot" ng-attr-title="{{player.online && 'online' || player.online==false && 'offline'}}"></span>
 					  	</td>
 					    <td>
-					    	<span class="list-user">{{user.name}}</span>
+					    	<span class="list-user">{{player.name}}</span>
 						</td>
-					    <td><img width="30" height="30" src="{{user.pokemon.sprite}}" alt=":)">{{user.pokemon.name}}</td> 
-					    <td>{{user.pokemon.lvl}}</td>
-					    <td>{{user.wins}}</td>
-					    <td>{{user.score}}</td>
+					    <td><img width="30" height="30" src="{{player.pokemon.sprite}}" alt=":)">{{player.pokemon.name}}</td> 
+					    <td>{{player.pokemon.lvl}}</td>
+					    <td>{{player.wins}}</td>
+					    <td>{{player.score}}</td>
 				 	</tr>
 				</tbody>
 			</table>
