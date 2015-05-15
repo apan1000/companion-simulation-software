@@ -145,7 +145,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             uid = syncArray[i].uid;
 
             userOnline = false;
-            if(syncArray[i].online){userOnline = true}
+            if(syncArray[i].online && otherPlayers[onlineUid] === undefined && onlineUid !== undefined && uid !== undefined){userOnline = true}
             // for (j=0; j < onlineLength; j++){ 
             //   onlineUid = onlineUsers[j].uid;
             //   if (onlineUid === uid && otherPlayers[onlineUid] === undefined && onlineUid !== undefined && uid !== undefined) {userOnline = true}
