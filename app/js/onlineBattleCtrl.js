@@ -199,7 +199,7 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     person.wins += 1;
     person.score += 5;
     person.pokemon.happiness += 5;
-    person.pokemon.curExp += Math.max(enemy.pokemon.curExp,enemy.pokemon.exp*0.5);
+    person.pokemon.curExp += Math.max(enemy.pokemon.curExp,Math.floor(enemy.pokemon.exp*0.5));
 
     delete person.challengers[enemy.uid];
 
