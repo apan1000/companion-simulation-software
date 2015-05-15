@@ -159,6 +159,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
   			console.log("I DIED")
         $scope.myMonsterAni = "animated wooble";
         $scope.enemyMonsterAni  = "animated bounce";
+        $scope.outcome = "defeat";
+        $scope.showOutcome = true;
         battleWon($scope.challenger);
         battleLost($scope.user);
         $scope.battleData.user1.here = false;
@@ -169,6 +171,8 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     		console.log("ENEMY DIED")
         $scope.myMonsterAni = "animated bounce";
         $scope.enemyMonsterAni  = "animated wooble";
+        $scope.outcome = "victory";
+        $scope.showOutcome = true;
         battleWon($scope.user);
         battleLost($scope.challenger);
         $scope.battleData.user1.here = false;
@@ -244,12 +248,22 @@ companionApp.controller('OnlineBattleCtrl', function ($scope,$routeParams,$fireb
     person.pokemon.happiness += 5;
     person.challengers = [];
 
-    if (Math.random()*5>1){
-      console.log("ITEM DROP");
+    //if (Math.random()*5>1){
+    //  console.log("ITEM DROP");
 
-      var rand = Math.round(Math.random()*2);
-      person.items[rand] += 1;
-    }
+    var rand = Math.round(Math.random()*2);
+    person.items[rand] += 1;
+    if (rand == 0) {
+      $scope.newItem = "Rare Candy";
+      $scope.itemImage = "images/rarecandy.png";
+    } else if (rand == 1) {
+      $scope.newItem = "Poke Bell";
+      $scope.itemImage = "images/pokebell.png";
+    } else {
+      $scope.newItem = "Potion";
+      $scope.itemImage = "images/potion.png";
+    }  
+    
 
     if (person.pokemon.curExp>=person.pokemon.exp){
       person.pokemon.curExp -= person.pokemon.exp;

@@ -103,3 +103,22 @@
 		</div>
 	</div>
 </div>
+
+<div class="tutorial" ng-show="showOutcome">
+	<div class="popup-overlay">
+		<div class="dungeonOutcome">
+			<span class="create-acc-close close glyphicon glyphicon-remove" ng-click="showOutcome=false"></span>
+			<div ng-if="outcome == 'victory'">
+				<h3>You won!</h3>
+				<h4>You recieved a {{newItem}} and have proven yourself the strongest.</h4>
+				<img class="tutorialItems" src="{{itemImage}}" alt="{{newItem}}">
+			</div>
+			<div ng-if="outcome == 'defeat'">
+				<h3>You lost!</h3>
+				<h4>Your companion has fainted and you retreat for now.</h4>
+			</div>
+			<br>
+			<a type="button" class="btn btn-success next-btn" ng-href="#/home" ng-keydown="$event.keyCode == 27"><span class="glyphicon glyphicon-ok"></span></a>
+		</div>
+	</div>
+</div> 
