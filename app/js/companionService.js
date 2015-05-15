@@ -21,7 +21,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   // Returns sprite data from pokeapi
   this.getSpriteData = function(uri) {
     return $resource(POKE_API + uri).get(function(data){
-      console.log(data);
+      // console.log(data);
       return data;
     }, function(data){
       return data;
@@ -148,7 +148,7 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
       password : passwordVal
     }, function(error, authData) {
       if (error) {
-        console.log(error);
+        // console.log(error);
         loginMsg = error.code;
       } else {
         //console.log("Authenticated successfully with payload:", authData);

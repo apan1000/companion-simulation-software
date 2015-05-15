@@ -17,7 +17,7 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
 
   // Logout the user
   $scope.logout = function() {
-    console.log("Unauthorizing");
+    //console.log("Unauthorizing");
     Companion.logout();
   }
 
@@ -25,18 +25,17 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
   $scope.createAccount = function() {
     if ($scope.createAccForm.newEmail.$valid === true && $scope.createAccForm.newPassword.$valid === true) {
       $scope.loading = true;
-      console.log($scope.createAccForm.newEmail);
-      console.log($scope.createAccForm.newPassword);
       Companion.createAccount($scope.newEmail, $scope.newPassword);
     } else {
       $scope.loading = false;
       if ($scope.createAccForm.newEmail.$error.email || $scope.createAccForm.newEmail.$error.required) {
-        console.log('\nemail error: ');
-        console.log($scope.createAccForm.newEmail.$error);
+        // console.log('\nemail error: ');
+        // console.log($scope.createAccForm.newEmail.$error);
       }
-      else if ($scope.createAccForm.newPassword.$error.required)
-        console.log('\npassword error: ');
-        console.log($scope.createAccForm.newPassword.$error);
+      else if ($scope.createAccForm.newPassword.$error.required) {
+        // console.log('\npassword error: ');
+        // console.log($scope.createAccForm.newPassword.$error);
+      }
     }
   }
 
@@ -77,12 +76,12 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
       case "success":
         type = "success";
         $scope.loginMsg = "Logged in!";
-        console.log("Logged in!");
+        // console.log("Logged in!");
         break;
       case "INVALID_EMAIL":
         type = "emailError";
         $scope.loginMsg = "Invalid Email";
-        console.log("The specified email is not a valid email.");
+        // console.log("The specified email is not a valid email.");
         break;
       case "INVALID_PASSWORD":
         type = "passwordError";
@@ -110,9 +109,7 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
           $scope.emailSuccess = false;
           $scope.passwordSuccess = false;
           $scope.passwordError = false;
-        },500);
-        // $scope.loginForm.email.$setUntouched();
-        // $scope.loginForm.password.$setUntouched();
+        }, 1000);
       });
     }
     else {
@@ -137,20 +134,20 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
     var msg = "";
 
     switch (obj) {
-      case "success": //Object(obj)
+      case "success":
         type = "success";
         $scope.newAccMsg = "Success! Logging in...";
-        console.log("Logged in!");
+        // console.log("Logged in!");
         break;
       case "EMAIL_TAKEN":
         type = "emailError";
         $scope.newAccMsg = "Email already taken";
-        console.log("The new user account cannot be created because the email is already in use.");
+        // console.log("The new user account cannot be created because the email is already in use.");
         break;
       case "INVALID_EMAIL":
         type = "emailError";
         $scope.newAccMsg = "Invalid Email";
-        console.log("The specified email is not a valid email.");
+        // console.log("The specified email is not a valid email.");
         break;
       case "INVALID_PASSWORD":
         type = "passwordError";
@@ -172,7 +169,7 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
         $scope.newAccEmailSuccess = false;
         $scope.newAccPasswordSuccess = false;
         $scope.newAccMsg = "";
-      },1000);
+      }, 1000);
     }
     else {
       $timeout(function(){
@@ -189,10 +186,6 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
     }
   }
 
-  // $scope.$on('challengersChanged', function() {
-  //   $scope.numChallengers = Companion.getNumChallengers();
-  // });
-
   $scope.$on('loginMsgChange', function() {
     showLoginMsg(Companion.getLoginMsg());
   });
@@ -203,7 +196,7 @@ companionApp.controller('LoginCtrl', function ($scope,$rootScope,Companion,$time
 
   // When changes to user has been made redirect if necessary
   $scope.$on('userChanged', function() {
-    //console.log("User changed, setting scope.user!");
+    // console.log("User changed, setting scope.user!");
     $scope.user = Companion.getUser();
     if ($scope.user) {
       if ($location.path() === "/") {
