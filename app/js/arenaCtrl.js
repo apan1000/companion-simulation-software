@@ -43,7 +43,13 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     else
     {
       rate = 500;
-      takeDmg();
+      var url = $location.url();
+      if (url === "/fields/"+$routeParams.user || url === "/fields/0") {
+        takeDmg();
+      }
+      else {
+        $scope.battle = false;
+      }
       $scope.timer = 0;
     }
 
