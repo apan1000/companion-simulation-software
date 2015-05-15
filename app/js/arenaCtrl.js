@@ -306,14 +306,4 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     getRandomPokemon();
   }
 
-  $scope.$on('userChanged', function() {
-    var url = $location.url();
-    if (url === "/fields/"+$routeParams.user || url === "/fields/0") {
-      $scope.user = Companion.getUser();
-    }
-    else {
-      $scope.battle = false;
-    }
-  });
-
 });
