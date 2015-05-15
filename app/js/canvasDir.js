@@ -116,27 +116,25 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
 
       var initOthers = function(){
-        //var i = 0;
         var arrLength = syncArray.length;
-
         var uid = "";
         var onlineUid = "";
-
         var onlineUsers = ChatService.getOnlineUsers();
         var onlineLength = onlineUsers.length;
+
         //ADDING PLAYERS
         var userOnline;
           for (i=0; i < arrLength; i++){
             uid = syncArray[i].uid;
+
             userOnline = false;
             for (j=0; j < onlineLength; j++){ 
               onlineUid = onlineUsers[j].uid;
-              if (onlineUid === uid && otherPlayers[onlineUid] === undefined) {userOnline = true}
+              if (onlineUid === uid && otherPlayers[onlineUid] === undefined && onlineUid !== undefined && uid !== undefined) {userOnline = true}
             }
-            //if(onlineUid == uid && otherPlayers[onlineUid] == undefined){ //if online user is found and not in the list, add to everywhere
+
             if(userOnline){
               console.log("ADDING "+uid)
-
               otherPlayers[uid] = {};
               otherPlayers[uid].x_coord = syncArray[i].x_coord;
               otherPlayers[uid].y_coord = syncArray[i].y_coord;
@@ -145,18 +143,15 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
               otherPlayers[uid].image = createImage(syncArray[i].pokemon.sprite);
               otherPlayers[uid].name = syncArray[i].name;
               otherPlayers[uid].pokeName = syncArray[i].pokemon.name
-
               otherPlayersUids.push(uid)
             }
-
-            //} //else if (onlineUid != uid && otherPlayers[onlineUid] != undefined){ //if user is offline but its in the list, remove from everywhere
           }
-       // 
         //REMOVING PLAYERS
         for (m=0;m<otherPlayersUids.length;m++){
           var listPlayerUid = otherPlayersUids[m];
           var listPlayer = otherPlayers[listPlayerUid];
           var playerOnline = false;
+
           //Is player still online?
           for (n=0;n<onlineLength;n++){
             if (onlineUsers[n].uid == listPlayerUid){playerOnline = true};
@@ -173,11 +168,9 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             delete otherPlayers[listPlayerUid]; //delete player object
           }
         }
-        //window.setTimeout(initPlayer, 3000);  //????
         setTimeout(initOthers, 2000);
       }
-
-
+      //Function to get framerate more optimized
         window.requestAnimationFrame = function(){
             return(
                 window.requestAnimationFrame       ||
@@ -189,15 +182,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             );
         };
 
-
-        // function animloop( ){
-
-        //     update();
-        //     render();
-        //     console.log("hello world");
-        //     requestAnimationFrame(animloop);
-        // }
-
         var now = 0;
         var delta= 0;
         var then= 0;
@@ -208,7 +192,6 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
             delta = (now - then);
             then = now;
         }
-
         
         function update(){
             setDelta();
@@ -220,19 +203,11 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         function dataUpdate(){
 
             if (scope.playerData.x_coord != otherPlayers[playerUser.uid].x_coord || scope.playerData.y_coord != otherPlayers[playerUser.uid].y_coord){
-              
               scope.playerData.x_coord = otherPlayers[playerUser.uid].x_coord;
               scope.playerData.y_coord = otherPlayers[playerUser.uid].y_coord;
-
               syncObject.x_coord = otherPlayers[playerUser.uid].x_coord;
               syncObject.y_coord = otherPlayers[playerUser.uid].y_coord;
-
               syncObject.$save();
-
-              //Companion.setUser(scope.user);
-
-              //console.log("scope.playerData", scope.playerData);
-              //console.log("syncObject",syncObject);
             }
             
             var opLength = otherPlayersUids.length;
@@ -300,21 +275,14 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
           var testWidth = ctx.measureText(testLine).width;
 
           if (testWidth > maxWidth && n > 0) {
-
-            //part = line;
-            //part[1] = lineHeight*lineNumber;
             completed.push(line);
             part = [];
             line = words[n] + ' ';   
-            //lineNumber++;
           }
           else {
             line = testLine;
           }
         }
-        //part[0] = line;
-        //part[1] = lineHeight*lineNumber;
-
         completed.push(line);
         //part = [];
         return completed
