@@ -828,7 +828,15 @@ keyframes alert-change {
 }
 
 .half_opacity {
-	opacity: 0.5;
+	opacity: .5;
+}
+
+.onHover {
+	opacity: .5;
+}
+
+.onHover:hover {
+	opacity: 1;
 }
 
 .glow {
@@ -845,14 +853,6 @@ keyframes alert-change {
 
 .itemEarned {
 	font-size: 14pt;
-}
-
-.onHover {
-	opacity: .5;
-}
-
-.onHover:hover {
-	opacity: 1;
 }
 
 #dungeon {
@@ -1043,19 +1043,6 @@ keyframes alert-change {
 	text-align: center;
 }
 
-.numberCircle {
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    padding: 36px;
-
-    background: #fff;
-    border: 2px solid #666;
-    color: #666;
-    text-align: center;
-    font-size: 12px;
-}
-
 .bubble {
 	width: 100%;
 	padding-left: 20px;
@@ -1192,32 +1179,7 @@ keyframes alert-change {
 
 [ng-drag].dragging {
     opacity: 0.5;
-    /*-webkit-filter: grayscale(100%);*/
 }
-
-/*[ng-drop] {
-	-webkit-filter: grayscale(100%);
-}*/
-
-/*[ng-drop].drag-enter{
-	opacity: 1.0;
-    border:solid 5px red;
-}*/
-
-/*[ng-drop] span.title{
-    display: block;
-    position: absolute;
-    top:50%;
-    left:50%;
-    width: 200px;
-    height: 20px;
-    margin-left: -100px;
-    margin-top: -10px;
-}
-/*[ng-drop] div{
-    position: relative;
-    z-index: 2;
-}*/
 
 /* BOOTSTRAP CHANGES */
 
@@ -1252,20 +1214,6 @@ h3 small {
     transform: translate(0,50%);
 	-ms-transform: translate(0,50%);
     -webkit-transform: translate(0,50%);
-}
-
-.numberCircle {
-    border-radius: 50%;
-    width: 72px;
-    height: 72px;
-    padding: 8px;
-
-    background: #fff;
-    border: 2px solid #666;
-    color: #666;
-    text-align: center;
-
-    font: 32px Arial, sans-serif;
 }
 
 .rankings-head h3 {
@@ -1443,12 +1391,6 @@ h3 small {
 .progress-h {
 	width: 100%;
     background: orange;    
-    transition:left 0.1s;
-}
-
-.progress-hp {
-	width: 100%;
-    background: #8F8;    
     transition:left 0.1s;
 }
 
