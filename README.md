@@ -17,7 +17,5 @@ Group 11: Samuel Wahlstedt, Marcus Ahlström, Fredrik Berglund and Ellinor Jutte
 - Each user and the user's monster (you can only have one) is saved in our database, with levels and other stats.
 - Drag and drop to give monster stuff
 - Different views for battles, viewing monsters, toplist etc. are all tied to the main-model.
-
-###Possible additional features:
-- Using  HTML5 canvas to create a small screen where other users' monsters™ roam around, conveying messages/updates from the users.
-- Online interaction in the form of a chatroom where your monster represents you and acts as an avatar. Can also fight with other users.
+- Using  HTML5 canvas to create a space where other users' monsters™ roam around, conveying messages/updates from the users.
+- Online interaction in the form of a chatroom where your monster represents you and acts as an avatar. Can also fight with other users in real time.
