@@ -55,7 +55,7 @@ companionApp.controller('UserCtrl', function ($scope,$routeParams,$firebaseObjec
     // If you already have challenged the user
     else if ($scope.user.challengers[($scope.otherUser.uid)] && 
       $scope.user.challengers[($scope.otherUser.uid)].challengedYou == false) {
-      // Do something
+      // Do nothing
     } else {
       // Put both users' uids in a child to battles in Firebase
       var user1 = {

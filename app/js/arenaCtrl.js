@@ -236,6 +236,7 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
     $scope.temp_monster = {new_sprite: 'images/egg_load'+num+'.gif'};
     Companion.pokemon.get({id:monster_id}, function(data) {
       $scope.temp_monster = data;
+      $scope.temp_monster.id = monster_id;
       getSprite($scope.temp_monster);
       var multiplier = 1;
       if ($scope.user.pokemon.lvl < 8) {
@@ -268,17 +269,9 @@ companionApp.controller('ArenaCtrl', function ($scope,$routeParams,$firebaseObje
 
   // Get the sprite of enemy monster
   var getSprite = function(monster) {
-    var parts = monster.sprites[0].resource_uri.split("/");
-    var spriteUri = parts[parts.length - 2];
-
-    Companion.sprite.get({uri:spriteUri}, function(data){
-      monster.new_sprite = 'http://pokeapi.co' + data.image;
-      $scope.enemyMonsterAni = "animated lightSpeedIn"; //entering the fields
-      $scope.ready = true;
-    }, function(data){
-      monster.new_sprite = '';
-      $scope.status = "There was an error";
-    });
+    monster.new_sprite = 'images/sprites/' + monster.id + (monster.id>649 ? '.gif' : '.png');
+    $scope.enemyMonsterAni = "animated lightSpeedIn"; //entering the fields
+    $scope.ready = true;
   }
 
   // Get an offline challenger upon entering arena

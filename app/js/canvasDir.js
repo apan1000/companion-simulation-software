@@ -31,7 +31,7 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
         console.log("user: ", playerUser.uid);
 
         // Loading animation
-        element.css('background','url(../images/eggspin.gif) no-repeat center')
+        element.css('background','url(images/eggspin.gif) no-repeat center')
 
         //var syncArray = ChatService.onlineUsers; //Får bara ut de som är online
         var refSyncObject = new Firebase("https://companion-simulation.firebaseio.com/users/"+playerUser.uid);
@@ -107,15 +107,15 @@ app.directive("drawing", function($document, Companion, ChatService, $firebaseOb
 
         //Init Background
         var background = new Image();
-        background.src = "../images/bgGrass.png";
+        background.src = "images/bgGrass.png";
 
-        //var grassTile = createImage("../images/grassTile1.png");
+        //var grassTile = createImage("images/grassTile1.png");
 
         //var grassTile = new Image();
-        //grassTile.src = "../images/grassTile1.png";
+        //grassTile.src = "images/grassTile1.png";
 
         //var beach = new Image();
-        //beach.src = "../images/beach.png"
+        //beach.src = "images/beach.png"
 
 
        var createImage = function(src){

@@ -7,7 +7,6 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
 	// Pokémon API
   var POKE_API = 'http://pokeapi.co';
   this.pokemon = $resource(POKE_API + '/api/v1/pokemon/:id');
-  this.sprite = $resource(POKE_API + '/api/v1/sprite/:uri');
   // Firebase
   var ref = new Firebase("https://companion-simulation.firebaseio.com");
   var usersRef = ref.child('users');
@@ -18,28 +17,13 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
   $rootScope.user = $localStorage.user;
   //console.log("localStorage user:",$rootScope.user);
 
-  // Returns sprite data from pokeapi
-  this.getSpriteData = function(uri) {
-    return $resource(POKE_API + uri).get(function(data){
-      // console.log(data);
-      return data;
-    }, function(data){
-      return data;
-    });;
-  }
-
   // Give user a new pokémon
   this.getNewPokemon = function() {
     var pokeID = Math.floor((Math.random() * 718) + 1);
     //console.log("Random id will be: "+ pokeID);
     // Get pokemon
     self.pokemon.get({id:pokeID}, function(data){
-      // Get sprite uri
-      var parts = data.sprites[0].resource_uri.split("/");
-      var spriteUri = parts[parts.length - 2];
-      // Get sprite url
-      self.sprite.get({uri:spriteUri}, function(spriteData){
-        var spriteUrl =  'http://pokeapi.co' + spriteData.image;
+        var spriteUrl = 'images/sprites/' + pokeID + (pokeID>649 ? '.gif' : '.png');
         // Get all types
         var typesArray = [];
         for (var i = 0; i < data.types.length; i++) {
@@ -74,9 +58,6 @@ companionApp.factory('Companion', function ($resource,$localStorage,$rootScope,$
         }, function() {
           user.pokemon = companion;
           self.setUser(user);
-        });
-        }, function(spriteData){ // Error getting sprite url
-          console.log("There was an error getting sprite url.");
         });
     }, function(data){ // Error getting pokémon
       console.log("There was an error getting the pokémon.");
